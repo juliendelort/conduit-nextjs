@@ -5,6 +5,7 @@ import { User } from "@/types.ts/auth";
 
 export interface SessionData extends User {
   isAuthenticated?: true;
+  flashMessage?: string;
 }
 
 export function getSession(cookies: ReadonlyRequestCookies) {

@@ -6,6 +6,7 @@ import { loginAPI } from "../service/auth";
 import { getSession, setAuthUser } from "../utils/session";
 import { z } from "zod";
 import { validatedAction } from "./utils";
+import { setFlashMessage } from "../utils/flash";
 
 const loginActionSchema = z.object({
   email: z.string().email(),
@@ -22,6 +23,10 @@ export const loginAction = validatedAction(
 
     const session = await getSession(cookies());
     await setAuthUser(session, result.data.user);
+    await setFlashMessage({
+      message: `Welcome back, ${result.data.user.username}!`,
+      type: "info",
+    });
 
     await session.save();
     return redirect("/");

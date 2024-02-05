@@ -12,7 +12,8 @@ const config: Config = {
     },
     extend: {
       colors: {
-        primary: "#fb923c",
+        brand: "#fb923c",
+        primary: "#55595c",
       },
     },
   },

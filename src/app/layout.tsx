@@ -4,6 +4,9 @@ import { sourceSans, titillium_web } from "./fonts";
 import { NavLink } from "./components/NavLink";
 import { cookies } from "next/headers";
 import { getSession } from "@/server/utils/session";
+import { ToastRoot } from "./components/ToastRoot";
+import { FlashMessage } from "./components/FlashMessage";
+import { clsx } from "clsx";
 
 export const metadata: Metadata = {
   title: "Conduit",
@@ -15,15 +18,18 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const session = await getSession(cookies());
+
   return (
     <html lang="en">
-      <body className={sourceSans.className}>
+      <body className={clsx(sourceSans.className, "text-primary")}>
+        <ToastRoot />
+        <FlashMessage />
         <nav className="container mx-auto py-4">
           <ul className="flex items-center gap-4">
             <li className="mr-auto">
               <a
                 href="/"
-                className={`${titillium_web.className} text-primary text-2xl`}
+                className={`${titillium_web.className} text-brand text-2xl`}
               >
                 conduit
               </a>
