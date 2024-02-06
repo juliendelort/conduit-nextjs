@@ -2,7 +2,7 @@
 
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { loginAPI } from "../service/auth";
+import { loginAPI, signUpAPI } from "../service/auth";
 import { getSession, setAuthUser } from "../utils/session";
 import { z } from "zod";
 import { validatedAction } from "./utils";
@@ -16,15 +16,41 @@ const loginActionSchema = z.object({
 export const loginAction = validatedAction(
   loginActionSchema,
   async ({ email, password }) => {
-    const result = await loginAPI(email, password);
+    const result = await loginAPI({ email, password });
     if (result.error) {
-      return result.error;
+      return { error: result.error.message };
     }
 
     const session = await getSession(cookies());
     await setAuthUser(session, result.data.user);
     await setFlashMessage({
       message: `Welcome back, ${result.data.user.username}!`,
+      type: "info",
+    });
+
+    await session.save();
+    return redirect("/");
+  },
+);
+
+const signupActionSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(8),
+  username: z.string().min(3),
+});
+
+export const signupAction = validatedAction(
+  signupActionSchema,
+  async ({ email, password, username }) => {
+    const result = await signUpAPI({ username, email, password });
+    if (result.error) {
+      return { error: result.error.message };
+    }
+
+    const session = await getSession(cookies());
+    await setAuthUser(session, result.data.user);
+    await setFlashMessage({
+      message: `Welcome, ${result.data.user.username}!`,
       type: "info",
     });
 

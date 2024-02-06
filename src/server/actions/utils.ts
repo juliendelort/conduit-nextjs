@@ -1,8 +1,8 @@
 import { z } from "zod";
 
-export function validatedAction<T extends z.ZodTypeAny, U>(
+export function validatedAction<T extends z.ZodTypeAny>(
   schema: T,
-  callback: (data: z.infer<T>) => Promise<U>,
+  callback: (data: z.infer<T>) => Promise<{ error: string }>,
 ) {
   return (_prevState: any, formData: FormData) => {
     if (!(schema instanceof z.ZodObject)) {
@@ -18,7 +18,7 @@ export function validatedAction<T extends z.ZodTypeAny, U>(
 
     if (!validatedFields.success) {
       return {
-        message: JSON.stringify(validatedFields.error.flatten().fieldErrors),
+        error: JSON.stringify(validatedFields.error.flatten().fieldErrors),
       };
     }
     return callback(validatedFields.data);
