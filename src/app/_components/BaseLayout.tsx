@@ -1,18 +1,13 @@
-import type { Metadata } from "next";
-import "./globals.css";
-import { sourceSans, titillium_web } from "./fonts";
-import { NavLink } from "./_components/NavLink";
-import { cookies } from "next/headers";
 import { getSession } from "@/server/utils/session";
-import { ToastRoot } from "./_components/ToastRoot";
-import { FlashMessage } from "./_components/FlashMessage";
-import { clsx } from "clsx";
+import clsx from "clsx";
+import { cookies } from "next/headers";
+import { sourceSans, titillium_web } from "../fonts";
+import { FlashMessage } from "./FlashMessage";
+import { NavLink } from "./NavLink";
+import { ToastRoot } from "./ToastRoot";
+import "../globals.css";
 
-export const metadata: Metadata = {
-  title: "Conduit",
-};
-
-export default async function RootLayout({
+export async function BaseLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -35,7 +30,12 @@ export default async function RootLayout({
               </a>
             </li>
             <li>
-              <NavLink href="/">Home</NavLink>
+              <NavLink
+                href={session.isAuthenticated ? "/feed" : "/"}
+                activePaths={["/feed", "/"]}
+              >
+                Home
+              </NavLink>
             </li>
             {session.isAuthenticated ? null : (
               <>

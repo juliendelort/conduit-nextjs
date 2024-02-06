@@ -7,6 +7,7 @@ import { getSession, setAuthUser } from "../utils/session";
 import { z } from "zod";
 import { validatedAction } from "./utils";
 import { setFlashMessage } from "../utils/flash";
+import { revalidatePath } from "next/cache";
 
 const loginActionSchema = z.object({
   email: z.string().email(),
@@ -29,7 +30,7 @@ export const loginAction = validatedAction(
     });
 
     await session.save();
-    return redirect("/");
+    return redirect("/feed");
   },
 );
 
@@ -55,6 +56,6 @@ export const signupAction = validatedAction(
     });
 
     await session.save();
-    return redirect("/");
+    return redirect("/feed");
   },
 );
