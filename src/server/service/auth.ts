@@ -9,7 +9,7 @@ export interface LoginAPIParams {
 }
 
 export async function loginAPI({ email, password }: LoginAPIParams) {
-  const response = await fetch(`${BASE_URL}/users/login`, {
+  const response = await fetch(`${BASE_URL}/api/users/login`, {
     method: "POST",
     headers: {
       "content-type": "application/json",
@@ -38,7 +38,7 @@ export async function signUpAPI({
   email,
   password,
 }: SignupAPIParams) {
-  const response = await fetch(`${BASE_URL}/users`, {
+  const response = await fetch(`${BASE_URL}/api/users`, {
     method: "POST",
     headers: {
       "content-type": "application/json",

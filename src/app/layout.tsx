@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { sourceSans, titillium_web } from "./fonts";
-import { NavLink } from "./components/NavLink";
+import { NavLink } from "./_components/NavLink";
 import { cookies } from "next/headers";
 import { getSession } from "@/server/utils/session";
-import { ToastRoot } from "./components/ToastRoot";
-import { FlashMessage } from "./components/FlashMessage";
+import { ToastRoot } from "./_components/ToastRoot";
+import { FlashMessage } from "./_components/FlashMessage";
 import { clsx } from "clsx";
 
 export const metadata: Metadata = {
@@ -29,7 +29,7 @@ export default async function RootLayout({
             <li className="mr-auto">
               <a
                 href="/"
-                className={`${titillium_web.className} text-brand text-2xl`}
+                className={`${titillium_web.className} text-2xl text-brand`}
               >
                 conduit
               </a>

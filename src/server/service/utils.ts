@@ -1,4 +1,4 @@
-export const BASE_URL = "https://api.realworld.io/api";
+export const BASE_URL = "https://api.realworld.io";
 
 export async function handleFetchResponse<T>(response: Response) {
   if (!response.ok) {

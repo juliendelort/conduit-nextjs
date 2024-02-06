@@ -5,18 +5,21 @@ export interface ListArticlesAPIParams {
   limit: number;
   offset: number;
   token?: string;
+  tag?: string;
 }
 
 export async function listArticlesAPI({
   limit,
   offset,
   token,
+  tag,
 }: ListArticlesAPIParams) {
   const url = new URL("api/articles", BASE_URL);
   url.searchParams.set("limit", String(limit));
   url.searchParams.set("offset", String(offset));
-
-  await new Promise((resolve) => setTimeout(resolve, 2000));
+  if (tag) {
+    url.searchParams.set("tag", tag);
+  }
 
   const response = await fetch(url, {
     headers: {
@@ -24,8 +27,20 @@ export async function listArticlesAPI({
     },
   });
 
-  return handleFetchResponse<{
+  const result = await handleFetchResponse<{
     articles: Article[];
     articlesCount: number;
   }>(response);
+
+  if (result.data) {
+    return {
+      ...result,
+      data: {
+        ...result.data,
+        pagesCount: Math.ceil(result.data.articlesCount / limit),
+      },
+    };
+  }
+
+  return result;
 }

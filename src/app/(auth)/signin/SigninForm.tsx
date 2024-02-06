@@ -4,8 +4,8 @@ import { loginAction } from "@/server/actions/auth";
 import { useState } from "react";
 import { useFormState } from "react-dom";
 import { SubmitButton } from "../SubmitButton";
-import { Input } from "@/app/components/Input";
-import { FormError } from "../FormError";
+import { Input } from "@/app/_components/Input";
+import { ErrorMessage } from "../../_components/FormError";
 
 export function SigninForm() {
   const [formEdited, setFormEdited] = useState(false);
@@ -29,7 +29,7 @@ export function SigninForm() {
       <div className="mx-auto w-full max-w-xl">
         <div role="alert">
           {state.error && !formEdited ? (
-            <FormError className="my-4">Error: {state.error}</FormError>
+            <ErrorMessage className="my-4">Error: {state.error}</ErrorMessage>
           ) : null}
         </div>
         <Input

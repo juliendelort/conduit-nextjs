@@ -3,8 +3,8 @@
 import { signupAction } from "@/server/actions/auth";
 import { useState } from "react";
 import { SubmitButton } from "../SubmitButton";
-import { Input } from "@/app/components/Input";
-import { FormError } from "../FormError";
+import { Input } from "@/app/_components/Input";
+import { ErrorMessage } from "../../_components/FormError";
 
 export interface SignupFormProps {}
 
@@ -39,7 +39,7 @@ export function SignupForm({}: SignupFormProps) {
       <div className="mx-auto w-full max-w-xl">
         <div role="alert">
           {submitError ? (
-            <FormError className="my-4">Error: {submitError}</FormError>
+            <ErrorMessage className="my-4">Error: {submitError}</ErrorMessage>
           ) : null}
         </div>
         <Input
@@ -82,7 +82,7 @@ export function SignupForm({}: SignupFormProps) {
         />
         <div role="alert">
           {repeatPasswordError ? (
-            <FormError className="mb-4">Passwords don't match!</FormError>
+            <ErrorMessage className="mb-4">Passwords don't match!</ErrorMessage>
           ) : null}
         </div>
         <SubmitButton text="Sign up" />
