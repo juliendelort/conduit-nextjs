@@ -12,7 +12,7 @@ export function SubmitButton({ text }: SubmitButtonProps) {
     <button
       type="submit"
       className={clsx(
-        "ml-auto block rounded bg-brand px-6 py-3 text-right text-xl text-white",
+        "text-onbrand ml-auto block rounded bg-brand px-6 py-3 text-right text-xl",
         pending && "pointer-events-none opacity-50",
       )}
     >

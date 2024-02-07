@@ -16,7 +16,7 @@ export default async function MainPageLayout({
   return (
     <>
       <header
-        className={clsx("bg-brand py-8 text-center text-white shadow-inner", {
+        className={clsx("text-onbrand bg-brand py-8 text-center shadow-inner", {
           "sr-only": session.isAuthenticated,
         })}
       >
@@ -31,7 +31,7 @@ export default async function MainPageLayout({
         <p className="text-2xl font-light">A place to share your knowledge</p>
       </header>
       <main className="container mx-auto mt-8 grid items-start gap-8 lg:grid-cols-[1fr_250px]">
-        <div className="lg:col-start-2bg-gray-200 rounded bg-gray-200 p-3">
+        <div className="bg-surfacesecondary rounded p-3  lg:col-start-2">
           <h2 className="text-md mb-2">Popular Tags</h2>
           <Suspense fallback="Loading...">
             <TagsList />

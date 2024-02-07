@@ -16,7 +16,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className={clsx(sourceSans.className, "text-primary")}>
+      <body className={clsx(sourceSans.className, "bg-surpaceprimary")}>
         <ToastRoot />
         <FlashMessage />
         <nav className="container mx-auto py-4">

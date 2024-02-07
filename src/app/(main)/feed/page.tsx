@@ -3,9 +3,6 @@ import {
   ArticlesContainer,
   ArticlesContainerProps,
 } from "../ArticlesContainer";
-import { getSession } from "@/server/utils/session";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 import { useProtectedRoute } from "@/app/_hooks/useProtectedRoute";
 
 const pageSearchParamsSchema = z.object({

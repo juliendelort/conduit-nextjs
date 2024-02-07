@@ -35,7 +35,7 @@ export function ArticlesContainer({
                   "block p-2",
                   activeSection === "feed"
                     ? "border-b-2 border-brand text-brand"
-                    : "text-gray-500",
+                    : "text-onsurfaceprimaryhighest",
                 )}
                 href="/feed"
               >
@@ -49,7 +49,7 @@ export function ArticlesContainer({
                 "block p-2",
                 activeSection === "global"
                   ? "border-b-2 border-brand text-brand"
-                  : "text-gray-500",
+                  : "text-onsurfaceprimaryhighest",
               )}
               href="/"
             >

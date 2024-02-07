@@ -8,7 +8,7 @@ export async function TagsList() {
       {data?.tags?.map((t) => (
         <li key={t}>
           <Link
-            className="block rounded-2xl  bg-gray-500 px-2  py-1 text-sm text-white"
+            className="bg-neutral text-onneutral  block rounded-2xl  px-2 py-1 text-sm"
             href={`/?tag=${t}`}
           >
             {t}

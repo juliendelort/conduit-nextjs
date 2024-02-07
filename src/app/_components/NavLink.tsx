@@ -17,7 +17,9 @@ export function NavLink({ href, activePaths, ...rest }: NavLinkProps) {
 
   return (
     <Link
-      className={isActive ? "text-black" : "text-gray-400"}
+      className={
+        isActive ? "text-onsurfaceprimary" : "text-onsurfaceprimaryhigh"
+      }
       href={href}
       {...rest}
     />
