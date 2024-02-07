@@ -1,13 +1,13 @@
 import { getSession } from "@/server/utils/session";
 import clsx from "clsx";
 import { cookies } from "next/headers";
-import { sourceSans, titillium_web } from "../fonts";
-import { FlashMessage } from "./FlashMessage";
-import { NavLink } from "./NavLink";
-import { ToastRoot } from "./ToastRoot";
-import "../globals.css";
+import { FlashMessage } from "./_components/FlashMessage";
+import { NavLink } from "./_components/NavLink";
+import { ToastRoot } from "./_components/ToastRoot";
+import { sourceSans, titillium_web } from "./fonts";
+import "./globals.css";
 
-export async function BaseLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;

@@ -2,6 +2,7 @@
 
 import { User } from "@/types.ts/auth";
 import { BASE_URL, handleFetchResponse } from "./utils";
+import { experimental_taintUniqueValue as taintUniqueValue } from "react";
 
 export interface LoginAPIParams {
   email: string;
@@ -22,9 +23,18 @@ export async function loginAPI({ email, password }: LoginAPIParams) {
     }),
   });
 
-  return handleFetchResponse<{
+  const result = await handleFetchResponse<{
     user: User;
   }>(response);
+
+  if (result.data) {
+    taintUniqueValue(
+      "Do not pass token to the client",
+      result.data.user,
+      result.data.user.token,
+    );
+  }
+  return result;
 }
 
 export interface SignupAPIParams {
@@ -52,7 +62,16 @@ export async function signUpAPI({
     }),
   });
 
-  return handleFetchResponse<{
+  const result = await handleFetchResponse<{
     user: User;
   }>(response);
+
+  if (result.data) {
+    taintUniqueValue(
+      "Do not pass token to the client",
+      result.data.user,
+      result.data.user.token,
+    );
+  }
+  return result;
 }

@@ -1,3 +1,4 @@
+import "server-only";
 import { Article } from "@/types.ts/articles";
 import { BASE_URL, handleFetchResponse } from "./utils";
 

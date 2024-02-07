@@ -2,7 +2,6 @@ import { IronSession, getIronSession } from "iron-session";
 import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
 import { getEnv } from "./env";
 import { User } from "@/types.ts/auth";
-import { NextRequest } from "next/server";
 
 export interface SessionData extends User {
   isAuthenticated?: true;

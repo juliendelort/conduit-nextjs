@@ -1,3 +1,4 @@
+import "server-only";
 import { BASE_URL, handleFetchResponse } from "./utils";
 
 export async function listTagsAPI() {

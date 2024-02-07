@@ -6,6 +6,7 @@ import {
 import { getSession } from "@/server/utils/session";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { useProtectedRoute } from "@/app/_hooks/useProtectedRoute";
 
 const pageSearchParamsSchema = z.object({
   page: z.coerce.number().optional().default(1),
@@ -17,11 +18,7 @@ export default async function Home({
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  const session = await getSession(cookies());
-  if (!session.isAuthenticated) {
-    console.log("***not authenticated", session);
-    redirect("/signin");
-  }
+  await useProtectedRoute();
   const { page, tag } = pageSearchParamsSchema.parse(searchParams);
 
   const props: ArticlesContainerProps = tag

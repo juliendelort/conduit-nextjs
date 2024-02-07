@@ -2,12 +2,11 @@ import { getSession } from "@/server/utils/session";
 import clsx from "clsx";
 import { cookies } from "next/headers";
 import { Suspense } from "react";
-import { BaseLayout } from "../_components/BaseLayout";
 import { TagsList } from "../_components/TagsList";
 import { titillium_web } from "../fonts";
 export * from "../metadata";
 
-export default async function RootLayout({
+export default async function MainPageLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -15,7 +14,7 @@ export default async function RootLayout({
   const session = await getSession(cookies());
 
   return (
-    <BaseLayout>
+    <>
       <header
         className={clsx("bg-brand py-8 text-center text-white shadow-inner", {
           "sr-only": session.isAuthenticated,
@@ -43,6 +42,6 @@ export default async function RootLayout({
           {children}
         </div>
       </main>
-    </BaseLayout>
+    </>
   );
 }
