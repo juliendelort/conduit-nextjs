@@ -1,3 +1,46 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  html[data-theme="light"] {
+    --color-brand: #fb923c;
+    --color-onbrand: #fff;
+    --color-surpaceprimary: #fff;
+    --color-onsurfaceprimary: #373a3c;
+    --color-onsurfaceprimaryhigh: rgb(107 114 128);
+    --color-onsurfaceprimaryhighest: rgb(156 163 175);
+    --color-surfacesecondary: rgb(243 244 246);
+    --color-surfacehover: rgb(243 244 246);
+    --color-surfacetertiary: #8a8a8a;
+    --color-onsurfacetertiary: #fff;
+    --color-borderprimary: #dddddd;
+  }
+
+  html[data-theme="dark"] {
+    --color-brand: #fb923c;
+    --color-onbrand: #fff;
+    --color-surpaceprimary: #000;
+    --color-onsurfaceprimary: #e2dbdb;
+    --color-onsurfaceprimaryhigh: #b6aeae;
+    --color-onsurfaceprimaryhighest: #8a8a8a;
+    --color-surfacesecondary: #333333;
+    --color-onsurfacesecondary: #fff;
+    --color-surfacetertiary: #595959;
+    --color-onsurfacetertiary: #fff;
+    --color-surfacehover: #404040;
+    --color-borderprimary: #404040;
+  }
+
+  /* fix for input autofill not being applied */
+  .fix-autofill:where(
+      :-webkit-autofill,
+      :-webkit-autofill:hover,
+      :-webkit-autofill:focus,
+      :-internal-autofill-selected,
+      :-internal-autofill-previewed
+    ) {
+    -webkit-text-fill-color: var(--color-onsurfacesecondary);
+    box-shadow: 0 0 0px 1000px var(--color-surfacesecondary) inset;
+  }
+}

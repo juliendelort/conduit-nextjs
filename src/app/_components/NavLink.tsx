@@ -18,7 +18,7 @@ export function NavLink({ href, activePaths, ...rest }: NavLinkProps) {
   return (
     <Link
       className={
-        isActive ? "text-onsurfaceprimary" : "text-onsurfaceprimaryhigh"
+        isActive ? "text-onsurfaceprimary" : "text-onsurfaceprimaryhighest"
       }
       href={href}
       {...rest}

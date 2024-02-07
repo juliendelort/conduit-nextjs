@@ -32,7 +32,7 @@ export default async function MainPageLayout({
       </header>
       <main className="container mx-auto mt-8 grid items-start gap-8 lg:grid-cols-[1fr_250px]">
         <div className="bg-surfacesecondary rounded p-3  lg:col-start-2">
-          <h2 className="text-md mb-2">Popular Tags</h2>
+          <h2 className="text-md text-onsurfacesecondary mb-2">Popular Tags</h2>
           <Suspense fallback="Loading...">
             <TagsList />
           </Suspense>

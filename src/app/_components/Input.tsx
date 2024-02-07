@@ -9,7 +9,8 @@ export function Input(props: InputProps) {
     <input
       {...rest}
       className={clsx(
-        "block w-full rounded border px-4 py-2 text-xl",
+        "fix-autofill", // Defined in globals.css
+        "bg-surfacesecondary border-borderprimary text-onsurfacesecondary autofill:text-onsurfacesecondary block w-full rounded border px-4 py-2 text-xl",
         className,
       )}
     />

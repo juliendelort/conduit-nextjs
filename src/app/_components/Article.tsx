@@ -6,7 +6,7 @@ export interface ArticleProps {
 
 export function Article({ article }: ArticleProps) {
   return (
-    <article className="border-b py-4 last-of-type:border-none">
+    <article className="border-borderprimary border-b  py-4 last-of-type:border-none">
       <div className="mb-4 grid grid-cols-[32px_1fr_auto] grid-rows-2 items-center gap-x-2">
         <img
           src={article.author.image}

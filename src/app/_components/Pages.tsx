@@ -18,7 +18,7 @@ export function Pages({ currentPage, pagesCount, currentTag }: PagesProps) {
               <Link
                 href={`/?page=${page}${currentTag ? `&tag=${currentTag}` : ""}`}
                 className={clsx(
-                  "hover:bg-hover block border-y border-l px-3 py-2 group-first-of-type:rounded-s group-last-of-type:rounded-r group-last-of-type:border-r",
+                  "border-borderprimary hover:bg-surfacehover block border-y border-l px-3 py-2 group-first-of-type:rounded-s group-last-of-type:rounded-r group-last-of-type:border-r",
                   currentPage === page ? "text-onbrand bg-brand" : "text-brand",
                 )}
               >

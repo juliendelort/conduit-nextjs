@@ -26,7 +26,7 @@ export function ArticlesContainer({
 }: ArticlesContainerProps) {
   return (
     <>
-      <nav className="mb-4 border-b">
+      <nav className="border-borderprimary mb-4 border-b">
         <ul className="flex gap-4">
           {includeFeed && (
             <li>
