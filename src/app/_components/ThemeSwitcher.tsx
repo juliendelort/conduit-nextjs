@@ -17,9 +17,9 @@ export function ThemeSwitcher({ currentTheme }: ThemeSwitcherProps) {
       aria-label={`Switch to ${currentTheme === "dark" ? "light" : "dark"} theme`}
     >
       {currentTheme === "dark" ? (
-        <Image src="/sun.svg" alt="sun icon" width={18} height={18} />
+        <Image src="/sun_dark.svg" alt="sun icon" width={18} height={18} />
       ) : (
-        <Image src="/moon.svg" alt="moon icon" width={18} height={18} />
+        <Image src="/moon_light.svg" alt="moon icon" width={18} height={18} />
       )}
     </button>
   );

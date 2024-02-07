@@ -24,7 +24,7 @@ export function SignupForm({}: SignupFormProps) {
     const result = await signupAction(null, formData);
 
     if (result.error) {
-      setSubmitError(result.error);
+      setSubmitError(result.error.message);
     }
   };
 

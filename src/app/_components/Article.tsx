@@ -1,4 +1,5 @@
 import { Article } from "@/types.ts/articles";
+import { FavoriteButton } from "./FavoriteButton";
 
 export interface ArticleProps {
   article: Article;
@@ -16,7 +17,13 @@ export function Article({ article }: ArticleProps) {
         <div className="text-md self-end leading-none text-brand">
           {article.author.username}
         </div>
-        <div className="row-span-2">btn</div>
+        <div className="row-span-2">
+          <FavoriteButton
+            isFavorited={article.favorited}
+            favoritesCount={article.favoritesCount}
+            slug={article.slug}
+          />
+        </div>
         <div className="text-onsurfaceprimaryhighest self-start text-sm font-light">
           {article.createdAt}
         </div>

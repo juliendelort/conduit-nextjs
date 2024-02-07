@@ -10,7 +10,7 @@ import { ErrorMessage } from "../../_components/FormError";
 export function SigninForm() {
   const [formEdited, setFormEdited] = useState(false);
   const [state, loginActionWithState] = useFormState(loginAction, {
-    error: "",
+    error: { message: "" },
   });
 
   // After getting an error, hide the error as soon as the user types
@@ -29,7 +29,9 @@ export function SigninForm() {
       <div className="mx-auto w-full max-w-xl">
         <div role="alert">
           {state.error && !formEdited ? (
-            <ErrorMessage className="my-4">Error: {state.error}</ErrorMessage>
+            <ErrorMessage className="my-4">
+              Error: {state.error.message}
+            </ErrorMessage>
           ) : null}
         </div>
         <Input

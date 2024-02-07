@@ -1,8 +1,9 @@
 import { listArticlesAPI } from "@/server/service/articles";
-import Link from "next/link";
 import { ErrorMessage } from "./FormError";
 import { Article } from "./Article";
 import { Pages } from "./Pages";
+import { getSession } from "@/server/utils/session";
+import { cookies } from "next/headers";
 
 export interface ArticlesListProps {
   page: number;
@@ -12,10 +13,12 @@ export interface ArticlesListProps {
 const PAGE_SIZE = 10;
 
 export async function ArticlesList({ page, tag }: ArticlesListProps) {
+  const session = await getSession(cookies());
   const { error, data } = await listArticlesAPI({
     limit: PAGE_SIZE,
     offset: (page - 1) * PAGE_SIZE,
     tag,
+    token: session.token,
   });
 
   if (error) {

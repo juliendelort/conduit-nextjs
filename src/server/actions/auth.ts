@@ -18,7 +18,7 @@ export const loginAction = validatedAction(
   async ({ email, password }) => {
     const result = await loginAPI({ email, password });
     if (result.error) {
-      return { error: result.error.message };
+      return result;
     }
 
     const session = await getSession(cookies());
@@ -29,7 +29,7 @@ export const loginAction = validatedAction(
     });
 
     await session.save();
-    return redirect("/feed");
+    redirect("/feed");
   },
 );
 
@@ -44,7 +44,7 @@ export const signupAction = validatedAction(
   async ({ email, password, username }) => {
     const result = await signUpAPI({ username, email, password });
     if (result.error) {
-      return { error: result.error.message };
+      return result;
     }
 
     const session = await getSession(cookies());

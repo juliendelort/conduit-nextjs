@@ -45,3 +45,41 @@ export async function listArticlesAPI({
 
   return result;
 }
+
+export interface FavoriteArticleParams {
+  slug: string;
+  token: string;
+}
+export async function favoriteArticleAPI({
+  slug,
+  token,
+}: FavoriteArticleParams) {
+  const response = await fetch(`${BASE_URL}/api/articles/${slug}/favorite`, {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return handleFetchResponse<{
+    article: Article;
+  }>(response);
+}
+
+export async function unFavoriteArticleAPI({
+  slug,
+  token,
+}: FavoriteArticleParams) {
+  const response = await fetch(`${BASE_URL}/api/articles/${slug}/favorite`, {
+    method: "DELETE",
+    headers: {
+      "content-type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return handleFetchResponse<{
+    article: Article;
+  }>(response);
+}
