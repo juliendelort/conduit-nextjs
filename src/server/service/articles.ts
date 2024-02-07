@@ -26,6 +26,9 @@ export async function listArticlesAPI({
     headers: {
       ...(token && { Authorization: `Bearer ${token}` }),
     },
+    next: {
+      tags: ["articles"],
+    },
   });
 
   const result = await handleFetchResponse<{
