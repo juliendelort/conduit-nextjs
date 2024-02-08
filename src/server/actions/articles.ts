@@ -13,10 +13,7 @@ const toggleFavoriteArticleSchema = z.object({
   newFavoriteValue: z.enum(["true", "false"]).transform((v) => JSON.parse(v)),
 });
 
-export const toggleFavoriteArticle = async (
-  _prevState: any,
-  formData: FormData,
-) => {
+export const toggleFavoriteArticle = async (formData: FormData) => {
   const session = await getSession(cookies());
   if (!session.isAuthenticated) {
     redirect("/signin");

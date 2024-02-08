@@ -14,7 +14,7 @@ const loginActionSchema = z.object({
   redirecturl: z.string().optional(),
 });
 
-export const loginAction = async (_prevState: any, formData: FormData) => {
+export const loginAction = async (formData: FormData) => {
   let redirectUrl;
   try {
     const { email, password, redirecturl } = validateFormData(
@@ -45,7 +45,7 @@ const signupActionSchema = z.object({
   username: z.string().min(3),
 });
 
-export const signupAction = async (_prevState: any, formData: FormData) => {
+export const signupAction = async (formData: FormData) => {
   try {
     const { email, password, username } = validateFormData(
       formData,

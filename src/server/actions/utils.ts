@@ -18,8 +18,6 @@ export function validateFormData<Schema extends z.ZodTypeAny>(
 
 export function handleActionError(error: unknown) {
   return {
-    error: {
-      message: error instanceof Error ? error.message : "An error occurred",
-    },
+    error: error instanceof Error ? error.message : "An error occurred",
   };
 }

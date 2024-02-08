@@ -2,7 +2,7 @@
 import { toggleFavoriteArticle } from "@/server/actions/articles";
 import clsx from "clsx";
 import Link from "next/link";
-import { useOptimistic } from "react";
+import { useOptimistic, useTransition } from "react";
 import { Icon } from "@/app/_components/Icon";
 import { toast } from "sonner";
 
@@ -22,9 +22,9 @@ export function FavoriteButton({
   async function formAction(formData: FormData) {
     toggleFavoritedLocal(null);
 
-    const result = await toggleFavoriteArticle(null, formData);
-    if (result?.error?.message) {
-      toast.error(result.error.message);
+    const result = await toggleFavoriteArticle(formData);
+    if (result?.error) {
+      toast.error(result.error);
     }
   }
   const [favoritedData, toggleFavoritedLocal] = useOptimistic(

@@ -1,7 +1,7 @@
 "use client";
 
 import { signupAction } from "@/server/actions/auth";
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { SubmitButton } from "../SubmitButton";
 import { Input } from "@/app/_components/Input";
 import { ErrorMessage } from "../../_components/ErrorMessage";
@@ -9,28 +9,31 @@ import { ErrorMessage } from "../../_components/ErrorMessage";
 export interface SignupFormProps {}
 
 export function SignupForm({}: SignupFormProps) {
-  const [repeatPasswordError, setRepeatPasswordError] = useState(false);
   const [submitError, setSubmitError] = useState("");
+  const [isPending, startTransition] = useTransition();
 
   const action = async (formData: FormData) => {
+    if (isPending) {
+      return;
+    }
     const password = formData.get("password") as string;
     const repeat_password = formData.get("repeat_password") as string;
 
     if (repeat_password !== password) {
-      setRepeatPasswordError(true);
+      setSubmitError("Passwords do not match");
       return;
     }
+    startTransition(async () => {
+      const result = await signupAction(formData);
 
-    const result = await signupAction(null, formData);
-
-    if (result.error) {
-      setSubmitError(result.error.message);
-    }
+      if (result.error) {
+        setSubmitError(result.error);
+      }
+    });
   };
 
   // clear errors as soon as the user types
   const handleChange = () => {
-    setRepeatPasswordError(false);
     setSubmitError("");
   };
 
@@ -80,12 +83,7 @@ export function SignupForm({}: SignupFormProps) {
           className="mb-4"
           autoComplete="new-password"
         />
-        <div role="alert">
-          {repeatPasswordError ? (
-            <ErrorMessage className="mb-4">Passwords don't match!</ErrorMessage>
-          ) : null}
-        </div>
-        <SubmitButton text="Sign up" />
+        <SubmitButton text="Sign up" isPending={isPending} />
       </div>
     </form>
   );

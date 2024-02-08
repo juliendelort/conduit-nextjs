@@ -1,7 +1,7 @@
 "use client";
 
 import { loginAction } from "@/server/actions/auth";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { useFormState } from "react-dom";
 import { SubmitButton } from "../SubmitButton";
 import { Input } from "@/app/_components/Input";
@@ -12,17 +12,24 @@ export interface SigninFormProps {
   redirecturl?: string;
 }
 export function SigninForm({ redirecturl }: SigninFormProps) {
-  const [formEdited, setFormEdited] = useState(false);
-  const [state, loginActionWithState] = useFormState(loginAction, {
-    error: { message: "" },
-  });
+  const [isPending, startTransition] = useTransition();
+  const [error, setError] = useState<string | null>(null);
+
+  const formAction = async (formData: FormData) => {
+    if (isPending) {
+      return;
+    }
+    startTransition(async () => {
+      const result = await loginAction(formData);
+      if (result.error) {
+        setError(result.error);
+      }
+    });
+  };
 
   // After getting an error, hide the error as soon as the user types
   const handleChange = () => {
-    setFormEdited(true);
-  };
-  const handleSubmit = () => {
-    setFormEdited(false);
+    setError(null);
   };
 
   const showToast = !!redirecturl;
@@ -33,18 +40,10 @@ export function SigninForm({ redirecturl }: SigninFormProps) {
     }
   }, [showToast]);
   return (
-    <form
-      action={loginActionWithState}
-      onChange={handleChange}
-      onSubmit={handleSubmit}
-    >
+    <form action={formAction} onChange={handleChange}>
       <div className="mx-auto w-full max-w-xl">
         <div role="alert">
-          {state.error?.message && !formEdited ? (
-            <ErrorMessage className="my-4">
-              Error: {state.error.message}
-            </ErrorMessage>
-          ) : null}
+          {error ? <ErrorMessage className="my-4">{error}</ErrorMessage> : null}
         </div>
         {!!redirecturl && (
           <input type="hidden" value={redirecturl} name="redirecturl" />
@@ -67,7 +66,7 @@ export function SigninForm({ redirecturl }: SigninFormProps) {
           className="mb-4"
           autoComplete="current-password"
         />
-        <SubmitButton text="Sign in" />
+        <SubmitButton text="Sign in" isPending={isPending} />
       </div>
     </form>
   );
