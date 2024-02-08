@@ -4,7 +4,7 @@ import { signupAction } from "@/server/actions/auth";
 import { useState } from "react";
 import { SubmitButton } from "../SubmitButton";
 import { Input } from "@/app/_components/Input";
-import { ErrorMessage } from "../../_components/FormError";
+import { ErrorMessage } from "../../_components/ErrorMessage";
 
 export interface SignupFormProps {}
 

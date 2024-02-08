@@ -1,7 +1,9 @@
 import clsx from "clsx";
 import Link from "next/link";
 import { Suspense } from "react";
-import { ArticlesList } from "../_components/ArticlesList";
+import { ArticlesList } from "./ArticlesList";
+import { ErrorMessage } from "@/app/_components/ErrorMessage";
+import { ErrorBoundary } from "@/app/_components/ErrorBoundary";
 
 type ActiveSectionFeedOrGlobal = {
   activeSection: "feed" | "global";
@@ -68,9 +70,17 @@ export function ArticlesContainer({
           ) : null}
         </ul>
       </nav>
-      <Suspense fallback="Loading..." key={`${page}-${tag}`}>
-        <ArticlesList page={page} tag={tag} isFeed={activeSection === "feed"} />
-      </Suspense>
+      <ErrorBoundary
+        fallback={<ErrorMessage>Error loading articles</ErrorMessage>}
+      >
+        <Suspense fallback="Loading..." key={`${page}-${tag}`}>
+          <ArticlesList
+            page={page}
+            tag={tag}
+            isFeed={activeSection === "feed"}
+          />
+        </Suspense>
+      </ErrorBoundary>
     </>
   );
 }

@@ -3,7 +3,7 @@ import { toggleFavoriteArticle } from "@/server/actions/articles";
 import clsx from "clsx";
 import Link from "next/link";
 import { useOptimistic } from "react";
-import { Icon } from "./Icon";
+import { Icon } from "@/app/_components/Icon";
 
 export interface FavoriteButtonProps {
   favoritesCount: number;

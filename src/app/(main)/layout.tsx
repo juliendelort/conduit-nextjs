@@ -2,8 +2,10 @@ import { getSession } from "@/server/utils/session";
 import clsx from "clsx";
 import { cookies } from "next/headers";
 import { Suspense } from "react";
-import { TagsList } from "../_components/TagsList";
+import { TagsList } from "./_components/TagsList";
 import { titillium_web } from "../fonts";
+import { ErrorMessage } from "../_components/ErrorMessage";
+import { ErrorBoundary } from "../_components/ErrorBoundary";
 export * from "../metadata";
 
 export default async function MainPageLayout({
@@ -16,7 +18,7 @@ export default async function MainPageLayout({
   return (
     <>
       <header
-        className={clsx("text-onbrand bg-brand py-8 text-center shadow-inner", {
+        className={clsx("bg-brand py-8 text-center text-onbrand shadow-inner", {
           "sr-only": session.isAuthenticated,
         })}
       >
@@ -31,11 +33,15 @@ export default async function MainPageLayout({
         <p className="text-2xl font-light">A place to share your knowledge</p>
       </header>
       <main className="container mx-auto mt-8 grid items-start gap-8 lg:grid-cols-[1fr_250px]">
-        <div className="bg-surfacesecondary rounded p-3  lg:col-start-2">
-          <h2 className="text-md text-onsurfacesecondary mb-2">Popular Tags</h2>
-          <Suspense fallback="Loading...">
-            <TagsList />
-          </Suspense>
+        <div className="rounded bg-surfacesecondary p-3  lg:col-start-2">
+          <h2 className="text-md mb-2 text-onsurfacesecondary">Popular Tags</h2>
+          <ErrorBoundary
+            fallback={<ErrorMessage>Error loading tags</ErrorMessage>}
+          >
+            <Suspense fallback="Loading...">
+              <TagsList />
+            </Suspense>
+          </ErrorBoundary>
         </div>
         <div className="lg:col-start-1 lg:row-start-1">
           <h2 className="sr-only">Articles</h2>

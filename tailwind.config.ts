@@ -23,6 +23,8 @@ const config: Config = {
         surfacetertiary: "var(--color-surfacetertiary)",
         onsurfacetertiary: "var(--color-onsurfacetertiary)",
         surfacehover: "var(--color-surfacehover)",
+        surfaceinverted: "var(--color-surfaceinverted)",
+        onsurfaceinverted: "var(--color-onsurfaceinverted)",
         borderprimary: "var(--color-borderprimary)",
       },
     },

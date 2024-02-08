@@ -1,6 +1,6 @@
 import { listArticlesAPI } from "@/server/service/articles";
-import { ErrorMessage } from "./FormError";
-import { Article } from "./Article";
+import { ErrorMessage } from "../../_components/ErrorMessage";
+import { Article } from "../_components/Article";
 import { Pages } from "./Pages";
 import { getSession } from "@/server/utils/session";
 import { cookies } from "next/headers";

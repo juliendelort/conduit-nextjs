@@ -88,3 +88,16 @@ export async function unFavoriteArticleAPI({
     article: Article;
   }>(response);
 }
+
+export interface FetchArticleAPIParams {
+  slug: string;
+}
+export async function fetchArticleAPI({ slug }: FetchArticleAPIParams) {
+  const url = new URL(`api/articles/${slug}`, BASE_URL);
+
+  const response = await fetch(url);
+
+  return handleFetchResponse<{
+    article: Article;
+  }>(response);
+}

@@ -1,9 +1,9 @@
-export default async function Component({
+export default async function Page({
   params,
   searchParams,
 }: {
   params: { slug: string };
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  return <div>New article {params.slug}</div>;
+  return <div>Settings</div>;
 }

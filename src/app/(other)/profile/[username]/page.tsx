@@ -1,4 +1,4 @@
-export default async function Component({
+export default async function Page({
   params,
 }: {
   params: { username: string };

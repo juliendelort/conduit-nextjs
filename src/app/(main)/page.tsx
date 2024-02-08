@@ -1,7 +1,10 @@
 import { cookies } from "next/headers";
 import { getSession } from "@/server/utils/session";
 import { z } from "zod";
-import { ArticlesContainer, ArticlesContainerProps } from "./ArticlesContainer";
+import {
+  ArticlesContainer,
+  ArticlesContainerProps,
+} from "./_components/ArticlesContainer";
 
 const pageSearchParamsSchema = z.object({
   page: z.coerce.number().optional().default(1),

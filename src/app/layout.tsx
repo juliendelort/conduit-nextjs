@@ -18,7 +18,6 @@ export default async function RootLayout({
 }>) {
   const session = await getSession(cookies());
   const currentTheme = await getCurrentTheme();
-
   return (
     <html lang="en" data-theme={currentTheme}>
       <body

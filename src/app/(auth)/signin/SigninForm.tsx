@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useFormState } from "react-dom";
 import { SubmitButton } from "../SubmitButton";
 import { Input } from "@/app/_components/Input";
-import { ErrorMessage } from "../../_components/FormError";
+import { ErrorMessage } from "../../_components/ErrorMessage";
 import { toast } from "sonner";
 
 export interface SigninFormProps {
