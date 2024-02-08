@@ -1,6 +1,9 @@
 import { cookies } from "next/headers";
+import { ToastT, toast } from "sonner";
 
 const FLASH_COOKIE_NAME = "flash";
+
+export type FlashType = ToastT["type"] & keyof typeof toast;
 
 export interface FlashMessage {
   message: string;

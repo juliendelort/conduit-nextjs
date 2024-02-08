@@ -1,13 +1,17 @@
 "use client";
 
 import { loginAction } from "@/server/actions/auth";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useFormState } from "react-dom";
 import { SubmitButton } from "../SubmitButton";
 import { Input } from "@/app/_components/Input";
 import { ErrorMessage } from "../../_components/FormError";
+import { toast } from "sonner";
 
-export function SigninForm() {
+export interface SigninFormProps {
+  redirecturl?: string;
+}
+export function SigninForm({ redirecturl }: SigninFormProps) {
   const [formEdited, setFormEdited] = useState(false);
   const [state, loginActionWithState] = useFormState(loginAction, {
     error: { message: "" },
@@ -20,6 +24,14 @@ export function SigninForm() {
   const handleSubmit = () => {
     setFormEdited(false);
   };
+
+  const showToast = !!redirecturl;
+
+  useEffect(() => {
+    if (showToast) {
+      toast.error("You must login first!");
+    }
+  }, [showToast]);
   return (
     <form
       action={loginActionWithState}
@@ -28,12 +40,15 @@ export function SigninForm() {
     >
       <div className="mx-auto w-full max-w-xl">
         <div role="alert">
-          {state.error && !formEdited ? (
+          {state.error.message && !formEdited ? (
             <ErrorMessage className="my-4">
               Error: {state.error.message}
             </ErrorMessage>
           ) : null}
         </div>
+        {!!redirecturl && (
+          <input type="hidden" value={redirecturl} name="redirecturl" />
+        )}
         <Input
           type="email"
           name="email"

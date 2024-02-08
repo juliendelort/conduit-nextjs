@@ -7,6 +7,7 @@ export interface ListArticlesAPIParams {
   offset: number;
   token?: string;
   tag?: string;
+  feed?: boolean;
 }
 
 export async function listArticlesAPI({
@@ -14,8 +15,9 @@ export async function listArticlesAPI({
   offset,
   token,
   tag,
+  feed,
 }: ListArticlesAPIParams) {
-  const url = new URL("api/articles", BASE_URL);
+  const url = new URL(`api/articles${feed ? "/feed" : ""}`, BASE_URL);
   url.searchParams.set("limit", String(limit));
   url.searchParams.set("offset", String(offset));
   if (tag) {

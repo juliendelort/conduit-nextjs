@@ -26,7 +26,7 @@ export function ArticlesContainer({
 }: ArticlesContainerProps) {
   return (
     <>
-      <nav className="border-borderprimary mb-4 border-b">
+      <nav className="mb-4 border-b border-borderprimary">
         <ul className="flex gap-4">
           {includeFeed && (
             <li>
@@ -69,7 +69,7 @@ export function ArticlesContainer({
         </ul>
       </nav>
       <Suspense fallback="Loading..." key={`${page}-${tag}`}>
-        <ArticlesList page={page} tag={tag} />
+        <ArticlesList page={page} tag={tag} isFeed={activeSection === "feed"} />
       </Suspense>
     </>
   );

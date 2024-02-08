@@ -8,6 +8,8 @@ import { sourceSans, titillium_web } from "./fonts";
 import "./globals.css";
 import { ThemeSwitcher } from "./_components/ThemeSwitcher";
 import { getCurrentTheme } from "@/server/actions/theme";
+import { Icon } from "./_components/Icon";
+import { PreloadResources } from "./preload-resources";
 
 export default async function RootLayout({
   children,
@@ -25,6 +27,7 @@ export default async function RootLayout({
           "bg-surpaceprimary text-onsurfaceprimary",
         )}
       >
+        <PreloadResources />
         <ToastRoot />
         <FlashMessage />
         <div className="container mx-auto flex gap-4 py-4">
@@ -46,7 +49,40 @@ export default async function RootLayout({
                   Home
                 </NavLink>
               </li>
-              {session.isAuthenticated ? null : (
+              {session.isAuthenticated ? (
+                <>
+                  <li>
+                    <NavLink
+                      href="/article/new"
+                      className="flex items-center gap-1"
+                    >
+                      <Icon
+                        id="pencil-square"
+                        className="h-5 w-5 text-inherit"
+                      />
+                      New Article
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      href="/settings"
+                      className="flex items-center gap-1"
+                    >
+                      <Icon id="cog-8-tooth" className="h-5 w-5 text-inherit" />
+                      Settings
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      href={`/profile/${session.username}`}
+                      className="flex items-center gap-1"
+                    >
+                      <Icon id="face-smile" className="h-5 w-5 text-inherit" />
+                      {session.username}
+                    </NavLink>
+                  </li>
+                </>
+              ) : (
                 <>
                   <li>
                     <NavLink href="/signin">Sign in</NavLink>

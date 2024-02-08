@@ -10,12 +10,12 @@ const pageSearchParamsSchema = z.object({
   tag: z.string().optional(),
 });
 
-export default async function Home({
+export default async function Feed({
   searchParams,
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  await useProtectedRoute();
+  await useProtectedRoute("/");
   const { page, tag } = pageSearchParamsSchema.parse(searchParams);
 
   const props: ArticlesContainerProps = tag

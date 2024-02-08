@@ -11,11 +11,12 @@ import { setFlashMessage } from "../utils/flash";
 const loginActionSchema = z.object({
   email: z.string().email(),
   password: z.string(),
+  redirecturl: z.string().optional(),
 });
 
 export const loginAction = validatedAction(
   loginActionSchema,
-  async ({ email, password }) => {
+  async ({ email, password, redirecturl }) => {
     const result = await loginAPI({ email, password });
     if (result.error) {
       return result;
@@ -25,11 +26,11 @@ export const loginAction = validatedAction(
     await setAuthUser(session, result.data.user);
     await setFlashMessage({
       message: `Welcome back, ${result.data.user.username}!`,
-      type: "info",
+      type: "success",
     });
 
     await session.save();
-    redirect("/feed");
+    redirect(redirecturl ?? "/feed");
   },
 );
 

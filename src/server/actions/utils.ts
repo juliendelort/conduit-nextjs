@@ -10,7 +10,7 @@ export function validatedAction<Result, Schema extends z.ZodTypeAny>(
     }
 
     const objToValidate = Object.keys(schema.shape).reduce((acc, key) => {
-      acc[key] = formData.get(key);
+      acc[key] = formData.get(key) ?? undefined;
       return acc;
     }, {} as z.infer<Schema>);
 
