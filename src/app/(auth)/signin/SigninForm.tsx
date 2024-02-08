@@ -3,7 +3,7 @@
 import { loginAction } from "@/server/actions/auth";
 import { useEffect, useState, useTransition } from "react";
 import { useFormState } from "react-dom";
-import { SubmitButton } from "../SubmitButton";
+import { SubmitButton } from "../_components/SubmitButton";
 import { Input } from "@/app/_components/Input";
 import { ErrorMessage } from "../../_components/ErrorMessage";
 import { toast } from "sonner";

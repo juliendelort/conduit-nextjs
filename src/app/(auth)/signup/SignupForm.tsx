@@ -2,7 +2,7 @@
 
 import { signupAction } from "@/server/actions/auth";
 import { useState, useTransition } from "react";
-import { SubmitButton } from "../SubmitButton";
+import { SubmitButton } from "../_components/SubmitButton";
 import { Input } from "@/app/_components/Input";
 import { ErrorMessage } from "../../_components/ErrorMessage";
 
