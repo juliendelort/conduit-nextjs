@@ -15,6 +15,7 @@ export function ThemeSwitcher({ currentTheme }: ThemeSwitcherProps) {
     <button
       onClick={handleClick}
       aria-label={`Switch to ${currentTheme === "dark" ? "light" : "dark"} theme`}
+      title={`Switch to ${currentTheme === "dark" ? "light" : "dark"} theme`}
     >
       <Icon id={currentTheme === "dark" ? "sun" : "moon"} className="h-4 w-4" />
     </button>

@@ -26,7 +26,7 @@ export function NavLink({
     <Link
       className={clsx(
         isActive ? "text-onsurfaceprimary" : "text-onsurfaceprimaryhighest",
-        "hover:text-onsurfaceprimary",
+        "whitespace-nowrap hover:text-onsurfaceprimary",
         className,
       )}
       href={href}

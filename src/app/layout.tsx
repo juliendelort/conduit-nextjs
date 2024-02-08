@@ -11,6 +11,7 @@ import { getCurrentTheme } from "@/server/actions/theme";
 import { Icon } from "./_components/Icon";
 import { PreloadResources } from "./preload-resources";
 import { LogoutButton } from "./_components/LogoutButton";
+import Link from "next/link";
 
 export default async function RootLayout({
   children,
@@ -30,18 +31,16 @@ export default async function RootLayout({
         <PreloadResources />
         <ToastRoot />
         <FlashMessage />
-        <div className="container mx-auto flex gap-4 py-4">
-          <nav className="flex-1">
-            <ul className="flex items-center gap-4">
-              <li className="mr-auto">
-                <a
-                  href="/"
-                  className={`${titillium_web.className} text-2xl text-brand`}
-                >
-                  conduit
-                </a>
-              </li>
-              <li>
+        <div className="container mx-auto flex flex-wrap items-center gap-4 py-4">
+          <Link
+            href="/"
+            className={`${titillium_web.className} mr-auto text-2xl text-brand`}
+          >
+            conduit
+          </Link>
+          <nav>
+            <ul className="flex flex-wrap items-stretch gap-4">
+              <li className="flex items-center">
                 <NavLink
                   href={session.isAuthenticated ? "/feed" : "/"}
                   activePaths={["/feed", "/"]}
@@ -51,7 +50,7 @@ export default async function RootLayout({
               </li>
               {session.isAuthenticated ? (
                 <>
-                  <li>
+                  <li className="flex items-center">
                     <NavLink
                       href="/article/new"
                       className="flex items-center gap-1"
@@ -63,7 +62,7 @@ export default async function RootLayout({
                       New Article
                     </NavLink>
                   </li>
-                  <li>
+                  <li className="flex items-center">
                     <NavLink
                       href="/settings"
                       className="flex items-center gap-1"
@@ -72,7 +71,7 @@ export default async function RootLayout({
                       Settings
                     </NavLink>
                   </li>
-                  <li>
+                  <li className="flex items-center">
                     <NavLink
                       href={`/profile/${session.username}`}
                       className="flex items-center gap-1"
@@ -81,16 +80,16 @@ export default async function RootLayout({
                       {session.username}
                     </NavLink>
                   </li>
-                  <li>
+                  <li className="flex items-center">
                     <LogoutButton />
                   </li>
                 </>
               ) : (
                 <>
-                  <li>
+                  <li className="flex items-center">
                     <NavLink href="/signin">Sign in</NavLink>
                   </li>
-                  <li>
+                  <li className="flex items-center">
                     <NavLink href="/signup">Sign up</NavLink>
                   </li>
                 </>

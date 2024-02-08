@@ -21,8 +21,9 @@ export function LogoutButton() {
         });
       }}
       aria-label="Logout"
-      className={clsx(isPending && "opacity-50")}
+      className={clsx("flex", isPending && "opacity-50")}
       {...(isPending && { "aria-disabled": true })}
+      title="Logout"
     >
       <Icon id="logout" className="h-5 w-5 text-inherit" />
     </button>
