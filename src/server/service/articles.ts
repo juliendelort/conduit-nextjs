@@ -38,17 +38,10 @@ export async function listArticlesAPI({
     articlesCount: number;
   }>(response);
 
-  if (result.data) {
-    return {
-      ...result,
-      data: {
-        ...result.data,
-        pagesCount: Math.ceil(result.data.articlesCount / limit),
-      },
-    };
-  }
-
-  return result;
+  return {
+    ...result,
+    pagesCount: Math.ceil(result.articlesCount / limit),
+  };
 }
 
 export interface FavoriteArticleParams {

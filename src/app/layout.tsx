@@ -10,6 +10,7 @@ import { ThemeSwitcher } from "./_components/ThemeSwitcher";
 import { getCurrentTheme } from "@/server/actions/theme";
 import { Icon } from "./_components/Icon";
 import { PreloadResources } from "./preload-resources";
+import { LogoutButton } from "./_components/LogoutButton";
 
 export default async function RootLayout({
   children,
@@ -79,6 +80,9 @@ export default async function RootLayout({
                       <Icon id="face-smile" className="h-5 w-5 text-inherit" />
                       {session.username}
                     </NavLink>
+                  </li>
+                  <li>
+                    <LogoutButton />
                   </li>
                 </>
               ) : (

@@ -15,7 +15,7 @@ const PAGE_SIZE = 10;
 
 export async function ArticlesList({ page, tag, isFeed }: ArticlesListProps) {
   const session = await getSession(cookies());
-  const { error, data } = await listArticlesAPI({
+  const { articles, pagesCount } = await listArticlesAPI({
     limit: PAGE_SIZE,
     offset: (page - 1) * PAGE_SIZE,
     tag,
@@ -23,22 +23,19 @@ export async function ArticlesList({ page, tag, isFeed }: ArticlesListProps) {
     feed: isFeed,
   });
 
-  if (error) {
-    return <ErrorMessage>{error.message}</ErrorMessage>;
-  }
   return (
     <>
-      {data.articles.length === 0 && (
+      {articles.length === 0 && (
         <div className="text-center">No articles are here... yet.</div>
       )}
-      {data.articles.map((a) => (
+      {articles.map((a) => (
         <Article
           key={a.slug}
           article={a}
           isAuthenticated={!!session.isAuthenticated}
         />
       ))}
-      <Pages currentPage={page} pagesCount={data.pagesCount} currentTag={tag} />
+      <Pages currentPage={page} pagesCount={pagesCount} currentTag={tag} />
     </>
   );
 }

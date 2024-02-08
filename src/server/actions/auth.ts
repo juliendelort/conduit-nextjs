@@ -3,9 +3,9 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { loginAPI, signUpAPI } from "../service/auth";
-import { getSession, setAuthUser } from "../utils/session";
+import { deleteAuthUser, getSession, setAuthUser } from "../utils/session";
 import { z } from "zod";
-import { validatedAction } from "./utils";
+import { handleActionError, validateFormData } from "./utils";
 import { setFlashMessage } from "../utils/flash";
 
 const loginActionSchema = z.object({
@@ -14,25 +14,30 @@ const loginActionSchema = z.object({
   redirecturl: z.string().optional(),
 });
 
-export const loginAction = validatedAction(
-  loginActionSchema,
-  async ({ email, password, redirecturl }) => {
-    const result = await loginAPI({ email, password });
-    if (result.error) {
-      return result;
-    }
+export const loginAction = async (_prevState: any, formData: FormData) => {
+  let redirectUrl;
+  try {
+    const { email, password, redirecturl } = validateFormData(
+      formData,
+      loginActionSchema,
+    );
+    redirectUrl = redirecturl;
+    const { user } = await loginAPI({ email, password });
 
     const session = await getSession(cookies());
-    await setAuthUser(session, result.data.user);
+
+    await setAuthUser(session, user);
     await setFlashMessage({
-      message: `Welcome back, ${result.data.user.username}!`,
+      message: `Welcome back, ${user.username}!`,
       type: "success",
     });
 
     await session.save();
-    redirect(redirecturl ?? "/feed");
-  },
-);
+  } catch (e) {
+    return handleActionError(e);
+  }
+  redirect(redirectUrl ?? "/feed");
+};
 
 const signupActionSchema = z.object({
   email: z.string().email(),
@@ -40,22 +45,33 @@ const signupActionSchema = z.object({
   username: z.string().min(3),
 });
 
-export const signupAction = validatedAction(
-  signupActionSchema,
-  async ({ email, password, username }) => {
-    const result = await signUpAPI({ username, email, password });
-    if (result.error) {
-      return result;
-    }
-
+export const signupAction = async (_prevState: any, formData: FormData) => {
+  try {
+    const { email, password, username } = validateFormData(
+      formData,
+      signupActionSchema,
+    );
+    const { user } = await signUpAPI({ username, email, password });
     const session = await getSession(cookies());
-    await setAuthUser(session, result.data.user);
+    await setAuthUser(session, user);
     await setFlashMessage({
-      message: `Welcome, ${result.data.user.username}!`,
+      message: `Welcome, ${user.username}!`,
       type: "info",
     });
 
     await session.save();
-    return redirect("/feed");
-  },
-);
+  } catch (e) {
+    return handleActionError(e);
+  }
+  return redirect("/feed");
+};
+
+export const signoutAction = async () => {
+  try {
+    const session = await getSession(cookies());
+    await deleteAuthUser(session);
+  } catch (e) {
+    return handleActionError(e);
+  }
+  return redirect("/");
+};

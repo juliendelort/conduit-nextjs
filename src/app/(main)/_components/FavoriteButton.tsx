@@ -4,6 +4,7 @@ import clsx from "clsx";
 import Link from "next/link";
 import { useOptimistic } from "react";
 import { Icon } from "@/app/_components/Icon";
+import { toast } from "sonner";
 
 export interface FavoriteButtonProps {
   favoritesCount: number;
@@ -20,7 +21,11 @@ export function FavoriteButton({
 }: FavoriteButtonProps) {
   async function formAction(formData: FormData) {
     toggleFavoritedLocal(null);
-    await toggleFavoriteArticle(null, formData);
+
+    const result = await toggleFavoriteArticle(null, formData);
+    if (result?.error?.message) {
+      toast.error(result.error.message);
+    }
   }
   const [favoritedData, toggleFavoritedLocal] = useOptimistic(
     {

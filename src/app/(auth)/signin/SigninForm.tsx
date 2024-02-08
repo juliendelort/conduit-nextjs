@@ -40,7 +40,7 @@ export function SigninForm({ redirecturl }: SigninFormProps) {
     >
       <div className="mx-auto w-full max-w-xl">
         <div role="alert">
-          {state.error.message && !formEdited ? (
+          {state.error?.message && !formEdited ? (
             <ErrorMessage className="my-4">
               Error: {state.error.message}
             </ErrorMessage>

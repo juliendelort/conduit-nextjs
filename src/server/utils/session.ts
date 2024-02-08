@@ -29,3 +29,7 @@ export async function setAuthUser(
   session.isAuthenticated = true;
   await session.save();
 }
+
+export async function deleteAuthUser(session: IronSession<SessionData>) {
+  await session.destroy();
+}
