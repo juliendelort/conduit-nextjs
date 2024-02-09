@@ -12,6 +12,7 @@ import { Icon } from "./_components/Icon";
 import { PreloadResources } from "./preload-resources";
 import { LogoutButton } from "./_components/LogoutButton";
 import Link from "next/link";
+import { HeaderNav } from "./_components/HeaderNav";
 
 export default async function RootLayout({
   children,
@@ -31,72 +32,20 @@ export default async function RootLayout({
         <PreloadResources />
         <ToastRoot />
         <FlashMessage />
-        <div className="container mx-auto flex flex-wrap items-center gap-4 py-4">
-          <Link
-            href="/"
-            className={`${titillium_web.className} mr-auto text-2xl text-brand`}
-          >
-            conduit
-          </Link>
-          <nav>
-            <ul className="flex flex-wrap items-stretch gap-4">
-              <li className="flex items-center">
-                <NavLink
-                  href={session.isAuthenticated ? "/feed" : "/"}
-                  activePaths={["/feed", "/"]}
-                >
-                  Home
-                </NavLink>
-              </li>
-              {session.isAuthenticated ? (
-                <>
-                  <li className="flex items-center">
-                    <NavLink
-                      href="/article/new"
-                      className="flex items-center gap-1"
-                    >
-                      <Icon
-                        id="pencil-square"
-                        className="h-5 w-5 text-inherit"
-                      />
-                      New Article
-                    </NavLink>
-                  </li>
-                  <li className="flex items-center">
-                    <NavLink
-                      href="/settings"
-                      className="flex items-center gap-1"
-                    >
-                      <Icon id="cog-8-tooth" className="h-5 w-5 text-inherit" />
-                      Settings
-                    </NavLink>
-                  </li>
-                  <li className="flex items-center">
-                    <NavLink
-                      href={`/profile/${session.username}`}
-                      className="flex items-center gap-1"
-                    >
-                      <Icon id="face-smile" className="h-5 w-5 text-inherit" />
-                      {session.username}
-                    </NavLink>
-                  </li>
-                  <li className="flex items-center">
-                    <LogoutButton />
-                  </li>
-                </>
-              ) : (
-                <>
-                  <li className="flex items-center">
-                    <NavLink href="/signin">Sign in</NavLink>
-                  </li>
-                  <li className="flex items-center">
-                    <NavLink href="/signup">Sign up</NavLink>
-                  </li>
-                </>
-              )}
-            </ul>
-          </nav>
-          <ThemeSwitcher currentTheme={currentTheme} />
+        <div className="container mx-auto py-4">
+          <div className="relative flex flex-wrap items-center gap-4">
+            <Link
+              href="/"
+              className={`${titillium_web.className} text-2xl text-brand`}
+            >
+              conduit
+            </Link>
+            <ThemeSwitcher currentTheme={currentTheme} className="mr-auto" />
+            <HeaderNav
+              isAuthenticated={!!session.isAuthenticated}
+              username={session.username}
+            />
+          </div>
         </div>
 
         {children}

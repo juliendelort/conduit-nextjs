@@ -19,7 +19,7 @@ export default async function MainPageLayout({
     <>
       <header
         className={clsx("bg-brand py-8 text-center text-onbrand shadow-inner", {
-          "sr-only": session.isAuthenticated,
+          hidden: session.isAuthenticated,
         })}
       >
         <h1
@@ -33,7 +33,7 @@ export default async function MainPageLayout({
         <p className="text-2xl font-light">A place to share your knowledge</p>
       </header>
       <main className="container mx-auto mt-8 grid items-start gap-8 lg:grid-cols-[1fr_250px]">
-        <div className="rounded bg-surfacesecondary p-3  lg:col-start-2">
+        <aside className="rounded bg-surfacesecondary p-3  lg:col-start-2">
           <h2 className="text-md mb-2 text-onsurfacesecondary">Popular Tags</h2>
           <ErrorBoundary
             fallback={<ErrorMessage>Error loading tags</ErrorMessage>}
@@ -42,7 +42,7 @@ export default async function MainPageLayout({
               <TagsList />
             </Suspense>
           </ErrorBoundary>
-        </div>
+        </aside>
         <div className="lg:col-start-1 lg:row-start-1">
           <h2 className="sr-only">Articles</h2>
           {children}

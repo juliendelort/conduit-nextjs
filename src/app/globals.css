@@ -5,6 +5,7 @@
 @layer base {
   html[data-theme="light"] {
     --color-brand: #fb923c;
+    --color-brandhover: #fa7305;
     --color-onbrand: #fff;
     --color-surpaceprimary: #fff;
     --color-onsurfaceprimary: #373a3c;
@@ -16,11 +17,13 @@
     --color-onsurfacetertiary: #fff;
     --color-surfaceinverted: #333;
     --color-onsurfaceinverted: #fff;
+    --color-onsurfaceinvertedhigh: #bbb;
     --color-borderprimary: #dddddd;
   }
 
   html[data-theme="dark"] {
     --color-brand: #fb923c;
+    --color-brandhover: #fa7305;
     --color-onbrand: #fff;
     --color-surpaceprimary: #000;
     --color-onsurfaceprimary: #e2dbdb;
@@ -31,6 +34,10 @@
     --color-surfacetertiary: #595959;
     --color-onsurfacetertiary: #fff;
     --color-surfacehover: #404040;
+    --color-surfaceinverted: #404040;
+    --color-onsurfaceinverted: #e6e6e6;
+    --color-onsurfaceinvertedhigh: #b3b3b3;
+
     --color-borderprimary: #404040;
   }
 

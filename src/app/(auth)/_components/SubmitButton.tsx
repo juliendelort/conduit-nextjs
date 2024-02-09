@@ -11,7 +11,7 @@ export function SubmitButton({ text, isPending }: SubmitButtonProps) {
     <button
       type="submit"
       className={clsx(
-        "ml-auto block rounded bg-brand px-6 py-3 text-right text-xl text-onbrand",
+        "hover:bg-brandhover ml-auto block rounded bg-brand px-6 py-3 text-right text-xl text-onbrand transition-colors",
         isPending && "opacity-50",
       )}
       {...(isPending && { "aria-disabled": true })}

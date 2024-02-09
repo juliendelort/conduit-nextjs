@@ -13,6 +13,7 @@ const config: Config = {
     extend: {
       colors: {
         brand: "var(--color-brand)",
+        brandhover: "var(--color-brandhover)",
         onbrand: "var(--color-onbrand)",
         surpaceprimary: "var(--color-surpaceprimary)",
         onsurfaceprimary: "var(--color-onsurfaceprimary)",
@@ -25,6 +26,7 @@ const config: Config = {
         surfacehover: "var(--color-surfacehover)",
         surfaceinverted: "var(--color-surfaceinverted)",
         onsurfaceinverted: "var(--color-onsurfaceinverted)",
+        onsurfaceinvertedhigh: "var(--color-onsurfaceinvertedhigh)",
         borderprimary: "var(--color-borderprimary)",
       },
     },
