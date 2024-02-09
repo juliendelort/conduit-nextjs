@@ -12,6 +12,7 @@
     --color-onsurfaceprimaryhigh: rgb(107 114 128);
     --color-onsurfaceprimaryhighest: rgb(156 163 175);
     --color-surfacesecondary: rgb(243 244 246);
+    --color-onsurfacesecondary: #373a3c;
     --color-surfacehover: rgb(243 244 246);
     --color-surfacetertiary: #8a8a8a;
     --color-onsurfacetertiary: #fff;

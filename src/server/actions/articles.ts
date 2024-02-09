@@ -30,6 +30,7 @@ export const toggleFavoriteArticle = async (formData: FormData) => {
     }
 
     revalidateTag("articles");
+    revalidateTag(slug);
   } catch (e) {
     return handleActionError(e);
   }

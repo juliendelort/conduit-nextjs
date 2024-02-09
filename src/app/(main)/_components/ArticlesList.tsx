@@ -1,5 +1,4 @@
 import { listArticlesAPI } from "@/server/service/articles";
-import { ErrorMessage } from "../../_components/ErrorMessage";
 import { Article } from "../_components/Article";
 import { Pages } from "./Pages";
 import { getSession } from "@/server/utils/session";
@@ -9,11 +8,21 @@ export interface ArticlesListProps {
   page: number;
   isFeed: boolean;
   tag?: string;
+  author?: string;
+  favoritedBy?: string;
+  pageUrl: string;
 }
 
 const PAGE_SIZE = 10;
 
-export async function ArticlesList({ page, tag, isFeed }: ArticlesListProps) {
+export async function ArticlesList({
+  page,
+  tag,
+  isFeed,
+  author,
+  favoritedBy,
+  pageUrl,
+}: ArticlesListProps) {
   const session = await getSession(cookies());
   const { articles, pagesCount } = await listArticlesAPI({
     limit: PAGE_SIZE,
@@ -21,7 +30,15 @@ export async function ArticlesList({ page, tag, isFeed }: ArticlesListProps) {
     tag,
     token: session.token,
     feed: isFeed,
+    author,
+    favoritedBy,
   });
+
+  const getPageUrl = (page: number) => {
+    const url = new URLSearchParams(pageUrl);
+    url.set("page", String(page));
+    return decodeURIComponent(url.toString());
+  };
 
   return (
     <>
@@ -35,7 +52,11 @@ export async function ArticlesList({ page, tag, isFeed }: ArticlesListProps) {
           isAuthenticated={!!session.isAuthenticated}
         />
       ))}
-      <Pages currentPage={page} pagesCount={pagesCount} currentTag={tag} />
+      <Pages
+        currentPage={page}
+        pagesCount={pagesCount}
+        getPageUrl={getPageUrl}
+      />
     </>
   );
 }

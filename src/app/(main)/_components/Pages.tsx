@@ -4,10 +4,10 @@ import Link from "next/link";
 export interface PagesProps {
   pagesCount: number;
   currentPage: number;
-  currentTag?: string;
+  getPageUrl: (page: number) => string;
 }
 
-export function Pages({ currentPage, pagesCount, currentTag }: PagesProps) {
+export function Pages({ currentPage, pagesCount, getPageUrl }: PagesProps) {
   return (
     <nav>
       <ul className="flex flex-wrap gap-y-2">
@@ -16,10 +16,10 @@ export function Pages({ currentPage, pagesCount, currentTag }: PagesProps) {
           return (
             <li className="group" key={`page-${page}`}>
               <Link
-                href={`/?page=${page}${currentTag ? `&tag=${currentTag}` : ""}`}
+                href={getPageUrl(page)}
                 className={clsx(
-                  "border-borderprimary hover:bg-surfacehover block border-y border-l px-3 py-2 group-first-of-type:rounded-s group-last-of-type:rounded-r group-last-of-type:border-r",
-                  currentPage === page ? "text-onbrand bg-brand" : "text-brand",
+                  "block border-y border-l border-borderprimary px-3 py-2 hover:bg-surfacehover group-first-of-type:rounded-s group-last-of-type:rounded-r group-last-of-type:border-r",
+                  currentPage === page ? "bg-brand text-onbrand" : "text-brand",
                 )}
               >
                 {page}

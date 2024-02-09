@@ -11,6 +11,7 @@ export interface FavoriteButtonProps {
   isFavorited: boolean;
   slug: string;
   isAuthenticated: boolean;
+  text: string;
 }
 
 export function FavoriteButton({
@@ -18,6 +19,7 @@ export function FavoriteButton({
   isFavorited,
   slug,
   isAuthenticated,
+  text,
 }: FavoriteButtonProps) {
   async function formAction(formData: FormData) {
     toggleFavoritedLocal(null);
@@ -27,7 +29,7 @@ export function FavoriteButton({
       toast.error(result.error);
     }
   }
-  const [favoritedData, toggleFavoritedLocal] = useOptimistic(
+  const [optimisticData, toggleFavoritedLocal] = useOptimistic(
     {
       favorited: isFavorited,
       favoritesCount: favoritesCount,
@@ -43,19 +45,21 @@ export function FavoriteButton({
     }),
   );
 
-  const favorited = favoritedData.favorited;
-  const count = favoritedData.favoritesCount;
+  const favorited = optimisticData.favorited;
+  const count = optimisticData.favoritesCount;
 
   const containerClassName = clsx(
     "flex items-center gap-1 rounded border border-brand p-1 text-sm",
-    favorited ? "bg-brand text-onbrand" : "bg-transparent text-brand",
-    favoritedData.isOptimistic && "opacity-50",
+    favorited
+      ? "bg-brand text-onbrand hover:bg-transparent hover:text-brand"
+      : "bg-transparent text-brand hover:bg-brand hover:text-onbrand",
+    optimisticData.isOptimistic && "opacity-50",
   );
 
-  const iconAndCount = (
+  const content = (
     <>
       <Icon id="heart" className="h-4 w-4" />
-      {count}
+      {text.replaceAll(/{count}/g, count.toString())}
     </>
   );
 
@@ -67,11 +71,11 @@ export function FavoriteButton({
         name="newFavoriteValue"
         value={(!favorited).toString()}
       />
-      <button className={containerClassName}>{iconAndCount}</button>
+      <button className={containerClassName}>{content}</button>
     </form>
   ) : (
     <Link href="/signin" className={containerClassName}>
-      {iconAndCount}
+      {content}
     </Link>
   );
 }

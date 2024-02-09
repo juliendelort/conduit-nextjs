@@ -32,6 +32,7 @@ export function Article({ article, isAuthenticated }: ArticleProps) {
             favoritesCount={article.favoritesCount}
             slug={article.slug}
             isAuthenticated={isAuthenticated}
+            text={"{count}"}
           />
         </div>
         <div className="self-start text-sm font-light text-onsurfaceprimaryhighest">

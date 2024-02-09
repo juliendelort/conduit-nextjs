@@ -1,9 +1,9 @@
 import { IronSession, getIronSession } from "iron-session";
 import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
 import { getEnv } from "./env";
-import { User } from "@/types.ts/auth";
+import { AuthenticatedUser } from "@/types.ts/auth";
 
-export interface SessionData extends User {
+export interface SessionData extends AuthenticatedUser {
   isAuthenticated?: true;
   flashMessage?: string;
 }
@@ -19,10 +19,10 @@ export function getSession(cookies: ReadonlyRequestCookies) {
 
 export async function setAuthUser(
   session: IronSession<SessionData>,
-  user: User,
+  user: AuthenticatedUser,
 ) {
   Object.keys(user).forEach((k) => {
-    const key = k as keyof User;
+    const key = k as keyof AuthenticatedUser;
     session[key] = user[key];
   });
 

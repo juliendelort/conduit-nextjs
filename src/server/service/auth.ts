@@ -1,6 +1,6 @@
 "use server";
 
-import { User } from "@/types.ts/auth";
+import { AuthenticatedUser } from "@/types.ts/auth";
 import { BASE_URL, handleFetchResponse } from "./utils";
 import { experimental_taintUniqueValue as taintUniqueValue } from "react";
 
@@ -24,14 +24,14 @@ export async function loginAPI({ email, password }: LoginAPIParams) {
   });
 
   const result = await handleFetchResponse<{
-    user: User;
+    user: AuthenticatedUser;
   }>(response);
 
-  if (result.data) {
+  if (result.user) {
     taintUniqueValue(
       "Do not pass token to the client",
-      result.data.user,
-      result.data.user.token,
+      result.user,
+      result.user.token,
     );
   }
   return result;
@@ -63,14 +63,14 @@ export async function signUpAPI({
   });
 
   const result = await handleFetchResponse<{
-    user: User;
+    user: AuthenticatedUser;
   }>(response);
 
-  if (result.data) {
+  if (result.user) {
     taintUniqueValue(
       "Do not pass token to the client",
-      result.data.user,
-      result.data.user.token,
+      result.user,
+      result.user.token,
     );
   }
   return result;

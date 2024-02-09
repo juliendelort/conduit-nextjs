@@ -19,19 +19,35 @@ export default async function Home({
   const session = await getSession(cookies());
   const { page, tag } = pageSearchParamsSchema.parse(searchParams);
 
-  const props: ArticlesContainerProps = tag
-    ? {
-        tag,
-        activeSection: "tag",
-        includeFeed: !!session.isAuthenticated,
-        page,
-      }
-    : {
-        activeSection: "global",
-        includeFeed: !!session.isAuthenticated,
-        page,
-        tag: undefined,
-      };
+  const props: ArticlesContainerProps = {
+    page,
+    tag,
+    sections: [
+      ...(session.isAuthenticated
+        ? [
+            {
+              title: `Your feed`,
+              href: `/feed`,
+              isActive: false,
+            },
+          ]
+        : []),
+      {
+        title: "Global Feed",
+        href: "/",
+        isActive: !tag,
+      },
+      ...(tag
+        ? [
+            {
+              title: `#${tag}`,
+              href: `/?tag=${tag}`,
+              isActive: true,
+            },
+          ]
+        : []),
+    ],
+  };
 
   return <ArticlesContainer {...props} />;
 }

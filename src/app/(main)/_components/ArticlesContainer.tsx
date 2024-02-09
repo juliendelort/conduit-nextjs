@@ -5,32 +5,49 @@ import { ArticlesList } from "./ArticlesList";
 import { ErrorMessage } from "@/app/_components/ErrorMessage";
 import { ErrorBoundary } from "@/app/_components/ErrorBoundary";
 
-type ActiveSectionFeedOrGlobal = {
-  activeSection: "feed" | "global";
-  tag: undefined;
-};
+interface Section {
+  title: string;
+  href: string;
+  isActive: boolean;
+}
 
-type ActiveSectionTag = {
-  activeSection: "tag";
-  tag: string;
-};
-
-export type ArticlesContainerProps = {
-  includeFeed: boolean;
+export interface ArticlesContainerProps {
+  sections: Section[];
   page: number;
-} & (ActiveSectionFeedOrGlobal | ActiveSectionTag);
+  tag?: string;
+  isFeed?: boolean;
+  author?: string;
+  favoritedBy?: string;
+}
 
 export function ArticlesContainer({
-  includeFeed,
-  activeSection,
+  sections,
   page,
   tag,
+  isFeed,
+  author,
+  favoritedBy,
 }: ArticlesContainerProps) {
   return (
     <>
       <nav className="mb-4 border-b border-borderprimary">
         <ul className="flex gap-4">
-          {includeFeed && (
+          {sections.map((section) => (
+            <li key={section.title}>
+              <Link
+                className={clsx(
+                  "block p-2",
+                  section.isActive
+                    ? "border-b-2 border-brand text-brand"
+                    : "text-onsurfaceprimaryhighest",
+                )}
+                href={section.href}
+              >
+                {section.title}
+              </Link>
+            </li>
+          ))}
+          {/* {includeFeed && (
             <li>
               <Link
                 className={clsx(
@@ -67,7 +84,7 @@ export function ArticlesContainer({
                 #{tag}
               </Link>
             </li>
-          ) : null}
+          ) : null} */}
         </ul>
       </nav>
       <ErrorBoundary
@@ -77,7 +94,10 @@ export function ArticlesContainer({
           <ArticlesList
             page={page}
             tag={tag}
-            isFeed={activeSection === "feed"}
+            isFeed={!!isFeed}
+            pageUrl={`/${isFeed ? "feed" : ""}?${tag ? `&tag=${tag}` : ""}`}
+            author={author}
+            favoritedBy={favoritedBy}
           />
         </Suspense>
       </ErrorBoundary>

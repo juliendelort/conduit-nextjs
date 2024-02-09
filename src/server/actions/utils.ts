@@ -13,7 +13,7 @@ export function validateFormData<Schema extends z.ZodTypeAny>(
     return acc;
   }, {} as z.infer<Schema>);
 
-  return schema.parse(objToValidate);
+  return schema.parse(objToValidate) as z.infer<Schema>;
 }
 
 export function handleActionError(error: unknown) {

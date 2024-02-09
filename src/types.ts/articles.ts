@@ -1,4 +1,4 @@
-import { User } from "./auth";
+import { AuthenticatedUser } from "./auth";
 
 export interface Article {
   slug: string;
@@ -10,5 +10,7 @@ export interface Article {
   updatedAt: string;
   favorited: boolean;
   favoritesCount: number;
-  author: Pick<User, "username" | "bio" | "image"> & { following: boolean };
+  author: Pick<AuthenticatedUser, "username" | "bio" | "image"> & {
+    following: boolean;
+  };
 }

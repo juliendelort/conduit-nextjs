@@ -8,6 +8,8 @@ export interface ListArticlesAPIParams {
   token?: string;
   tag?: string;
   feed?: boolean;
+  author?: string;
+  favoritedBy?: string;
 }
 
 export async function listArticlesAPI({
@@ -16,12 +18,20 @@ export async function listArticlesAPI({
   token,
   tag,
   feed,
+  author,
+  favoritedBy,
 }: ListArticlesAPIParams) {
   const url = new URL(`api/articles${feed ? "/feed" : ""}`, BASE_URL);
   url.searchParams.set("limit", String(limit));
   url.searchParams.set("offset", String(offset));
   if (tag) {
     url.searchParams.set("tag", tag);
+  }
+  if (author) {
+    url.searchParams.set("author", author);
+  }
+  if (favoritedBy) {
+    url.searchParams.set("favorited", favoritedBy);
   }
 
   const response = await fetch(url, {
@@ -84,11 +94,17 @@ export async function unFavoriteArticleAPI({
 
 export interface FetchArticleAPIParams {
   slug: string;
+  token?: string;
 }
-export async function fetchArticleAPI({ slug }: FetchArticleAPIParams) {
+export async function fetchArticleAPI({ slug, token }: FetchArticleAPIParams) {
   const url = new URL(`api/articles/${slug}`, BASE_URL);
 
-  const response = await fetch(url);
+  const response = await fetch(url, {
+    headers: {
+      ...(token && { Authorization: `Bearer ${token}` }),
+    },
+    next: { tags: ["article", `article-${slug}`] },
+  });
 
   return handleFetchResponse<{
     article: Article;
