@@ -16,17 +16,17 @@ export default async function Page({
   return (
     <ArticlesContainer
       page={page}
-      author={params.username}
+      favoritedBy={params.username}
       sections={[
         {
           title: "My Articles",
           href: `/profile/${params.username}`,
-          isActive: true,
+          isActive: false,
         },
         {
           title: "Favorited Articles",
           href: `/profile/${params.username}/favorited`,
-          isActive: false,
+          isActive: true,
         },
       ]}
     />

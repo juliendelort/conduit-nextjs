@@ -2,11 +2,16 @@
 
 import { z } from "zod";
 import { handleActionError, validateFormData } from "./utils";
-import { getSession } from "../utils/session";
+import { getSession, setAuthUser } from "../utils/session";
 import { cookies } from "next/headers";
 import { revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
-import { followUserAPI, unFollowUserAPI } from "../service/profiles";
+import {
+  followUserAPI,
+  unFollowUserAPI,
+  updateProfileAPI,
+} from "../service/profiles";
+import { setFlashMessage } from "../utils/flash";
 
 const toggleFollowUserSchema = z.object({
   username: z.string(),
@@ -30,6 +35,38 @@ export const toggleFollowUser = async (formData: FormData) => {
     }
 
     revalidateTag("article");
+  } catch (e) {
+    return handleActionError(e);
+  }
+};
+
+const updateProfileActionSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(8).or(z.literal("")),
+  username: z.string().min(3),
+  bio: z.string().optional(),
+  image: z.string().url(),
+});
+
+export const updateProfileAction = async (formData: FormData) => {
+  const session = await getSession(cookies());
+  if (!session.isAuthenticated) {
+    redirect("/signin");
+  }
+  try {
+    const apiParams = validateFormData(formData, updateProfileActionSchema);
+
+    const { user } = await updateProfileAPI({
+      ...apiParams,
+      token: session.token,
+    });
+    await setAuthUser(session, user);
+    await setFlashMessage({
+      message: `Profile updated!`,
+      type: "info",
+    });
+
+    await session.save();
   } catch (e) {
     return handleActionError(e);
   }

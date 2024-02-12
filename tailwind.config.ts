@@ -18,7 +18,7 @@ const config: Config = {
         brand: "var(--color-brand)",
         brandhover: "var(--color-brandhover)",
         onbrand: "var(--color-onbrand)",
-        surpaceprimary: "var(--color-surpaceprimary)",
+        surfaceprimary: "var(--color-surfaceprimary)",
         onsurfaceprimary: "var(--color-onsurfaceprimary)",
         onsurfaceprimaryhigh: "var(--color-onsurfaceprimaryhigh)",
         onsurfaceprimaryhighest: "var(--color-onsurfaceprimaryhighest)",

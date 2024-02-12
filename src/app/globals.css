@@ -7,7 +7,7 @@
     --color-brand: #fb923c;
     --color-brandhover: #fa7305;
     --color-onbrand: #fff;
-    --color-surpaceprimary: #fff;
+    --color-surfaceprimary: #fff;
     --color-onsurfaceprimary: #373a3c;
     --color-onsurfaceprimaryhigh: rgb(107 114 128);
     --color-onsurfaceprimaryhighest: rgb(156 163 175);
@@ -26,7 +26,7 @@
     --color-brand: #fb923c;
     --color-brandhover: #fa7305;
     --color-onbrand: #fff;
-    --color-surpaceprimary: #000;
+    --color-surfaceprimary: #000;
     --color-onsurfaceprimary: #e2dbdb;
     --color-onsurfaceprimaryhigh: #b6aeae;
     --color-onsurfaceprimaryhighest: #8a8a8a;
@@ -50,7 +50,7 @@
       :-internal-autofill-selected,
       :-internal-autofill-previewed
     ) {
-    -webkit-text-fill-color: var(--color-onsurfacesecondary);
-    box-shadow: 0 0 0px 1000px var(--color-surfacesecondary) inset;
+    -webkit-text-fill-color: var(--color-onsurfaceprimary);
+    box-shadow: 0 0 0px 1000px var(--color-surfaceprimary) inset;
   }
 }

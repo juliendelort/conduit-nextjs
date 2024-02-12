@@ -2,11 +2,11 @@
 
 import { loginAction } from "@/server/actions/auth";
 import { useEffect, useState, useTransition } from "react";
-import { useFormState } from "react-dom";
-import { SubmitButton } from "../_components/SubmitButton";
-import { Input } from "@/app/_components/Input";
+import { SubmitButton } from "../../_components/SubmitButton";
+import { inputClasses } from "@/app/_components/Input";
 import { ErrorMessage } from "../../_components/ErrorMessage";
 import { toast } from "sonner";
+import clsx from "clsx";
 
 export interface SigninFormProps {
   redirecturl?: string;
@@ -48,22 +48,22 @@ export function SigninForm({ redirecturl }: SigninFormProps) {
         {!!redirecturl && (
           <input type="hidden" value={redirecturl} name="redirecturl" />
         )}
-        <Input
+        <input
           type="email"
           name="email"
           aria-label="Email"
           placeholder="Email"
           required
-          className="mb-4"
+          className={clsx(inputClasses, "mb-4")}
           autoComplete="username"
         />
-        <Input
+        <input
           type="password"
           name="password"
           aria-label="Password"
           placeholder="Password"
           required
-          className="mb-4"
+          className={clsx(inputClasses, "mb-4")}
           autoComplete="current-password"
         />
         <SubmitButton text="Sign in" isPending={isPending} />

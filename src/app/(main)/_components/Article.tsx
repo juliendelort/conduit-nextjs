@@ -11,7 +11,7 @@ export interface ArticleProps {
 
 export function Article({ article, isAuthenticated }: ArticleProps) {
   return (
-    <article className="border-b border-borderprimary  py-4 last-of-type:border-none">
+    <article className="border-b  border-borderprimary py-4 last-of-type:border-none">
       <div className="mb-4 grid grid-cols-[auto_1fr_auto] grid-rows-2 items-center gap-x-2">
         <Image
           src={article.author.image}
@@ -21,7 +21,7 @@ export function Article({ article, isAuthenticated }: ArticleProps) {
           height={32}
         />
         <Link
-          href={`profile/${article.author.username}`}
+          href={`/profile/${article.author.username}`}
           className="text-md self-end leading-none text-brand"
         >
           {article.author.username}
@@ -41,7 +41,7 @@ export function Article({ article, isAuthenticated }: ArticleProps) {
           )}
         </div>
       </div>
-      <Link href={`article/${article.slug}`}>
+      <Link href={`/article/${article.slug}`}>
         <h3 className="line-clamp-2 text-ellipsis text-xl font-semibold text-onsurfaceprimary">
           {article.title}
         </h3>

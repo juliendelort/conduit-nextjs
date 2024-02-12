@@ -1,4 +1,4 @@
-import { User } from "@/types.ts/auth";
+import { AuthenticatedUser, User } from "@/types.ts/auth";
 import { BASE_URL, handleFetchResponse } from "./utils";
 
 export interface FollowUserParams {
@@ -52,5 +52,44 @@ export async function fetchProfileAPI({
 
   return handleFetchResponse<{
     profile: User & { following: boolean };
+  }>(response);
+}
+
+export interface UpdateProfileAPIParams {
+  email: string;
+  password?: string;
+  username: string;
+  image: string;
+  bio?: string;
+  token: string;
+}
+
+export async function updateProfileAPI({
+  username,
+  email,
+  password,
+  image,
+  bio,
+  token,
+}: UpdateProfileAPIParams) {
+  const response = await fetch(`${BASE_URL}/api/user`, {
+    method: "PUT",
+    headers: {
+      "content-type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      user: {
+        email,
+        password,
+        username,
+        image,
+        bio,
+      },
+    }),
+  });
+
+  return handleFetchResponse<{
+    user: AuthenticatedUser;
   }>(response);
 }

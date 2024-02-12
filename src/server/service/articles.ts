@@ -28,10 +28,10 @@ export async function listArticlesAPI({
     url.searchParams.set("tag", tag);
   }
   if (author) {
-    url.searchParams.set("author", author);
+    url.searchParams.set("author", decodeURIComponent(author));
   }
   if (favoritedBy) {
-    url.searchParams.set("favorited", favoritedBy);
+    url.searchParams.set("favorited", decodeURIComponent(favoritedBy));
   }
 
   const response = await fetch(url, {
@@ -104,6 +104,42 @@ export async function fetchArticleAPI({ slug, token }: FetchArticleAPIParams) {
       ...(token && { Authorization: `Bearer ${token}` }),
     },
     next: { tags: ["article", `article-${slug}`] },
+  });
+
+  return handleFetchResponse<{
+    article: Article;
+  }>(response);
+}
+
+export interface CreateArticleAPIParams {
+  title: string;
+  description: string;
+  body: string;
+  tagList: string[];
+  token: string;
+}
+
+export async function createArticleAPI({
+  title,
+  description,
+  body,
+  tagList,
+  token,
+}: CreateArticleAPIParams) {
+  const response = await fetch(`${BASE_URL}/api/articles`, {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      article: {
+        title,
+        description,
+        body,
+        tagList,
+      },
+    }),
   });
 
   return handleFetchResponse<{

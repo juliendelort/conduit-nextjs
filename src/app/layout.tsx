@@ -26,7 +26,7 @@ export default async function RootLayout({
       <body
         className={clsx(
           sourceSans.className,
-          "bg-surpaceprimary text-onsurfaceprimary",
+          "bg-surfaceprimary text-onsurfaceprimary",
         )}
       >
         <PreloadResources />

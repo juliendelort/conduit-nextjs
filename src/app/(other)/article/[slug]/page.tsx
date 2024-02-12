@@ -1,13 +1,12 @@
 import { FavoriteButton } from "@/app/(main)/_components/FavoriteButton";
 import { FollowButton } from "@/app/(main)/_components/FollowButton";
-import { Icon } from "@/app/_components/Icon";
 import { fetchArticleAPI } from "@/server/service/articles";
 import { getSession } from "@/server/utils/session";
-import clsx from "clsx";
 import { DateTime } from "luxon";
 import { cookies } from "next/headers";
 import Image from "next/image";
 import Link from "next/link";
+import Markdown from "react-markdown";
 
 export default async function Page({ params }: { params: { slug: string } }) {
   const session = await getSession(cookies());
@@ -65,7 +64,9 @@ export default async function Page({ params }: { params: { slug: string } }) {
         <p className="mb-8 text-lg text-onsurfaceprimary">
           {article.description}
         </p>
-        <p className="mb-8 text-lg text-onsurfaceprimary">{article.body}</p>
+        <div className="mb-8 text-lg text-onsurfaceprimary">
+          <Markdown>{article.body}</Markdown>
+        </div>
         <div className="flex gap-1">
           {article.tagList.map((t, index) => (
             <div

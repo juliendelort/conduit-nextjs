@@ -2,9 +2,10 @@
 
 import { signupAction } from "@/server/actions/auth";
 import { useState, useTransition } from "react";
-import { SubmitButton } from "../_components/SubmitButton";
-import { Input } from "@/app/_components/Input";
+import { SubmitButton } from "../../_components/SubmitButton";
+import { inputClasses } from "@/app/_components/Input";
 import { ErrorMessage } from "../../_components/ErrorMessage";
+import clsx from "clsx";
 
 export interface SignupFormProps {}
 
@@ -45,42 +46,42 @@ export function SignupForm({}: SignupFormProps) {
             <ErrorMessage className="my-4">Error: {submitError}</ErrorMessage>
           ) : null}
         </div>
-        <Input
+        <input
           type="text"
           name="username"
           aria-label="Username"
           placeholder="Username"
           required
-          //   minLength={3}
-          className="mb-4"
+          minLength={3}
+          className={clsx(inputClasses, "mb-4")}
         />
-        <Input
+        <input
           type="email"
           name="email"
           aria-label="Email"
           placeholder="Email"
           required
-          className="mb-4"
+          className={clsx(inputClasses, "mb-4")}
           autoComplete="username"
         />
-        <Input
+        <input
           type="password"
           name="password"
           aria-label="Password"
           placeholder="Password"
           required
-          //   minLength={8}
-          className="mb-4"
+          minLength={8}
+          className={clsx(inputClasses, "mb-4")}
           autoComplete="new-password"
         />
-        <Input
+        <input
           type="password"
           name="repeat_password"
           aria-label="Repeat Password"
           placeholder="Repeat Password"
           required
-          //   minLength={8}
-          className="mb-4"
+          minLength={8}
+          className={clsx(inputClasses, "mb-4")}
           autoComplete="new-password"
         />
         <SubmitButton text="Sign up" isPending={isPending} />

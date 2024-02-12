@@ -35,9 +35,9 @@ export async function ArticlesList({
   });
 
   const getPageUrl = (page: number) => {
-    const url = new URLSearchParams(pageUrl);
-    url.set("page", String(page));
-    return decodeURIComponent(url.toString());
+    const url = new URL(pageUrl, "http://dummy");
+    url.searchParams.set("page", String(page));
+    return decodeURIComponent(`${url.pathname}${url.search}`);
   };
 
   return (

@@ -1,9 +1,11 @@
-export default async function Page({
-  params,
-  searchParams,
-}: {
-  params: { slug: string };
-  searchParams: { [key: string]: string | string[] | undefined };
-}) {
-  return <div>New article {params.slug}</div>;
+import { useProtectedRoute } from "@/app/_hooks/useProtectedRoute";
+import { CreateArticleForm } from "./CreateArticleForm";
+
+export default async function Page() {
+  await useProtectedRoute("/article/new");
+  return (
+    <main className="mx-auto mt-8 max-w-5xl">
+      <CreateArticleForm />
+    </main>
+  );
 }
