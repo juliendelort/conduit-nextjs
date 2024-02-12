@@ -34,5 +34,13 @@ model Article {
   author      User     @relation("WrittenArticles", fields: [authorId], references: [id])
   authorId    Int
   favoritedBy User[]
-  tagList     String[]
+  tagList     Tag[]
+}
+
+model Tag {
+  id        Int       @id @default(autoincrement())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  name      String    @unique
+  articles  Article[]
 }

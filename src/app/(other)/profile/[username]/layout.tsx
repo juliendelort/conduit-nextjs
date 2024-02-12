@@ -1,5 +1,5 @@
 import { FollowButton } from "@/app/(main)/_components/FollowButton";
-import { fetchProfileAPI } from "@/server/service/profiles";
+import { fetchProfileAPI } from "@/server/data/profiles";
 import { getSession } from "@/server/utils/session";
 import { cookies } from "next/headers";
 import Image from "next/image";

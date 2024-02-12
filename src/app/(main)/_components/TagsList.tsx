@@ -1,4 +1,4 @@
-import { listTagsAPI } from "@/server/service/tags";
+import { listTagsAPI } from "@/server/data/tags";
 import Link from "next/link";
 
 export async function TagsList() {

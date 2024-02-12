@@ -1,4 +1,4 @@
-import { listArticlesAPI } from "@/server/service/articles";
+import { DBListArticles } from "@/server/data/articles";
 import { Article } from "../_components/Article";
 import { Pages } from "./Pages";
 import { getSession } from "@/server/utils/session";
@@ -24,7 +24,7 @@ export async function ArticlesList({
   pageUrl,
 }: ArticlesListProps) {
   const session = await getSession(cookies());
-  const { articles, pagesCount } = await listArticlesAPI({
+  const { articles, pagesCount } = await DBListArticles({
     limit: PAGE_SIZE,
     offset: (page - 1) * PAGE_SIZE,
     tag,

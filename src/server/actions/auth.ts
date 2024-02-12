@@ -2,7 +2,7 @@
 
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { loginAPI, signUpAPI } from "../service/auth";
+import { loginAPI, signUpAPI } from "../data/auth";
 import { deleteAuthUser, getSession, setAuthUser } from "../utils/session";
 import { z } from "zod";
 import { handleActionError, validateFormData } from "./utils";

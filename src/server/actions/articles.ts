@@ -7,10 +7,10 @@ import { cookies } from "next/headers";
 import { revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
 import {
-  createArticleAPI,
-  favoriteArticleAPI,
-  unFavoriteArticleAPI,
-} from "../service/articles";
+  DBCreateArticle,
+  DBfavoriteArticle,
+  DBUnFavoriteArticle,
+} from "../data/articles";
 
 const toggleFavoriteArticleSchema = z.object({
   slug: z.string(),
@@ -28,9 +28,9 @@ export const toggleFavoriteArticle = async (formData: FormData) => {
       toggleFavoriteArticleSchema,
     );
     if (newFavoriteValue) {
-      await favoriteArticleAPI({ slug, token: session.token });
+      await DBfavoriteArticle({ slug, token: session.token });
     } else {
-      await unFavoriteArticleAPI({ slug, token: session.token });
+      await DBUnFavoriteArticle({ slug, token: session.token });
     }
 
     revalidateTag("articles");
@@ -59,7 +59,7 @@ export const createArticle = async (formData: FormData) => {
   try {
     const articlesParams = validateFormData(formData, createArticleSchema);
     console.log("***articlesParams", articlesParams);
-    await createArticleAPI({ ...articlesParams, token: session.token });
+    await DBCreateArticle({ ...articlesParams, token: session.token });
   } catch (e) {
     return handleActionError(e);
   }

@@ -1,6 +1,6 @@
 import { useProtectedRoute } from "@/app/_hooks/useProtectedRoute";
 import { EditProfileForm } from "./EditProfileForm";
-import { fetchProfileAPI } from "@/server/service/profiles";
+import { fetchProfileAPI } from "@/server/data/profiles";
 import { cookies } from "next/headers";
 import { getSession } from "@/server/utils/session";
 

@@ -1,6 +1,6 @@
 import { FavoriteButton } from "@/app/(main)/_components/FavoriteButton";
 import { FollowButton } from "@/app/(main)/_components/FollowButton";
-import { fetchArticleAPI } from "@/server/service/articles";
+import { fetchArticleAPI } from "@/server/data/articles";
 import { getSession } from "@/server/utils/session";
 import { DateTime } from "luxon";
 import { cookies } from "next/headers";

@@ -10,7 +10,7 @@ import {
   followUserAPI,
   unFollowUserAPI,
   updateProfileAPI,
-} from "../service/profiles";
+} from "../data/profiles";
 import { setFlashMessage } from "../utils/flash";
 
 const toggleFollowUserSchema = z.object({

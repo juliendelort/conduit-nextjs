@@ -2,7 +2,7 @@ import "server-only";
 import { Article } from "@/types.ts/articles";
 import { BASE_URL, handleFetchResponse } from "./utils";
 
-export interface ListArticlesAPIParams {
+export interface DBListArticlesParams {
   limit: number;
   offset: number;
   token?: string;
@@ -12,7 +12,7 @@ export interface ListArticlesAPIParams {
   favoritedBy?: string;
 }
 
-export async function listArticlesAPI({
+export async function DBListArticles({
   limit,
   offset,
   token,
@@ -20,7 +20,7 @@ export async function listArticlesAPI({
   feed,
   author,
   favoritedBy,
-}: ListArticlesAPIParams) {
+}: DBListArticlesParams) {
   const url = new URL(`api/articles${feed ? "/feed" : ""}`, BASE_URL);
   url.searchParams.set("limit", String(limit));
   url.searchParams.set("offset", String(offset));
@@ -54,14 +54,14 @@ export async function listArticlesAPI({
   };
 }
 
-export interface FavoriteArticleParams {
+export interface DBFavoriteArticleParams {
   slug: string;
   token: string;
 }
-export async function favoriteArticleAPI({
+export async function DBfavoriteArticle({
   slug,
   token,
-}: FavoriteArticleParams) {
+}: DBFavoriteArticleParams) {
   const response = await fetch(`${BASE_URL}/api/articles/${slug}/favorite`, {
     method: "POST",
     headers: {
@@ -75,10 +75,10 @@ export async function favoriteArticleAPI({
   }>(response);
 }
 
-export async function unFavoriteArticleAPI({
+export async function DBUnFavoriteArticle({
   slug,
   token,
-}: FavoriteArticleParams) {
+}: DBFavoriteArticleParams) {
   const response = await fetch(`${BASE_URL}/api/articles/${slug}/favorite`, {
     method: "DELETE",
     headers: {
@@ -111,7 +111,7 @@ export async function fetchArticleAPI({ slug, token }: FetchArticleAPIParams) {
   }>(response);
 }
 
-export interface CreateArticleAPIParams {
+export interface DBCreateArticleParams {
   title: string;
   description: string;
   body: string;
@@ -119,13 +119,13 @@ export interface CreateArticleAPIParams {
   token: string;
 }
 
-export async function createArticleAPI({
+export async function DBCreateArticle({
   title,
   description,
   body,
   tagList,
   token,
-}: CreateArticleAPIParams) {
+}: DBCreateArticleParams) {
   const response = await fetch(`${BASE_URL}/api/articles`, {
     method: "POST",
     headers: {
