@@ -11,7 +11,7 @@ export default async function Page() {
   return (
     <>
       <h1 className="mt-4 text-center text-3xl">Your Settings</h1>
-      <main className="mx-auto mt-8 max-w-5xl">
+      <main className="container mx-auto mt-8 max-w-5xl">
         <EditProfileForm
           profile={{
             username: session.username,

@@ -32,12 +32,12 @@ export function ArticlesContainer({
   return (
     <>
       <nav className="mb-4 border-b border-borderprimary">
-        <ul className="flex gap-4">
+        <ul className="flex flex-wrap gap-x-2 gap-y-0">
           {sections.map((section) => (
             <li key={section.title}>
               <Link
                 className={clsx(
-                  "block p-2",
+                  "block whitespace-nowrap p-2",
                   section.isActive
                     ? "border-b-2 border-brand text-brand"
                     : "text-onsurfaceprimaryhighest",

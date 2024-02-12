@@ -2,15 +2,12 @@ import { getSession } from "@/server/utils/session";
 import clsx from "clsx";
 import { cookies } from "next/headers";
 import { FlashMessage } from "./_components/FlashMessage";
-import { NavLink } from "./_components/NavLink";
 import { ToastRoot } from "./_components/ToastRoot";
 import { sourceSans, titillium_web } from "./fonts";
 import "./globals.css";
 import { ThemeSwitcher } from "./_components/ThemeSwitcher";
 import { getCurrentTheme } from "@/server/actions/theme";
-import { Icon } from "./_components/Icon";
 import { PreloadResources } from "./preload-resources";
-import { LogoutButton } from "./_components/LogoutButton";
 import Link from "next/link";
 import { HeaderNav } from "./_components/HeaderNav";
 

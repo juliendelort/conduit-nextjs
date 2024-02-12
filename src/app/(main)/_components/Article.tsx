@@ -48,9 +48,9 @@ export function Article({ article, isAuthenticated }: ArticleProps) {
         <div className="line-clamp-3 text-ellipsis font-light text-onsurfaceprimaryhigh">
           {article.description}
         </div>
-        <div className="mt-8 flex text-xs font-light text-onsurfaceprimaryhighest">
+        <div className="mt-8 flex flex-wrap items-center justify-between gap-2 text-xs font-light text-onsurfaceprimaryhighest">
           <div>Read more...</div>
-          <div className="ml-auto flex gap-1">
+          <div className="flex flex-wrap gap-1">
             {article.tagList.map((t, index) => (
               <div
                 key={`tag-${index}`}

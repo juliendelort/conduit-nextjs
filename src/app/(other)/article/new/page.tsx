@@ -4,7 +4,7 @@ import { CreateArticleForm } from "./CreateArticleForm";
 export default async function Page() {
   await useProtectedRoute("/article/new");
   return (
-    <main className="mx-auto mt-8 max-w-5xl">
+    <main className="container mx-auto mt-8 max-w-5xl">
       <CreateArticleForm />
     </main>
   );

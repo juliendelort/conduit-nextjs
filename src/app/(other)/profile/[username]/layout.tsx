@@ -17,6 +17,7 @@ export default async function Layout({
     username: params.username,
     token: session.token,
   });
+  const isCurrentUser = session.username === profile.username;
   return (
     <>
       <header className="bg-surfacesecondary pb-4 pt-8 text-onsurfacesecondary">
@@ -31,17 +32,19 @@ export default async function Layout({
           <h1 className="text-3xl font-bold text-onsurfacesecondary">
             {profile.username}
           </h1>
-          <FollowButton
-            isFollowing={profile.following}
-            isAuthenticated={!!session.isAuthenticated}
-            username={profile.username}
-            className="self-end"
-            activeContainerClassName="bg-surfacetertiary text-onsurfacetertiary hover:text-onsurfaceprimaryhigh hover:text-onsurfacesecondary hover:border-onsurfacesecondary hover:bg-transparent"
-            inactiveContainerClassName="text-onsurfacesecondary border-onsurfacesecondary hover:bg-surfacetertiary hover:text-onsurfacetertiary"
-          />
+          {!isCurrentUser && (
+            <FollowButton
+              isFollowing={profile.following}
+              isAuthenticated={!!session.isAuthenticated}
+              username={profile.username}
+              className="self-end"
+              activeContainerClassName="bg-surfacetertiary text-onsurfacetertiary hover:text-onsurfaceprimaryhigh hover:text-onsurfacesecondary hover:border-onsurfacesecondary hover:bg-transparent"
+              inactiveContainerClassName="text-onsurfacesecondary border-onsurfacesecondary hover:bg-surfacetertiary hover:text-onsurfacetertiary"
+            />
+          )}
         </div>
       </header>
-      <main className="mx-auto mt-16 max-w-5xl">{children}</main>
+      <main className="container mx-auto mt-16 max-w-5xl">{children}</main>
     </>
   );
 }
