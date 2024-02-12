@@ -1,3 +1,5 @@
+"server only";
+
 import { Prisma, User } from "@prisma/client";
 import prisma from "../lib/prisma";
 import { experimental_taintUniqueValue as taintUniqueValue } from "react";
@@ -59,6 +61,36 @@ export async function DBGetUserByEmailAndPassword({
   if (!(await comparePassword({ password, hash: user.encryptedPassword }))) {
     return null;
   }
+
+  return filterUserFields(user);
+}
+
+export interface DBUpdateUserParams {
+  email: string;
+  password?: string;
+  username: string;
+  image: string;
+  bio?: string;
+}
+
+export async function DBUpdateUser({
+  username,
+  email,
+  password,
+  image,
+  bio,
+}: DBUpdateUserParams) {
+  const user = await prisma.user.update({
+    where: {
+      email,
+    },
+    data: {
+      username,
+      image,
+      bio,
+      ...(password && { encryptedPassword: await hashPassword(password) }),
+    },
+  });
 
   return filterUserFields(user);
 }

@@ -4,11 +4,11 @@ import { ErrorMessage } from "@/app/_components/ErrorMessage";
 import { inputClasses } from "@/app/_components/Input";
 import { SubmitButton } from "@/app/_components/SubmitButton";
 import { updateProfileAction } from "@/server/actions/profiles";
-import { User } from "@/types/auth";
+import { SafeUser } from "@/types/auth";
 import { useState, useTransition } from "react";
 
 export interface EditProfileFormProps {
-  profile: User;
+  profile: SafeUser;
 }
 
 export function EditProfileForm({ profile }: EditProfileFormProps) {
@@ -51,7 +51,7 @@ export function EditProfileForm({ profile }: EditProfileFormProps) {
           name="bio"
           placeholder="Short bio about you"
           aria-label="Bio"
-          defaultValue={profile.bio}
+          defaultValue={profile.bio ?? ""}
         />
         <input
           className={inputClasses}

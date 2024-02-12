@@ -1,12 +1,6 @@
 import "server-only";
-import { BASE_URL, handleFetchResponse } from "./utils";
+import prisma from "../lib/prisma";
 
-export async function listTagsAPI() {
-  const url = new URL("api/tags", BASE_URL);
-
-  const response = await fetch(url);
-
-  return handleFetchResponse<{
-    tags: string[];
-  }>(response);
+export async function DBListTags() {
+  return prisma.tag.findMany();
 }

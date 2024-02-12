@@ -8,4 +8,6 @@ export async function useProtectedRoute(redirectUrl?: string) {
   if (!session.user) {
     redirect(`/signin${redirectUrl ? `?redirecturl=${redirectUrl}` : ""}`);
   }
+
+  return session.user;
 }

@@ -6,12 +6,9 @@ import { getSession, setAuthUser } from "../utils/session";
 import { cookies } from "next/headers";
 import { revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
-import {
-  followUserAPI,
-  unFollowUserAPI,
-  updateProfileAPI,
-} from "../data/profiles";
+import { followUserAPI, unFollowUserAPI } from "../data/profiles";
 import { setFlashMessage } from "../utils/flash";
+import { DBUpdateUser } from "../data/users";
 
 const toggleFollowUserSchema = z.object({
   username: z.string(),
@@ -50,16 +47,13 @@ const updateProfileActionSchema = z.object({
 
 export const updateProfileAction = async (formData: FormData) => {
   const session = await getSession(cookies());
-  if (!session.isAuthenticated) {
+  if (!session.user) {
     redirect("/signin");
   }
   try {
     const apiParams = validateFormData(formData, updateProfileActionSchema);
 
-    const { user } = await updateProfileAPI({
-      ...apiParams,
-      token: session.token,
-    });
+    const user = await DBUpdateUser(apiParams);
     await setAuthUser(session, user);
     await setFlashMessage({
       message: `Profile updated!`,
