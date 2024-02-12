@@ -1,58 +1,76 @@
 import "server-only";
-import { Article } from "@/types.ts/articles";
+import { Article } from "@/types/articles";
 import { BASE_URL, handleFetchResponse } from "./utils";
+import prisma from "../lib/prisma";
 
 export interface DBListArticlesParams {
   limit: number;
   offset: number;
-  token?: string;
   tag?: string;
   feed?: boolean;
-  author?: string;
-  favoritedBy?: string;
+  authorId?: number;
+  favoritedByUserId?: number;
+  userId?: number;
 }
 
 export async function DBListArticles({
   limit,
   offset,
-  token,
   tag,
-  feed,
-  author,
-  favoritedBy,
+  authorId,
+  favoritedByUserId,
+  userId,
 }: DBListArticlesParams) {
-  const url = new URL(`api/articles${feed ? "/feed" : ""}`, BASE_URL);
-  url.searchParams.set("limit", String(limit));
-  url.searchParams.set("offset", String(offset));
-  if (tag) {
-    url.searchParams.set("tag", tag);
-  }
-  if (author) {
-    url.searchParams.set("author", decodeURIComponent(author));
-  }
-  if (favoritedBy) {
-    url.searchParams.set("favorited", decodeURIComponent(favoritedBy));
-  }
+  const whereFilters = tag
+    ? {
+        tagList: {
+          some: {
+            name: tag,
+          },
+        },
+      }
+    : authorId
+      ? { authorId }
+      : favoritedByUserId
+        ? {
+            favoritedBy: {
+              some: {
+                id: favoritedByUserId,
+              },
+            },
+          }
+        : {};
 
-  const response = await fetch(url, {
-    headers: {
-      ...(token && { Authorization: `Bearer ${token}` }),
-    },
-    next: {
-      tags: ["articles"],
-    },
-  });
-
-  const result = await handleFetchResponse<{
-    articles: Article[];
-    articlesCount: number;
-  }>(response);
+  const [articles, count] = await prisma.$transaction([
+    prisma.article.findMany({
+      skip: offset,
+      take: limit,
+      where: whereFilters,
+      include: {
+        author: true,
+        tagList: true,
+        favoritedBy: { select: { id: true } },
+      },
+    }),
+    prisma.article.count({
+      where: whereFilters,
+    }),
+  ]);
 
   return {
-    ...result,
-    pagesCount: Math.ceil(result.articlesCount / limit),
+    articles: articles.map((article) => ({
+      ...article,
+      favoritesCount: article.favoritedBy.length,
+      favorited: !!article.favoritedBy.find((u) => u.id === userId),
+    })),
+    articlesCount: count,
+    pagesCount: Math.ceil(count / limit),
   };
 }
+
+export type DBListArticlesItem = Awaited<
+  ReturnType<typeof DBListArticles>
+>["articles"][number];
 
 export interface DBFavoriteArticleParams {
   slug: string;
@@ -92,23 +110,30 @@ export async function DBUnFavoriteArticle({
   }>(response);
 }
 
-export interface FetchArticleAPIParams {
-  slug: string;
-  token?: string;
+export interface DBFetchArticleParams {
+  id: number;
+  userId?: number;
 }
-export async function fetchArticleAPI({ slug, token }: FetchArticleAPIParams) {
-  const url = new URL(`api/articles/${slug}`, BASE_URL);
 
-  const response = await fetch(url, {
-    headers: {
-      ...(token && { Authorization: `Bearer ${token}` }),
+export async function DBFetchArticle({ id, userId }: DBFetchArticleParams) {
+  const article = await prisma.article.findUnique({
+    where: {
+      id,
     },
-    next: { tags: ["article", `article-${slug}`] },
+    include: {
+      author: true,
+      tagList: true,
+      favoritedBy: { select: { id: true } },
+    },
   });
 
-  return handleFetchResponse<{
-    article: Article;
-  }>(response);
+  return article
+    ? {
+        ...article,
+        favoritesCount: article.favoritedBy.length,
+        favorited: !!article.favoritedBy.find((u) => u.id === userId),
+      }
+    : null;
 }
 
 export interface DBCreateArticleParams {
@@ -116,7 +141,7 @@ export interface DBCreateArticleParams {
   description: string;
   body: string;
   tagList: string[];
-  token: string;
+  authorId: number;
 }
 
 export async function DBCreateArticle({
@@ -124,25 +149,20 @@ export async function DBCreateArticle({
   description,
   body,
   tagList,
-  token,
+  authorId,
 }: DBCreateArticleParams) {
-  const response = await fetch(`${BASE_URL}/api/articles`, {
-    method: "POST",
-    headers: {
-      "content-type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify({
-      article: {
-        title,
-        description,
-        body,
-        tagList,
+  return await prisma.article.create({
+    data: {
+      title,
+      description,
+      body,
+      authorId,
+      tagList: {
+        create: tagList.map((name) => ({ name })),
       },
-    }),
+    },
+    include: {
+      tagList: true,
+    },
   });
-
-  return handleFetchResponse<{
-    article: Article;
-  }>(response);
 }

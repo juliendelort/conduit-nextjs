@@ -9,7 +9,7 @@ import { toast } from "sonner";
 export interface FavoriteButtonProps {
   favoritesCount: number;
   isFavorited: boolean;
-  slug: string;
+  id: number;
   isAuthenticated: boolean;
   text: string;
 }

@@ -38,10 +38,7 @@ export default async function RootLayout({
               conduit
             </Link>
             <ThemeSwitcher currentTheme={currentTheme} className="mr-auto" />
-            <HeaderNav
-              isAuthenticated={!!session.isAuthenticated}
-              username={session.username}
-            />
+            <HeaderNav username={session.user?.username} />
           </div>
         </div>
 

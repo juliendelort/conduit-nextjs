@@ -4,7 +4,7 @@ import { ErrorMessage } from "@/app/_components/ErrorMessage";
 import { inputClasses } from "@/app/_components/Input";
 import { SubmitButton } from "@/app/_components/SubmitButton";
 import { updateProfileAction } from "@/server/actions/profiles";
-import { User } from "@/types.ts/auth";
+import { User } from "@/types/auth";
 import { useState, useTransition } from "react";
 
 export interface EditProfileFormProps {

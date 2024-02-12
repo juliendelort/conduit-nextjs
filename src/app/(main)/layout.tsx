@@ -19,7 +19,7 @@ export default async function MainPageLayout({
     <>
       <header
         className={clsx("bg-brand py-8 text-center text-onbrand shadow-inner", {
-          hidden: session.isAuthenticated,
+          hidden: !!session.user,
         })}
       >
         <h1

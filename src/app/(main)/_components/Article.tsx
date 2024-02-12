@@ -1,11 +1,11 @@
-import { Article } from "@/types.ts/articles";
 import { FavoriteButton } from "./FavoriteButton";
 import Link from "next/link";
 import { DateTime } from "luxon";
 import Image from "next/image";
+import { DBListArticlesItem } from "@/server/data/articles";
 
 export interface ArticleProps {
-  article: Article;
+  article: DBListArticlesItem;
   isAuthenticated: boolean;
 }
 
@@ -30,18 +30,18 @@ export function Article({ article, isAuthenticated }: ArticleProps) {
           <FavoriteButton
             isFavorited={article.favorited}
             favoritesCount={article.favoritesCount}
-            slug={article.slug}
+            id={article.id}
             isAuthenticated={isAuthenticated}
             text={"{count}"}
           />
         </div>
         <div className="self-start text-sm font-light text-onsurfaceprimaryhighest">
-          {DateTime.fromISO(article.createdAt).toLocaleString(
+          {DateTime.fromJSDate(article.createdAt).toLocaleString(
             DateTime.DATE_MED_WITH_WEEKDAY,
           )}
         </div>
       </div>
-      <Link href={`/article/${article.slug}`}>
+      <Link href={`/article/${article.id}`}>
         <h3 className="line-clamp-2 text-ellipsis text-xl font-semibold text-onsurfaceprimary">
           {article.title}
         </h3>
@@ -53,10 +53,10 @@ export function Article({ article, isAuthenticated }: ArticleProps) {
           <div className="flex flex-wrap gap-1">
             {article.tagList.map((t, index) => (
               <div
-                key={`tag-${index}`}
+                key={t.name}
                 className="rounded-xl border border-borderprimary px-2 py-1"
               >
-                {t}
+                {t.name}
               </div>
             ))}
           </div>

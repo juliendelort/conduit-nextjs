@@ -23,7 +23,7 @@ export default async function Home({
     page,
     tag,
     sections: [
-      ...(session.isAuthenticated
+      ...(session.user
         ? [
             {
               title: `Your feed`,

@@ -1,4 +1,4 @@
-import { SafeMessageError } from "@/types.ts/errors";
+import { SafeMessageError } from "@/types/errors";
 import { ZodError, z } from "zod";
 
 export function validateFormData<Schema extends z.ZodTypeAny>(

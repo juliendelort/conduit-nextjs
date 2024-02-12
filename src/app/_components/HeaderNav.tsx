@@ -8,11 +8,10 @@ import clsx from "clsx";
 import React from "react";
 
 export interface HeaderNavProps {
-  isAuthenticated: boolean;
-  username: string;
+  username?: string;
 }
 
-export function HeaderNav({ isAuthenticated, username }: HeaderNavProps) {
+export function HeaderNav({ username }: HeaderNavProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const ulRef = React.useRef<HTMLUListElement>(null);
 
@@ -21,6 +20,8 @@ export function HeaderNav({ isAuthenticated, username }: HeaderNavProps) {
       setMenuOpen(false);
     }
   };
+
+  const isAuthenticated = Boolean(username);
   return (
     <nav className="grow">
       <button

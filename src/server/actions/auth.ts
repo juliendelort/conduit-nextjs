@@ -2,11 +2,12 @@
 
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { loginAPI, signUpAPI } from "../data/auth";
 import { deleteAuthUser, getSession, setAuthUser } from "../utils/session";
 import { z } from "zod";
 import { handleActionError, validateFormData } from "./utils";
 import { setFlashMessage } from "../utils/flash";
+import { SafeMessageError } from "@/types/errors";
+import { DBCreateUser, DBGetUserByEmailAndPassword } from "../data/users";
 
 const loginActionSchema = z.object({
   email: z.string().email(),
@@ -22,7 +23,11 @@ export const loginAction = async (formData: FormData) => {
       loginActionSchema,
     );
     redirectUrl = redirecturl;
-    const { user } = await loginAPI({ email, password });
+    const user = await DBGetUserByEmailAndPassword({ email, password });
+
+    if (!user) {
+      throw new SafeMessageError("Invalid email or password");
+    }
 
     const session = await getSession(cookies());
 
@@ -51,11 +56,22 @@ export const signupAction = async (formData: FormData) => {
       formData,
       signupActionSchema,
     );
-    const { user } = await signUpAPI({ username, email, password });
+    const createdUser = await DBCreateUser({
+      username,
+      email,
+      password,
+      image: "/avatar.svg",
+    });
     const session = await getSession(cookies());
-    await setAuthUser(session, user);
+    await setAuthUser(session, {
+      id: createdUser.id,
+      email: createdUser.email,
+      username: createdUser.username,
+      bio: createdUser.bio,
+      image: createdUser.image,
+    });
     await setFlashMessage({
-      message: `Welcome, ${user.username}!`,
+      message: `Welcome, ${createdUser.username}!`,
       type: "info",
     });
 

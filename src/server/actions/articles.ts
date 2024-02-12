@@ -53,13 +53,12 @@ const createArticleSchema = z.object({
 
 export const createArticle = async (formData: FormData) => {
   const session = await getSession(cookies());
-  if (!session.isAuthenticated) {
+  if (!session.user) {
     redirect("/signin");
   }
   try {
     const articlesParams = validateFormData(formData, createArticleSchema);
-    console.log("***articlesParams", articlesParams);
-    await DBCreateArticle({ ...articlesParams, token: session.token });
+    await DBCreateArticle({ ...articlesParams, authorId: session.user.id });
   } catch (e) {
     return handleActionError(e);
   }

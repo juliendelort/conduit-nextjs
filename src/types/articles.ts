@@ -1,16 +1,14 @@
-import { AuthenticatedUser } from "./auth";
+import { SafeUser } from "./auth";
 
 export interface Article {
-  slug: string;
+  id: number;
   title: string;
   description: string;
   body: string;
   tagList: string[];
-  createdAt: string;
-  updatedAt: string;
   favorited: boolean;
   favoritesCount: number;
-  author: Pick<AuthenticatedUser, "username" | "bio" | "image"> & {
+  author: Pick<SafeUser, "id" | "username" | "bio" | "image"> & {
     following: boolean;
   };
 }

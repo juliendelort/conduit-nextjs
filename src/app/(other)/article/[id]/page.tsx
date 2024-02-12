@@ -1,19 +1,24 @@
 import { FavoriteButton } from "@/app/(main)/_components/FavoriteButton";
 import { FollowButton } from "@/app/(main)/_components/FollowButton";
-import { fetchArticleAPI } from "@/server/data/articles";
+import { DBFetchArticle } from "@/server/data/articles";
 import { getSession } from "@/server/utils/session";
+import { SafeMessageError } from "@/types/errors";
 import { DateTime } from "luxon";
 import { cookies } from "next/headers";
 import Image from "next/image";
 import Link from "next/link";
 import Markdown from "react-markdown";
 
-export default async function Page({ params }: { params: { slug: string } }) {
+export default async function Page({ params }: { params: { id: string } }) {
   const session = await getSession(cookies());
-  const { article } = await fetchArticleAPI({
-    slug: params.slug,
-    token: session.token,
+  const article = await DBFetchArticle({
+    id: Number(params.id), // TODO: use zod to parse this
+    userId: session.user?.id,
   });
+
+  if (!article) {
+    throw new SafeMessageError("Article not found");
+  }
   return (
     <>
       <header className="bg-surfaceinverted text-onsurfaceinverted py-8">
@@ -35,15 +40,15 @@ export default async function Page({ params }: { params: { slug: string } }) {
                 {article.author.username}
               </Link>
               <div className="text-onsurfaceinvertedhigh self-start text-sm font-light">
-                {DateTime.fromISO(article.createdAt).toLocaleString(
+                {DateTime.fromJSDate(article.createdAt).toLocaleString(
                   DateTime.DATE_MED_WITH_WEEKDAY,
                 )}
               </div>
             </div>
             <div className="inline-flex justify-center gap-2 sm:mt-0">
               <FollowButton
-                isFollowing={article.author.following}
-                isAuthenticated={!!session.isAuthenticated}
+                isFollowing={/*article.author.following */ false}
+                isAuthenticated={!!session.user}
                 username={article.author.username}
                 activeContainerClassName="bg-onsurfaceinvertedhigh text-surfaceinverted hover:text-onsurfaceinvertedhigh hover:border-onsurfaceinvertedhigh hover:bg-transparent"
                 inactiveContainerClassName="text-onsurfaceinvertedhigh border-onsurfaceinvertedhigh hover:bg-onsurfaceinvertedhigh hover:text-surfaceinverted"
@@ -52,8 +57,8 @@ export default async function Page({ params }: { params: { slug: string } }) {
               <FavoriteButton
                 isFavorited={article.favorited}
                 favoritesCount={article.favoritesCount}
-                slug={article.slug}
-                isAuthenticated={!!session.isAuthenticated}
+                id={article.id}
+                isAuthenticated={!!session.user}
                 text={`${article.favorited ? "Unfavorite" : "Favorite"} Article ({count})`}
               />
             </div>
@@ -70,10 +75,10 @@ export default async function Page({ params }: { params: { slug: string } }) {
         <div className="flex gap-1">
           {article.tagList.map((t, index) => (
             <div
-              key={`tag-${index}`}
+              key={t.name}
               className="rounded-xl border px-2 py-1 text-xs text-onsurfaceprimaryhighest"
             >
-              {t}
+              {t.name}
             </div>
           ))}
         </div>

@@ -19,8 +19,8 @@ export async function ArticlesList({
   page,
   tag,
   isFeed,
-  author,
-  favoritedBy,
+  authorId,
+  favoritedByUserId,
   pageUrl,
 }: ArticlesListProps) {
   const session = await getSession(cookies());
@@ -28,10 +28,9 @@ export async function ArticlesList({
     limit: PAGE_SIZE,
     offset: (page - 1) * PAGE_SIZE,
     tag,
-    token: session.token,
     feed: isFeed,
-    author,
-    favoritedBy,
+    authorId,
+    favoritedByUserId,
   });
 
   const getPageUrl = (page: number) => {
@@ -46,11 +45,7 @@ export async function ArticlesList({
         <div className="text-center">No articles are here... yet.</div>
       )}
       {articles.map((a) => (
-        <Article
-          key={a.slug}
-          article={a}
-          isAuthenticated={!!session.isAuthenticated}
-        />
+        <Article key={a.id} article={a} isAuthenticated={!!session.user} />
       ))}
       <Pages
         currentPage={page}

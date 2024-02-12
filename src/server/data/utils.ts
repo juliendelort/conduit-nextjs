@@ -1,4 +1,4 @@
-import { SafeMessageError } from "@/types.ts/errors";
+import { SafeMessageError } from "@/types/errors";
 
 export const BASE_URL = "https://api.realworld.io";
 

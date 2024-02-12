@@ -1,5 +1,7 @@
-import { AuthenticatedUser, User } from "@/types.ts/auth";
+import { AuthenticatedUser, User } from "@/types/auth";
 import { BASE_URL, handleFetchResponse } from "./utils";
+import prisma from "../lib/prisma";
+import { experimental_taintUniqueValue as taintUniqueValue } from "react";
 
 export interface FollowUserParams {
   username: string;
