@@ -2,11 +2,11 @@
 
 import { z } from "zod";
 import { handleActionError, validateFormData } from "./utils";
-import { favoriteArticleAPI, unFavoriteArticleAPI } from "../service/articles";
 import { getSession } from "../utils/session";
 import { cookies } from "next/headers";
 import { revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
+import { favoriteArticleAPI, unFavoriteArticleAPI } from "../service/articles";
 
 const toggleFavoriteArticleSchema = z.object({
   slug: z.string(),

@@ -1,3 +1,4 @@
+import { SafeMessageError } from "@/types.ts/errors";
 import { z } from "zod";
 
 export function validateFormData<Schema extends z.ZodTypeAny>(
@@ -18,6 +19,7 @@ export function validateFormData<Schema extends z.ZodTypeAny>(
 
 export function handleActionError(error: unknown) {
   return {
-    error: error instanceof Error ? error.message : "An error occurred",
+    error:
+      error instanceof SafeMessageError ? error.message : "An error occurred",
   };
 }
