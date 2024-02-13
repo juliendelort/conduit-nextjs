@@ -53,7 +53,7 @@ export default async function Page({ params }: { params: { id: string } }) {
             <div className="inline-flex justify-center gap-2 sm:mt-0">
               {!isCurrentUser && (
                 <FollowButton
-                  isFollowing={article.author.following}
+                  isFollowing={!!article.author.following}
                   isAuthenticated={!!session.user}
                   userId={article.author.id}
                   username={article.author.username}

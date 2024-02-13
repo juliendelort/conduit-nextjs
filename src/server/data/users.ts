@@ -167,23 +167,27 @@ export async function DBGetUser({ username, currentUserId }: DBGetUserParams) {
     where: {
       username,
     },
-    include: {
-      _count: {
-        select: {
-          followedBy: {
-            where: {
-              followingId: currentUserId,
+    ...(!!currentUserId && {
+      include: {
+        _count: {
+          select: {
+            followedBy: {
+              where: {
+                followingId: currentUserId,
+              },
             },
           },
         },
       },
-    },
+    }),
   });
 
   return user
     ? filterUserFields({
         ...user,
-        following: user._count.followedBy > 0,
+        ...(!!currentUserId && {
+          following: (user as any)._count.followedBy > 0,
+        }),
       })
     : null;
 }

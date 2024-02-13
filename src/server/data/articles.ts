@@ -172,13 +172,15 @@ export async function DBFetchArticle({ id, userId }: DBFetchArticleParams) {
     },
     include: {
       author: {
-        include: {
-          _count: {
-            select: {
-              followedBy: { where: { followingId: userId } },
+        ...(!!userId && {
+          include: {
+            _count: {
+              select: {
+                followedBy: { where: { followingId: userId } },
+              },
             },
           },
-        },
+        }),
       },
       tagList: true,
       favoritedBy: { select: { id: true } },
@@ -190,7 +192,9 @@ export async function DBFetchArticle({ id, userId }: DBFetchArticleParams) {
         ...article,
         author: {
           ...article.author,
-          following: article.author._count.followedBy > 0,
+          ...(userId && {
+            following: (article.author as any)._count.followedBy > 0,
+          }),
         },
         favoritesCount: article.favoritedBy.length,
         favorited: !!article.favoritedBy.find((u) => u.id === userId),
