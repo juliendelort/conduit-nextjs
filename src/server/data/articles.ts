@@ -209,7 +209,10 @@ export async function DBCreateArticle({
       body,
       authorId,
       tagList: {
-        create: tagList.map((name) => ({ name })),
+        connectOrCreate: tagList.map((name) => ({
+          where: { name },
+          create: { name },
+        })),
       },
     },
     include: {

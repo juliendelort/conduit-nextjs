@@ -43,7 +43,9 @@ const createArticleSchema = z.object({
   tagList: z
     .string()
     .optional()
-    .transform((value) => (value?.trim() ? value.split(",") : []))
+    .transform((value) =>
+      value?.trim() ? value.split(",").map((t) => t.trim()) : [],
+    )
     .pipe(z.array(z.string())),
 });
 
