@@ -23,6 +23,9 @@ model User {
   favoritedArticles Article[] @relation("FavoritedArticles")
   following         User[]    @relation("Followers")
   followedBy        User[]    @relation("Followers")
+
+  @@index([email])
+  @@index([username])
 }
 
 model Article {

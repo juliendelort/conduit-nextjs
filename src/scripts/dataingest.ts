@@ -3,6 +3,8 @@ import { faker } from "@faker-js/faker";
 import { hashPassword } from "../server/utils/auth";
 import prisma from "../server/lib/prisma";
 
+// Run this using `npx ts-node src/scripts/dataingest.ts`
+
 async function createUsers() {
   const USERS_COUNT = 50;
   const emails = faker.helpers.uniqueArray(faker.internet.email, USERS_COUNT);
