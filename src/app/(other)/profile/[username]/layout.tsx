@@ -1,7 +1,7 @@
 import { FollowButton } from "@/app/(main)/_components/FollowButton";
+import { ErrorMessage } from "@/app/_components/ErrorMessage";
 import { DBGetUser } from "@/server/data/users";
 import { getSession } from "@/server/utils/session";
-import { SafeMessageError } from "@/types/errors";
 import { cookies } from "next/headers";
 import Image from "next/image";
 import { ReactNode } from "react";
@@ -19,7 +19,7 @@ export default async function Layout({
     currentUserId: session.user?.id,
   });
   if (!user) {
-    throw new SafeMessageError("User not found");
+    return <ErrorMessage className="text-center">User not found</ErrorMessage>;
   }
   const isCurrentUser = session.user?.id === user?.id;
   return (

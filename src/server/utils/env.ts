@@ -1,5 +1,6 @@
 export interface ENV {
   SESSION_PWD: string;
+  DEFAULT_USER_IMAGE_URL: string;
 }
 
 export function getEnv(name: keyof ENV) {

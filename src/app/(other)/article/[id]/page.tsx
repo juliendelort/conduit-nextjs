@@ -1,8 +1,8 @@
 import { FavoriteButton } from "@/app/(main)/_components/FavoriteButton";
 import { FollowButton } from "@/app/(main)/_components/FollowButton";
+import { ErrorMessage } from "@/app/_components/ErrorMessage";
 import { DBFetchArticle } from "@/server/data/articles";
 import { getSession } from "@/server/utils/session";
-import { SafeMessageError } from "@/types/errors";
 import { DateTime } from "luxon";
 import { cookies } from "next/headers";
 import Image from "next/image";
@@ -17,11 +17,13 @@ export default async function Page({ params }: { params: { id: string } }) {
   });
 
   if (!article) {
-    throw new SafeMessageError("Article not found");
+    return (
+      <ErrorMessage className="text-center">Article not found</ErrorMessage>
+    );
   }
   return (
     <>
-      <header className="bg-surfaceinverted text-onsurfaceinverted py-8">
+      <header className="bg-surfaceinverted py-8 text-onsurfaceinverted">
         <div className="container mx-auto">
           <h1 className="text-4xl font-semibold">{article.title}</h1>
           <div className="mt-8 flex flex-wrap items-center gap-6">
@@ -39,7 +41,7 @@ export default async function Page({ params }: { params: { id: string } }) {
               >
                 {article.author.username}
               </Link>
-              <div className="text-onsurfaceinvertedhigh self-start text-sm font-light">
+              <div className="self-start text-sm font-light text-onsurfaceinvertedhigh">
                 {DateTime.fromJSDate(article.createdAt).toLocaleString(
                   DateTime.DATE_MED_WITH_WEEKDAY,
                 )}

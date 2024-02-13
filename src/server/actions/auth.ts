@@ -8,6 +8,7 @@ import { handleActionError, validateFormData } from "./utils";
 import { setFlashMessage } from "../utils/flash";
 import { SafeMessageError } from "@/types/errors";
 import { DBCreateUser, DBGetUserByEmailAndPassword } from "../data/users";
+import { getEnv } from "../utils/env";
 
 const loginActionSchema = z.object({
   email: z.string().email(),
@@ -60,7 +61,7 @@ export const signupAction = async (formData: FormData) => {
       username,
       email,
       password,
-      image: "/avatar.svg",
+      image: getEnv("DEFAULT_USER_IMAGE_URL"),
     });
     const session = await getSession(cookies());
     await setAuthUser(session, {

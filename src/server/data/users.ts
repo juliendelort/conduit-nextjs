@@ -36,7 +36,7 @@ export async function DBCreateUser({ password, ...rest }: DBCreateUserParams) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
       if (e.code === "P2002") {
         throw new SafeMessageError(
-          "An account with this email already exists. Please login or use a different email.",
+          "An account with this email or username already exists. Please login or use different values.",
         );
       }
     }
