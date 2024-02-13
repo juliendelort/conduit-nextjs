@@ -9,7 +9,7 @@ export async function TagsList() {
         <li key={t.name}>
           <Link
             className="block rounded-2xl  bg-surfacetertiary px-2  py-1 text-sm text-onsurfacetertiary"
-            href={`/?tag=${t}`}
+            href={`/?tag=${t.name}`}
           >
             {t.name}
           </Link>

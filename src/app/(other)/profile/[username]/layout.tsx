@@ -38,7 +38,7 @@ export default async function Layout({
           </h1>
           {!isCurrentUser && (
             <FollowButton
-              isFollowing={/*profile.following*/ false}
+              isFollowing={user.following}
               isAuthenticated={!!session.user}
               username={user.username}
               className="self-end"

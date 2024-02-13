@@ -28,5 +28,10 @@
     ".next/types/**/*.ts",
     "src/types"
   ],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules"],
+  "ts-node": {
+    "compilerOptions": {
+      "module": "CommonJS"
+    }
+  }
 }

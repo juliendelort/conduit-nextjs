@@ -1,6 +1,9 @@
 import "server-only";
 import prisma from "../lib/prisma";
 
+//////////////////////////////////////////////////////////////
+// DBListArticles
+//////////////////////////////////////////////////////////////
 export interface DBListArticlesParams {
   limit: number;
   offset: number;
@@ -18,26 +21,15 @@ export async function DBListArticles({
   author,
   favoritedBy,
   userId,
+  feed,
 }: DBListArticlesParams) {
-  const whereFilters = tag
-    ? {
-        tagList: {
-          some: {
-            name: tag,
-          },
-        },
-      }
-    : author
-      ? { author: { username: author } }
-      : favoritedBy
-        ? {
-            favoritedBy: {
-              some: {
-                username: favoritedBy,
-              },
-            },
-          }
-        : {};
+  const whereFilters = getArticleWhereFilters({
+    tag,
+    author,
+    favoritedBy,
+    feed,
+    userId,
+  });
 
   const [articles, count] = await prisma.$transaction([
     prisma.article.findMany({
@@ -66,9 +58,66 @@ export async function DBListArticles({
   };
 }
 
+function getArticleWhereFilters({
+  feed,
+  tag,
+  author,
+  favoritedBy,
+  userId,
+}: Pick<
+  DBListArticlesParams,
+  "feed" | "tag" | "author" | "favoritedBy" | "userId"
+>) {
+  if (feed) {
+    // Feed: get all the articles from the people the current user follows
+    return {
+      author: {
+        followedBy: {
+          some: {
+            id: userId,
+          },
+        },
+      },
+    };
+  }
+
+  if (tag) {
+    // Tag: get all the articles that have a specific tag
+    return {
+      tagList: {
+        some: {
+          name: tag,
+        },
+      },
+    };
+  }
+
+  if (author) {
+    // Author: get all the articles from a specific author
+    return { author: { username: author } };
+  }
+
+  if (favoritedBy) {
+    // Favorited by: get all the articles that have been favorited by a specific user
+    return {
+      favoritedBy: {
+        some: {
+          username: favoritedBy,
+        },
+      },
+    };
+  }
+
+  return {};
+}
+
 export type DBListArticlesItem = Awaited<
   ReturnType<typeof DBListArticles>
 >["articles"][number];
+
+//////////////////////////////////////////////////////////////
+// DBfavoriteArticle
+//////////////////////////////////////////////////////////////
 
 export interface DBFavoriteArticleParams {
   id: number;
@@ -104,6 +153,10 @@ export function DBUnFavoriteArticle({ id, userId }: DBFavoriteArticleParams) {
   });
 }
 
+//////////////////////////////////////////////////////////////
+// DBFetchArticle
+//////////////////////////////////////////////////////////////
+
 export interface DBFetchArticleParams {
   id: number;
   userId?: number;
@@ -129,6 +182,10 @@ export async function DBFetchArticle({ id, userId }: DBFetchArticleParams) {
       }
     : null;
 }
+
+//////////////////////////////////////////////////////////////
+// DBCreateArticle
+//////////////////////////////////////////////////////////////
 
 export interface DBCreateArticleParams {
   title: string;

@@ -4,6 +4,7 @@ import { Icon } from "@/app/_components/Icon";
 import { toggleFollowUser } from "@/server/actions/profiles";
 import clsx from "clsx";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useOptimistic } from "react";
 import { toast } from "sonner";
 
@@ -24,6 +25,7 @@ export function FollowButton({
   activeContainerClassName,
   inactiveContainerClassName,
 }: FollowButtonProps) {
+  const router = useRouter();
   async function formAction(formData: FormData) {
     toggleFollowLocal(null);
 
@@ -31,6 +33,7 @@ export function FollowButton({
     if (result?.error) {
       toast.error(result.error);
     }
+    router.refresh();
   }
   const [optimisticData, toggleFollowLocal] = useOptimistic(
     {

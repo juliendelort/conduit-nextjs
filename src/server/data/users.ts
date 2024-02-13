@@ -1,10 +1,14 @@
 "server only";
 
-import { Prisma, User } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import prisma from "../lib/prisma";
 import { experimental_taintUniqueValue as taintUniqueValue } from "react";
 import { SafeMessageError } from "@/types/errors";
 import { comparePassword, hashPassword } from "../utils/auth";
+
+//////////////////////////////////////////////////////////////
+// DBCreateUser
+//////////////////////////////////////////////////////////////
 
 export interface DBCreateUserParams {
   email: string;
@@ -40,6 +44,10 @@ export async function DBCreateUser({ password, ...rest }: DBCreateUserParams) {
   }
 }
 
+//////////////////////////////////////////////////////////////
+// DBGetUserByEmailAndPasswordParams
+//////////////////////////////////////////////////////////////
+
 export interface DBGetUserByEmailAndPasswordParams {
   email: string;
   password: string;
@@ -65,6 +73,10 @@ export async function DBGetUserByEmailAndPassword({
 
   return filterUserFields(user);
 }
+
+//////////////////////////////////////////////////////////////
+// DBUpdateUser
+//////////////////////////////////////////////////////////////
 
 export interface DBUpdateUserParams {
   email: string;
@@ -96,6 +108,10 @@ export async function DBUpdateUser({
   return filterUserFields(user);
 }
 
+//////////////////////////////////////////////////////////////
+// DBFollowUser
+//////////////////////////////////////////////////////////////
+
 export interface DBFollowUserParams {
   username: string;
   currentUserId: number;
@@ -120,6 +136,10 @@ export async function DBFollowUser({
   );
 }
 
+//////////////////////////////////////////////////////////////
+// DBUnfollowUser
+//////////////////////////////////////////////////////////////
+
 export async function DBUnfollowUser({
   username,
   currentUserId,
@@ -140,19 +160,37 @@ export async function DBUnfollowUser({
   );
 }
 
+//////////////////////////////////////////////////////////////
+// DBGetUser
+//////////////////////////////////////////////////////////////
+
 export interface DBGetUserParams {
   username: string;
   currentUserId?: number;
 }
 export async function DBGetUser({ username, currentUserId }: DBGetUserParams) {
-  return prisma.user.findUnique({
+  const user = await prisma.user.findUnique({
     where: {
       username,
     },
+    include: {
+      followedBy: {
+        where: {
+          id: currentUserId,
+        },
+      },
+    },
   });
+
+  return user
+    ? filterUserFields({
+        ...user,
+        following: user.followedBy.length > 0,
+      })
+    : null;
 }
 
-function filterUserFields(user: User) {
+function filterUserFields<T extends { encryptedPassword: string }>(user: T) {
   const { encryptedPassword, ...restUser } = user;
   return restUser;
 }
