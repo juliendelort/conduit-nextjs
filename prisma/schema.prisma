@@ -20,7 +20,7 @@ model User {
   bio               String?
   image             String
   articles          Article[] @relation("WrittenArticles")
-  favoritedArticles Article[]
+  favoritedArticles Article[] @relation("FavoritedArticles")
   following         User[]    @relation("Followers")
   followedBy        User[]    @relation("Followers")
 }
@@ -34,7 +34,7 @@ model Article {
   body        String
   author      User     @relation("WrittenArticles", fields: [authorId], references: [id])
   authorId    Int
-  favoritedBy User[]
+  favoritedBy User[]   @relation("FavoritedArticles")
   tagList     Tag[]
 }
 
