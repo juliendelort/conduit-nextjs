@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useOptimistic, useTransition } from "react";
 import { Icon } from "@/app/_components/Icon";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export interface FavoriteButtonProps {
   favoritesCount: number;
@@ -17,10 +18,11 @@ export interface FavoriteButtonProps {
 export function FavoriteButton({
   favoritesCount,
   isFavorited,
-  slug,
+  id,
   isAuthenticated,
   text,
 }: FavoriteButtonProps) {
+  const router = useRouter();
   async function formAction(formData: FormData) {
     toggleFavoritedLocal(null);
 
@@ -28,6 +30,8 @@ export function FavoriteButton({
     if (result?.error) {
       toast.error(result.error);
     }
+
+    router.refresh();
   }
   const [optimisticData, toggleFavoritedLocal] = useOptimistic(
     {
@@ -65,7 +69,7 @@ export function FavoriteButton({
 
   return isAuthenticated ? (
     <form action={formAction}>
-      <input type="hidden" name="slug" value={slug} />
+      <input type="hidden" name="id" value={id} />
       <input
         type="hidden"
         name="newFavoriteValue"

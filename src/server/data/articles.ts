@@ -1,6 +1,4 @@
 import "server-only";
-import { Article } from "@/types/articles";
-import { BASE_URL, handleFetchResponse } from "./utils";
 import prisma from "../lib/prisma";
 
 export interface DBListArticlesParams {
@@ -8,8 +6,8 @@ export interface DBListArticlesParams {
   offset: number;
   tag?: string;
   feed?: boolean;
-  authorId?: number;
-  favoritedByUserId?: number;
+  author?: string;
+  favoritedBy?: string;
   userId?: number;
 }
 
@@ -17,8 +15,8 @@ export async function DBListArticles({
   limit,
   offset,
   tag,
-  authorId,
-  favoritedByUserId,
+  author,
+  favoritedBy,
   userId,
 }: DBListArticlesParams) {
   const whereFilters = tag
@@ -29,13 +27,13 @@ export async function DBListArticles({
           },
         },
       }
-    : authorId
-      ? { authorId }
-      : favoritedByUserId
+    : author
+      ? { author: { username: author } }
+      : favoritedBy
         ? {
             favoritedBy: {
               some: {
-                id: favoritedByUserId,
+                username: favoritedBy,
               },
             },
           }
@@ -73,41 +71,37 @@ export type DBListArticlesItem = Awaited<
 >["articles"][number];
 
 export interface DBFavoriteArticleParams {
-  slug: string;
-  token: string;
+  id: number;
+  userId: number;
 }
-export async function DBfavoriteArticle({
-  slug,
-  token,
-}: DBFavoriteArticleParams) {
-  const response = await fetch(`${BASE_URL}/api/articles/${slug}/favorite`, {
-    method: "POST",
-    headers: {
-      "content-type": "application/json",
-      Authorization: `Bearer ${token}`,
+export function DBfavoriteArticle({ id, userId }: DBFavoriteArticleParams) {
+  return prisma.article.update({
+    where: {
+      id,
+    },
+    data: {
+      favoritedBy: {
+        connect: {
+          id: userId,
+        },
+      },
     },
   });
-
-  return handleFetchResponse<{
-    article: Article;
-  }>(response);
 }
 
-export async function DBUnFavoriteArticle({
-  slug,
-  token,
-}: DBFavoriteArticleParams) {
-  const response = await fetch(`${BASE_URL}/api/articles/${slug}/favorite`, {
-    method: "DELETE",
-    headers: {
-      "content-type": "application/json",
-      Authorization: `Bearer ${token}`,
+export function DBUnFavoriteArticle({ id, userId }: DBFavoriteArticleParams) {
+  return prisma.article.update({
+    where: {
+      id,
+    },
+    data: {
+      favoritedBy: {
+        disconnect: {
+          id: userId,
+        },
+      },
     },
   });
-
-  return handleFetchResponse<{
-    article: Article;
-  }>(response);
 }
 
 export interface DBFetchArticleParams {

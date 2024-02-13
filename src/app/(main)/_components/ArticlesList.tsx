@@ -19,8 +19,8 @@ export async function ArticlesList({
   page,
   tag,
   isFeed,
-  authorId,
-  favoritedByUserId,
+  author,
+  favoritedBy,
   pageUrl,
 }: ArticlesListProps) {
   const session = await getSession(cookies());
@@ -29,8 +29,9 @@ export async function ArticlesList({
     offset: (page - 1) * PAGE_SIZE,
     tag,
     feed: isFeed,
-    authorId,
-    favoritedByUserId,
+    author,
+    favoritedBy,
+    userId: session.user?.id,
   });
 
   const getPageUrl = (page: number) => {

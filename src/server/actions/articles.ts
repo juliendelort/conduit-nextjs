@@ -4,7 +4,6 @@ import { z } from "zod";
 import { handleActionError, validateFormData } from "./utils";
 import { getSession } from "../utils/session";
 import { cookies } from "next/headers";
-import { revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
 import {
   DBCreateArticle,
@@ -13,28 +12,25 @@ import {
 } from "../data/articles";
 
 const toggleFavoriteArticleSchema = z.object({
-  slug: z.string(),
+  id: z.coerce.number(),
   newFavoriteValue: z.enum(["true", "false"]).transform((v) => JSON.parse(v)),
 });
 
 export const toggleFavoriteArticle = async (formData: FormData) => {
   const session = await getSession(cookies());
-  if (!session.isAuthenticated) {
+  if (!session.user) {
     redirect("/signin");
   }
   try {
-    const { slug, newFavoriteValue } = validateFormData(
+    const { id, newFavoriteValue } = validateFormData(
       formData,
       toggleFavoriteArticleSchema,
     );
     if (newFavoriteValue) {
-      await DBfavoriteArticle({ slug, token: session.token });
+      await DBfavoriteArticle({ id, userId: session.user.id });
     } else {
-      await DBUnFavoriteArticle({ slug, token: session.token });
+      await DBUnFavoriteArticle({ id, userId: session.user.id });
     }
-
-    revalidateTag("articles");
-    revalidateTag(slug);
   } catch (e) {
     return handleActionError(e);
   }

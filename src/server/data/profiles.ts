@@ -37,24 +37,14 @@ export async function unFollowUserAPI({ username, token }: FollowUserParams) {
   }>(response);
 }
 
-export interface FetchProfleAPIParams {
+export interface DBGetUserParams {
   username: string;
-  token?: string;
+  currentUserId?: number;
 }
-export async function fetchProfileAPI({
-  username,
-  token,
-}: FetchProfleAPIParams) {
-  const url = new URL(`api/profiles/${username}`, BASE_URL);
-
-  const response = await fetch(url, {
-    headers: {
-      ...(token && { Authorization: `Bearer ${token}` }),
+export async function DBGetUser({ username, currentUserId }: DBGetUserParams) {
+  return prisma.user.findUnique({
+    where: {
+      username,
     },
-    next: { tags: ["profile", `profile-${username}`] },
   });
-
-  return handleFetchResponse<{
-    profile: User & { following: boolean };
-  }>(response);
 }
