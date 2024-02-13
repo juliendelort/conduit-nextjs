@@ -21,6 +21,8 @@ model User {
   image             String
   articles          Article[] @relation("WrittenArticles")
   favoritedArticles Article[]
+  following         User[]    @relation("Followers")
+  followedBy        User[]    @relation("Followers")
 }
 
 model Article {

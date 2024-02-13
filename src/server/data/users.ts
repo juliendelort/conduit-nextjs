@@ -39,6 +39,7 @@ export async function DBCreateUser({ password, ...rest }: DBCreateUserParams) {
     throw e;
   }
 }
+
 export interface DBGetUserByEmailAndPasswordParams {
   email: string;
   password: string;
@@ -93,6 +94,62 @@ export async function DBUpdateUser({
   });
 
   return filterUserFields(user);
+}
+
+export interface DBFollowUserParams {
+  username: string;
+  currentUserId: number;
+}
+export async function DBFollowUser({
+  username,
+  currentUserId,
+}: DBFollowUserParams) {
+  return filterUserFields(
+    await prisma.user.update({
+      where: {
+        username,
+      },
+      data: {
+        followedBy: {
+          connect: {
+            id: currentUserId,
+          },
+        },
+      },
+    }),
+  );
+}
+
+export async function DBUnfollowUser({
+  username,
+  currentUserId,
+}: DBFollowUserParams) {
+  return filterUserFields(
+    await prisma.user.update({
+      where: {
+        username,
+      },
+      data: {
+        followedBy: {
+          disconnect: {
+            id: currentUserId,
+          },
+        },
+      },
+    }),
+  );
+}
+
+export interface DBGetUserParams {
+  username: string;
+  currentUserId?: number;
+}
+export async function DBGetUser({ username, currentUserId }: DBGetUserParams) {
+  return prisma.user.findUnique({
+    where: {
+      username,
+    },
+  });
 }
 
 function filterUserFields(user: User) {

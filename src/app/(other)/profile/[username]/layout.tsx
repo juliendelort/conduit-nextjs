@@ -1,5 +1,5 @@
 import { FollowButton } from "@/app/(main)/_components/FollowButton";
-import { DBGetUser } from "@/server/data/profiles";
+import { DBGetUser } from "@/server/data/users";
 import { getSession } from "@/server/utils/session";
 import { SafeMessageError } from "@/types/errors";
 import { cookies } from "next/headers";
