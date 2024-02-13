@@ -6,12 +6,16 @@ import { LogoutButton } from "./LogoutButton";
 import { NavLink } from "./NavLink";
 import clsx from "clsx";
 import React from "react";
+import Image from "next/image";
 
 export interface HeaderNavProps {
-  username?: string;
+  user?: {
+    username: string;
+    image: string;
+  };
 }
 
-export function HeaderNav({ username }: HeaderNavProps) {
+export function HeaderNav({ user }: HeaderNavProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const ulRef = React.useRef<HTMLUListElement>(null);
 
@@ -21,7 +25,6 @@ export function HeaderNav({ username }: HeaderNavProps) {
     }
   };
 
-  const isAuthenticated = Boolean(username);
   return (
     <nav className="grow">
       <button
@@ -44,14 +47,11 @@ export function HeaderNav({ username }: HeaderNavProps) {
         ref={ulRef}
       >
         <li className="flex items-center">
-          <NavLink
-            href={isAuthenticated ? "/feed" : "/"}
-            activePaths={["/feed", "/"]}
-          >
+          <NavLink href={!!user ? "/feed" : "/"} activePaths={["/feed", "/"]}>
             Home
           </NavLink>
         </li>
-        {isAuthenticated ? (
+        {!!user ? (
           <>
             <li className="flex items-center">
               <NavLink href="/article/new" className="flex items-center gap-1">
@@ -67,11 +67,17 @@ export function HeaderNav({ username }: HeaderNavProps) {
             </li>
             <li className="flex items-center">
               <NavLink
-                href={`/profile/${username}`}
+                href={`/profile/${user.username}`}
                 className="flex items-center gap-1"
               >
-                <Icon id="face-smile" className="h-5 w-5 text-inherit" />
-                {username}
+                <Image
+                  src={user.image}
+                  alt=""
+                  className="rounded-full"
+                  width={24}
+                  height={24}
+                />
+                {user.username}
               </NavLink>
             </li>
             <li className="flex items-center">

@@ -38,7 +38,7 @@ export default async function RootLayout({
               conduit
             </Link>
             <ThemeSwitcher currentTheme={currentTheme} className="mr-auto" />
-            <HeaderNav username={session.user?.username} />
+            <HeaderNav user={session.user} />
           </div>
         </div>
 
