@@ -9,7 +9,7 @@ import { setFlashMessage } from "../utils/flash";
 import { DBFollowUser, DBUnfollowUser, DBUpdateUser } from "../data/users";
 
 const toggleFollowUserSchema = z.object({
-  username: z.string(),
+  userId: z.coerce.number(),
   newFollowValue: z.enum(["true", "false"]).transform((v) => JSON.parse(v)),
 });
 
@@ -19,14 +19,14 @@ export const toggleFollowUser = async (formData: FormData) => {
     redirect("/signin");
   }
   try {
-    const { username, newFollowValue } = validateFormData(
+    const { userId, newFollowValue } = validateFormData(
       formData,
       toggleFollowUserSchema,
     );
     if (newFollowValue) {
-      await DBFollowUser({ username, currentUserId: session.user.id });
+      await DBFollowUser({ userId, followerId: session.user.id });
     } else {
-      await DBUnfollowUser({ username, currentUserId: session.user.id });
+      await DBUnfollowUser({ userId, followerId: session.user.id });
     }
   } catch (e) {
     return handleActionError(e);

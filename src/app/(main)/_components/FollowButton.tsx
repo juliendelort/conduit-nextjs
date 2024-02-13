@@ -10,6 +10,7 @@ import { toast } from "sonner";
 
 export interface FollowButtonProps {
   isFollowing: boolean;
+  userId: number;
   username: string;
   isAuthenticated: boolean;
   className?: string;
@@ -19,6 +20,7 @@ export interface FollowButtonProps {
 
 export function FollowButton({
   isFollowing,
+  userId,
   username,
   isAuthenticated,
   className,
@@ -63,7 +65,7 @@ export function FollowButton({
 
   return isAuthenticated ? (
     <form action={formAction} className={className}>
-      <input type="hidden" name="username" value={username} />
+      <input type="hidden" name="userId" value={userId} />
       <input
         type="hidden"
         name="newFollowValue"

@@ -21,6 +21,8 @@ export default async function Page({ params }: { params: { id: string } }) {
       <ErrorMessage className="text-center">Article not found</ErrorMessage>
     );
   }
+
+  const isCurrentUser = session.user?.id === article.author.id;
   return (
     <>
       <header className="bg-surfaceinverted py-8 text-onsurfaceinverted">
@@ -48,13 +50,16 @@ export default async function Page({ params }: { params: { id: string } }) {
               </div>
             </div>
             <div className="inline-flex justify-center gap-2 sm:mt-0">
-              <FollowButton
-                isFollowing={/*article.author.following */ false}
-                isAuthenticated={!!session.user}
-                username={article.author.username}
-                activeContainerClassName="bg-onsurfaceinvertedhigh text-surfaceinverted hover:text-onsurfaceinvertedhigh hover:border-onsurfaceinvertedhigh hover:bg-transparent"
-                inactiveContainerClassName="text-onsurfaceinvertedhigh border-onsurfaceinvertedhigh hover:bg-onsurfaceinvertedhigh hover:text-surfaceinverted"
-              />
+              {!isCurrentUser && (
+                <FollowButton
+                  isFollowing={article.author.following}
+                  isAuthenticated={!!session.user}
+                  userId={article.author.id}
+                  username={article.author.username}
+                  activeContainerClassName="bg-onsurfaceinvertedhigh text-surfaceinverted hover:text-onsurfaceinvertedhigh hover:border-onsurfaceinvertedhigh hover:bg-transparent"
+                  inactiveContainerClassName="text-onsurfaceinvertedhigh border-onsurfaceinvertedhigh hover:bg-onsurfaceinvertedhigh hover:text-surfaceinverted"
+                />
+              )}
 
               <FavoriteButton
                 isFavorited={article.favorited}

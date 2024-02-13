@@ -21,11 +21,20 @@ model User {
   image             String
   articles          Article[] @relation("WrittenArticles")
   favoritedArticles Article[] @relation("FavoritedArticles")
-  following         User[]    @relation("Followers")
-  followedBy        User[]    @relation("Followers")
+  following         Follow[]  @relation("following")
+  followedBy        Follow[]  @relation("followedBy")
 
   @@index([email])
   @@index([username])
+}
+
+model Follow {
+  followedBy   User @relation("followedBy", fields: [followedById], references: [id])
+  followedById Int
+  following    User @relation("following", fields: [followingId], references: [id])
+  followingId  Int
+
+  @@id([followingId, followedById])
 }
 
 model Article {

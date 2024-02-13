@@ -72,6 +72,28 @@ function createArticles(users: Prisma.UserCreateManyInput[], tags: string[]) {
   return articles;
 }
 
+async function backfillFollows() {
+  const users = await prisma.user.findMany();
+
+  await prisma.$transaction(
+    users.map((u) => {
+      const otherUsers = users.filter((user) => user.username !== u.username);
+      return prisma.user.update({
+        where: { id: u.id },
+        data: {
+          followedBy: {
+            create: faker.helpers
+              .arrayElements(otherUsers, { min: 0, max: users.length / 2 })
+              .map((u) => ({
+                following: { connect: { username: u.username } },
+              })),
+          },
+        },
+      });
+    }),
+  );
+}
+
 async function main() {
   const users = await createUsers();
   const tags = createTags();
@@ -87,9 +109,11 @@ async function main() {
         data: {
           ...u,
           followedBy: {
-            connect: faker.helpers
+            create: faker.helpers
               .arrayElements(otherUsers, { min: 0, max: users.length / 2 })
-              .map((u) => ({ username: u.username })),
+              .map((u) => ({
+                following: { connect: { username: u.username } },
+              })),
           },
         },
       });

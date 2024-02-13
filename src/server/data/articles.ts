@@ -36,6 +36,9 @@ export async function DBListArticles({
       skip: offset,
       take: limit,
       where: whereFilters,
+      orderBy: {
+        createdAt: "desc",
+      },
       include: {
         author: true,
         tagList: true,
@@ -74,7 +77,7 @@ function getArticleWhereFilters({
       author: {
         followedBy: {
           some: {
-            id: userId,
+            followingId: userId,
           },
         },
       },
@@ -168,7 +171,15 @@ export async function DBFetchArticle({ id, userId }: DBFetchArticleParams) {
       id,
     },
     include: {
-      author: true,
+      author: {
+        include: {
+          _count: {
+            select: {
+              followedBy: { where: { followingId: userId } },
+            },
+          },
+        },
+      },
       tagList: true,
       favoritedBy: { select: { id: true } },
     },
@@ -177,6 +188,10 @@ export async function DBFetchArticle({ id, userId }: DBFetchArticleParams) {
   return article
     ? {
         ...article,
+        author: {
+          ...article.author,
+          following: article.author._count.followedBy > 0,
+        },
         favoritesCount: article.favoritedBy.length,
         favorited: !!article.favoritedBy.find((u) => u.id === userId),
       }

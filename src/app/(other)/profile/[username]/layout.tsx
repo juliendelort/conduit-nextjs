@@ -40,6 +40,7 @@ export default async function Layout({
             <FollowButton
               isFollowing={user.following}
               isAuthenticated={!!session.user}
+              userId={user.id}
               username={user.username}
               className="self-end"
               activeContainerClassName="bg-surfacetertiary text-onsurfacetertiary hover:text-onsurfaceprimaryhigh hover:text-onsurfacesecondary hover:border-onsurfacesecondary hover:bg-transparent"

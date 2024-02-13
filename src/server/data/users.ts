@@ -113,23 +113,25 @@ export async function DBUpdateUser({
 //////////////////////////////////////////////////////////////
 
 export interface DBFollowUserParams {
-  username: string;
-  currentUserId: number;
+  userId: number;
+  followerId: number;
 }
-export async function DBFollowUser({
-  username,
-  currentUserId,
-}: DBFollowUserParams) {
+export async function DBFollowUser({ userId, followerId }: DBFollowUserParams) {
+  if (userId === followerId) {
+    throw new SafeMessageError("You cannot follow yourself");
+  }
   return filterUserFields(
     await prisma.user.update({
       where: {
-        username,
+        id: userId,
       },
       data: {
         followedBy: {
-          connect: {
-            id: currentUserId,
-          },
+          create: [
+            {
+              followingId: followerId,
+            },
+          ],
         },
       },
     }),
@@ -139,25 +141,18 @@ export async function DBFollowUser({
 //////////////////////////////////////////////////////////////
 // DBUnfollowUser
 //////////////////////////////////////////////////////////////
-
 export async function DBUnfollowUser({
-  username,
-  currentUserId,
+  userId,
+  followerId,
 }: DBFollowUserParams) {
-  return filterUserFields(
-    await prisma.user.update({
-      where: {
-        username,
+  await prisma.follow.delete({
+    where: {
+      followingId_followedById: {
+        followingId: followerId,
+        followedById: userId,
       },
-      data: {
-        followedBy: {
-          disconnect: {
-            id: currentUserId,
-          },
-        },
-      },
-    }),
-  );
+    },
+  });
 }
 
 //////////////////////////////////////////////////////////////
@@ -174,9 +169,13 @@ export async function DBGetUser({ username, currentUserId }: DBGetUserParams) {
       username,
     },
     include: {
-      followedBy: {
-        where: {
-          id: currentUserId,
+      _count: {
+        select: {
+          followedBy: {
+            where: {
+              followingId: currentUserId,
+            },
+          },
         },
       },
     },
@@ -185,7 +184,7 @@ export async function DBGetUser({ username, currentUserId }: DBGetUserParams) {
   return user
     ? filterUserFields({
         ...user,
-        following: user.followedBy.length > 0,
+        following: user._count.followedBy > 0,
       })
     : null;
 }
