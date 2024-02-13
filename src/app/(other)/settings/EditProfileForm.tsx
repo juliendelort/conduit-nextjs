@@ -30,10 +30,9 @@ export function EditProfileForm({ profile }: EditProfileFormProps) {
         <input
           className={inputClasses}
           type="url"
-          required
           name="image"
           placeholder="URL of profile picture"
-          defaultValue={profile.image}
+          defaultValue={profile.image ?? ""}
           aria-label="URL of profile picture"
         />
         <input

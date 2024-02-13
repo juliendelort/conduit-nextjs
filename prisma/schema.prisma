@@ -18,7 +18,7 @@ model User {
   username          String    @unique
   encryptedPassword String
   bio               String?
-  image             String
+  image             String?
   articles          Article[] @relation("WrittenArticles")
   favoritedArticles Article[] @relation("FavoritedArticles")
   following         Follow[]  @relation("following")

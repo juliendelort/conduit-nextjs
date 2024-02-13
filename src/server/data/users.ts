@@ -14,7 +14,6 @@ export interface DBCreateUserParams {
   email: string;
   password: string;
   username: string;
-  image: string;
 }
 
 export async function DBCreateUser({ password, ...rest }: DBCreateUserParams) {

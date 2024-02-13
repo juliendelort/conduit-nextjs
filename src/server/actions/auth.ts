@@ -61,7 +61,6 @@ export const signupAction = async (formData: FormData) => {
       username,
       email,
       password,
-      image: getEnv("DEFAULT_USER_IMAGE_URL"),
     });
     const session = await getSession(cookies());
     await setAuthUser(session, {

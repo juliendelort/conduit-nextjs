@@ -2,6 +2,7 @@ import { FavoriteButton } from "@/app/(main)/_components/FavoriteButton";
 import { FollowButton } from "@/app/(main)/_components/FollowButton";
 import { ErrorMessage } from "@/app/_components/ErrorMessage";
 import { DBFetchArticle } from "@/server/data/articles";
+import { DEFAULT_USER_IMAGE_URL } from "@/server/utils/const";
 import { getSession } from "@/server/utils/session";
 import { DateTime } from "luxon";
 import { cookies } from "next/headers";
@@ -31,7 +32,7 @@ export default async function Page({ params }: { params: { id: string } }) {
           <div className="mt-8 flex flex-wrap items-center gap-6">
             <div className="inline-grid grid-cols-[auto_auto] grid-rows-2 items-center gap-x-2">
               <Image
-                src={article.author.image}
+                src={article.author.image ?? DEFAULT_USER_IMAGE_URL}
                 alt=""
                 className="row-span-2 rounded-full"
                 width={32}

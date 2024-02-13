@@ -3,6 +3,7 @@ import Link from "next/link";
 import { DateTime } from "luxon";
 import Image from "next/image";
 import { DBListArticlesItem } from "@/server/data/articles";
+import { DEFAULT_USER_IMAGE_URL } from "@/server/utils/const";
 
 export interface ArticleProps {
   article: DBListArticlesItem;
@@ -14,7 +15,7 @@ export function Article({ article, isAuthenticated }: ArticleProps) {
     <article className="border-b  border-borderprimary py-4 last-of-type:border-none">
       <div className="mb-4 grid grid-cols-[auto_1fr_auto] grid-rows-2 items-center gap-x-2">
         <Image
-          src={article.author.image}
+          src={article.author.image ?? DEFAULT_USER_IMAGE_URL}
           alt=""
           className="row-span-2 rounded-full"
           width={32}

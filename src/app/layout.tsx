@@ -10,6 +10,7 @@ import { getCurrentTheme } from "@/server/actions/theme";
 import { PreloadResources } from "./preload-resources";
 import Link from "next/link";
 import { HeaderNav } from "./_components/HeaderNav";
+import { DEFAULT_USER_IMAGE_URL } from "@/server/utils/const";
 
 export default async function RootLayout({
   children,
@@ -38,7 +39,16 @@ export default async function RootLayout({
               conduit
             </Link>
             <ThemeSwitcher currentTheme={currentTheme} className="mr-auto" />
-            <HeaderNav user={session.user} />
+            <HeaderNav
+              user={
+                session.user
+                  ? {
+                      username: session.user?.username,
+                      image: session.user.image ?? DEFAULT_USER_IMAGE_URL,
+                    }
+                  : undefined
+              }
+            />
           </div>
         </div>
 

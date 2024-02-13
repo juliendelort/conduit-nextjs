@@ -1,6 +1,7 @@
 import { FollowButton } from "@/app/(main)/_components/FollowButton";
 import { ErrorMessage } from "@/app/_components/ErrorMessage";
 import { DBGetUser } from "@/server/data/users";
+import { DEFAULT_USER_IMAGE_URL } from "@/server/utils/const";
 import { getSession } from "@/server/utils/session";
 import { cookies } from "next/headers";
 import Image from "next/image";
@@ -27,7 +28,7 @@ export default async function Layout({
       <header className="bg-surfacesecondary pb-4 pt-8 text-onsurfacesecondary">
         <div className="container mx-auto flex flex-col items-center gap-4">
           <Image
-            src={user.image}
+            src={user.image ?? DEFAULT_USER_IMAGE_URL}
             alt=""
             className="row-span-2 mb-1 rounded-full"
             width={96}
