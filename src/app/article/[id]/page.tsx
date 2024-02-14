@@ -50,7 +50,14 @@ export default async function Page({ params }: { params: { id: string } }) {
                 )}
               </div>
             </div>
-            <div className="inline-flex justify-center gap-2 sm:mt-0">
+            <div className="inline-flex flex-wrap gap-2 sm:mt-0">
+              <FavoriteButton
+                isFavorited={article.favorited}
+                favoritesCount={article.favoritesCount}
+                id={article.id}
+                isAuthenticated={!!session.user}
+                text={`${article.favorited ? "Unfavorite" : "Favorite"} Article ({count})`}
+              />
               {!isCurrentUser && (
                 <FollowButton
                   isFollowing={!!article.author.following}
@@ -61,14 +68,6 @@ export default async function Page({ params }: { params: { id: string } }) {
                   inactiveContainerClassName="text-onsurfaceinvertedhigh border-onsurfaceinvertedhigh hover:bg-onsurfaceinvertedhigh hover:text-surfaceinverted"
                 />
               )}
-
-              <FavoriteButton
-                isFavorited={article.favorited}
-                favoritesCount={article.favoritesCount}
-                id={article.id}
-                isAuthenticated={!!session.user}
-                text={`${article.favorited ? "Unfavorite" : "Favorite"} Article ({count})`}
-              />
             </div>
           </div>
         </div>
