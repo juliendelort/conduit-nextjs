@@ -36,7 +36,7 @@ export function SigninForm({ redirecturl }: SigninFormProps) {
 
   useEffect(() => {
     if (showToast) {
-      toast.error("You must login first!");
+      toast.info("You must login first!");
     }
   }, [showToast]);
   return (

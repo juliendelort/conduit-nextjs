@@ -1,13 +1,19 @@
+import { useServerPageUrl } from "@/app/_hooks/useServerPageUrl";
 import clsx from "clsx";
 import Link from "next/link";
 
 export interface PagesProps {
   pagesCount: number;
   currentPage: number;
-  getPageUrl: (page: number) => string;
 }
 
-export function Pages({ currentPage, pagesCount, getPageUrl }: PagesProps) {
+export function Pages({ currentPage, pagesCount }: PagesProps) {
+  const currentURL = useServerPageUrl();
+  const getPageUrl = (page: number) => {
+    const url = new URL(currentURL);
+    url.searchParams.set("page", String(page));
+    return decodeURIComponent(url.toString());
+  };
   return (
     <nav>
       <ul className="flex flex-wrap gap-y-2">

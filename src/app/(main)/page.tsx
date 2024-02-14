@@ -4,7 +4,7 @@ import { z } from "zod";
 import {
   ArticlesContainer,
   ArticlesContainerProps,
-} from "./_components/ArticlesContainer";
+} from "../_components/articles/ArticlesContainer";
 
 const pageSearchParamsSchema = z.object({
   page: z.coerce.number().optional().default(1),

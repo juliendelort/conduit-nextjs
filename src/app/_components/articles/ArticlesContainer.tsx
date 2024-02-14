@@ -28,7 +28,6 @@ export function ArticlesContainer({
   author,
   favoritedBy,
 }: ArticlesContainerProps) {
-  const pageUrl = sections.find((s) => s.isActive)?.href ?? "/";
   return (
     <>
       <nav className="mb-4 border-b border-borderprimary">
@@ -58,7 +57,6 @@ export function ArticlesContainer({
             page={page}
             tag={tag}
             isFeed={!!isFeed}
-            pageUrl={pageUrl}
             author={author}
             favoritedBy={favoritedBy}
           />

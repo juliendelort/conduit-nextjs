@@ -1,4 +1,4 @@
-import { ArticlesContainer } from "@/app/(main)/_components/ArticlesContainer";
+import { ArticlesContainer } from "@/app/_components/articles/ArticlesContainer";
 import { z } from "zod";
 
 const pageSearchParamsSchema = z.object({

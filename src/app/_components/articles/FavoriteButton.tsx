@@ -2,10 +2,11 @@
 import { toggleFavoriteArticle } from "@/server/actions/articles";
 import clsx from "clsx";
 import Link from "next/link";
-import { useOptimistic, useTransition } from "react";
+import { useOptimistic } from "react";
 import { Icon } from "@/app/_components/Icon";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { useClientPageUrl } from "@/app/_hooks/useClientPageUrl";
 
 export interface FavoriteButtonProps {
   favoritesCount: number;
@@ -22,6 +23,7 @@ export function FavoriteButton({
   isAuthenticated,
   text,
 }: FavoriteButtonProps) {
+  const currentUrl = useClientPageUrl();
   const router = useRouter();
   async function formAction(formData: FormData) {
     toggleFavoritedLocal(null);
@@ -78,7 +80,10 @@ export function FavoriteButton({
       <button className={containerClassName}>{content}</button>
     </form>
   ) : (
-    <Link href="/signin" className={containerClassName}>
+    <Link
+      href={`/signin?redirecturl=${encodeURIComponent(currentUrl)}`}
+      className={containerClassName}
+    >
       {content}
     </Link>
   );

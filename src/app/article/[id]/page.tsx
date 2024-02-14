@@ -1,5 +1,5 @@
-import { FavoriteButton } from "@/app/(main)/_components/FavoriteButton";
-import { FollowButton } from "@/app/(main)/_components/FollowButton";
+import { FavoriteButton } from "@/app/_components/articles/FavoriteButton";
+import { FollowButton } from "@/app/_components/articles/FollowButton";
 import { ErrorMessage } from "@/app/_components/ErrorMessage";
 import { DBFetchArticle } from "@/server/data/articles";
 import { DEFAULT_USER_IMAGE_URL } from "@/server/utils/const";

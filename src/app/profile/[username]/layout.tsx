@@ -1,4 +1,4 @@
-import { FollowButton } from "@/app/(main)/_components/FollowButton";
+import { FollowButton } from "@/app/_components/articles/FollowButton";
 import { ErrorMessage } from "@/app/_components/ErrorMessage";
 import { DBGetUser } from "@/server/data/users";
 import { DEFAULT_USER_IMAGE_URL } from "@/server/utils/const";

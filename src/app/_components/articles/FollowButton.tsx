@@ -1,6 +1,7 @@
 "use client";
 
 import { Icon } from "@/app/_components/Icon";
+import { useClientPageUrl } from "@/app/_hooks/useClientPageUrl";
 import { toggleFollowUser } from "@/server/actions/profiles";
 import clsx from "clsx";
 import Link from "next/link";
@@ -27,6 +28,7 @@ export function FollowButton({
   activeContainerClassName,
   inactiveContainerClassName,
 }: FollowButtonProps) {
+  const url = useClientPageUrl();
   const router = useRouter();
   async function formAction(formData: FormData) {
     toggleFollowLocal(null);
@@ -74,7 +76,10 @@ export function FollowButton({
       <button className={containerClassName}>{content}</button>
     </form>
   ) : (
-    <Link href="/signin" className={clsx(containerClassName, className)}>
+    <Link
+      href={`/signin?redirecturl=${url}`}
+      className={clsx(containerClassName, className)}
+    >
       {content}
     </Link>
   );

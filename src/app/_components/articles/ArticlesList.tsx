@@ -1,8 +1,8 @@
 import { DBListArticles } from "@/server/data/articles";
-import { Article } from "../_components/Article";
 import { Pages } from "./Pages";
 import { getSession } from "@/server/utils/session";
 import { cookies } from "next/headers";
+import { Article } from "./Article";
 
 export interface ArticlesListProps {
   page: number;
@@ -10,7 +10,6 @@ export interface ArticlesListProps {
   tag?: string;
   author?: string;
   favoritedBy?: string;
-  pageUrl: string;
 }
 
 const PAGE_SIZE = 10;
@@ -21,7 +20,6 @@ export async function ArticlesList({
   isFeed,
   author,
   favoritedBy,
-  pageUrl,
 }: ArticlesListProps) {
   const session = await getSession(cookies());
   const { articles, pagesCount } = await DBListArticles({
@@ -34,12 +32,6 @@ export async function ArticlesList({
     userId: session.user?.id,
   });
 
-  const getPageUrl = (page: number) => {
-    const url = new URL(pageUrl, "http://dummy");
-    url.searchParams.set("page", String(page));
-    return decodeURIComponent(`${url.pathname}${url.search}`);
-  };
-
   return (
     <>
       {articles.length === 0 && (
@@ -48,11 +40,7 @@ export async function ArticlesList({
       {articles.map((a) => (
         <Article key={a.id} article={a} isAuthenticated={!!session.user} />
       ))}
-      <Pages
-        currentPage={page}
-        pagesCount={pagesCount}
-        getPageUrl={getPageUrl}
-      />
+      <Pages currentPage={page} pagesCount={pagesCount} />
     </>
   );
 }

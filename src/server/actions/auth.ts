@@ -8,7 +8,6 @@ import { handleActionError, validateFormData } from "./utils";
 import { setFlashMessage } from "../utils/flash";
 import { SafeMessageError } from "@/types/errors";
 import { DBCreateUser, DBGetUserByEmailAndPassword } from "../data/users";
-import { getEnv } from "../utils/env";
 
 const loginActionSchema = z.object({
   email: z.string().email(),

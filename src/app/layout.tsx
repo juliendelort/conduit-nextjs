@@ -11,6 +11,11 @@ import { PreloadResources } from "./preload-resources";
 import Link from "next/link";
 import { HeaderNav } from "./_components/HeaderNav";
 import { DEFAULT_USER_IMAGE_URL } from "@/server/utils/const";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Conduit",
+};
 
 export default async function RootLayout({
   children,

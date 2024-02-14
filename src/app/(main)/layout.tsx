@@ -6,7 +6,6 @@ import { TagsList } from "./_components/TagsList";
 import { titillium_web } from "../fonts";
 import { ErrorMessage } from "../_components/ErrorMessage";
 import { ErrorBoundary } from "../_components/ErrorBoundary";
-export * from "../metadata";
 
 export default async function MainPageLayout({
   children,
