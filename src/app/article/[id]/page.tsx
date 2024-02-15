@@ -87,7 +87,7 @@ export default async function Page({ params }: { params: { id: string } }) {
             </Link>
           ))}
         </div>
-        <Markdown className="prose dark:prose-invert dark:prose-pre:bg-surfacesecondary mb-8 mt-8 max-w-none text-lg text-onsurfaceprimary">
+        <Markdown className="prose dark:prose-invert dark:prose-pre:bg-surfacesecondary prose-pre:whitespace-break-spaces	 prose-pre:break-all mb-8 mt-8 max-w-none text-lg text-onsurfaceprimary	">
           {article.body}
         </Markdown>
       </main>

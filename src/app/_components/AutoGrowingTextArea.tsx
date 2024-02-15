@@ -23,7 +23,7 @@ export function AutoGrowingTextArea(props: AutoGrowingTextAreaProps) {
         {...rest}
         className={clsx(
           inputClasses,
-          "col-start-1 col-end-2 row-start-1 row-end-2 resize-none overflow-hidden",
+          "col-start-1 col-end-2 row-start-1 row-end-2 resize-none overflow-hidden whitespace-break-spaces break-all",
         )}
         onChange={(...args) => {
           const [event] = args;
@@ -36,7 +36,7 @@ export function AutoGrowingTextArea(props: AutoGrowingTextAreaProps) {
       <div
         className={clsx(
           inputClasses,
-          "pointer-events-none col-start-1 col-end-2 row-start-1 row-end-2 whitespace-pre-wrap",
+          "pointer-events-none col-start-1 col-end-2 row-start-1 row-end-2 whitespace-break-spaces break-all",
         )}
         aria-hidden="true"
       >

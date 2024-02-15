@@ -52,7 +52,7 @@ export function CreateArticleForm({}: CreateArticleFormProps) {
           </button>
           <Markdown
             className={clsx(
-              "prose dark:prose-invert w-full max-w-none rounded bg-surfacesecondary p-4",
+              "prose dark:prose-invert prose-pre:whitespace-break-spaces prose-pre:break-all w-full max-w-none rounded  bg-surfacesecondary p-4",
               !isPreview && "hidden",
             )}
           >
