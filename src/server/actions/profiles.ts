@@ -50,9 +50,10 @@ export const updateProfileAction = async (formData: FormData) => {
     const apiParams = validateFormData(formData, updateProfileActionSchema);
 
     const user = await DBUpdateUser(apiParams);
-    await setAuthUser(session, user);
-
-    await session.save();
+    if (user) {
+      await setAuthUser(session, user);
+      await session.save();
+    }
   } catch (e) {
     return handleActionError(e);
   }
