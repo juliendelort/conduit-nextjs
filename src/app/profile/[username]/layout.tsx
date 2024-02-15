@@ -37,8 +37,10 @@ export default async function Layout({
           <h1 className="mt-4 text-3xl font-bold text-onsurfacesecondary">
             {user.username}
           </h1>
-          <p className="font-light">{user.email}</p>
-          <p className="whitespace-pre text-center font-light">{user.bio}</p>
+          <p className="text-sm font-extralight">{user.email}</p>
+          <p className="mt-4 whitespace-pre text-center font-light">
+            {user.bio}
+          </p>
           {!isCurrentUser && (
             <FollowButton
               isFollowing={!!user.following}

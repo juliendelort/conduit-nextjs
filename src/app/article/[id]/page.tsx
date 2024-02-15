@@ -75,20 +75,21 @@ export default async function Page({ params }: { params: { id: string } }) {
           </div>
         </div>
       </header>
-      <main className="container mx-auto mt-8">
-        <Markdown className="prose dark:prose-invert dark:prose-pre:bg-surfacesecondary mb-8 max-w-none text-lg text-onsurfaceprimary">
-          {article.body}
-        </Markdown>
-        <div className="flex gap-1">
+      <main className="container mx-auto">
+        <div className="mt-4 flex gap-1">
           {article.tagList.map((t, index) => (
-            <div
+            <Link
               key={t.name}
-              className="rounded-xl border px-2 py-1 text-xs text-onsurfaceprimaryhighest"
+              href={`/?tag=${t.name}`}
+              className="rounded-xl border px-2 py-1 text-xs text-onsurfaceprimaryhighest hover:underline"
             >
               {t.name}
-            </div>
+            </Link>
           ))}
         </div>
+        <Markdown className="prose dark:prose-invert dark:prose-pre:bg-surfacesecondary mb-8 mt-8 max-w-none text-lg text-onsurfaceprimary">
+          {article.body}
+        </Markdown>
       </main>
     </>
   );

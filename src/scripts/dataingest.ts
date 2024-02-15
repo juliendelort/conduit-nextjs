@@ -49,6 +49,7 @@ async function createArticles(
       author: {
         connect: { username: faker.helpers.arrayElement(users).username },
       },
+      createdAt: faker.date.past({ years: 1 }),
       tagList: {
         connectOrCreate: faker.helpers
           .arrayElements(tags, { min: 0, max: 5 })

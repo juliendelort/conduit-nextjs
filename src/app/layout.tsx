@@ -29,13 +29,13 @@ export default async function RootLayout({
       <body
         className={clsx(
           sourceSans.className,
-          "bg-surfaceprimary text-onsurfaceprimary",
+          "grid min-h-screen grid-rows-[auto_1fr_auto] gap-4 bg-surfaceprimary text-onsurfaceprimary",
         )}
       >
         <PreloadResources />
-        <ToastRoot />
         <FlashMessage />
         <div className="container mx-auto py-4">
+          <ToastRoot />
           <div className="relative flex flex-wrap items-center gap-4">
             <Link
               href="/"
@@ -56,11 +56,10 @@ export default async function RootLayout({
             />
           </div>
         </div>
-
-        {children}
-        <footer className="mt-4 bg-surfacesecondary p-4">
+        <div>{children}</div>
+        <footer className="mt-4 w-full bg-surfacesecondary p-4">
           <div className="container mx-auto text-center">
-            <p className="text-xs font-light">
+            <p className="text-xs font-light text-onsurfacesecondary">
               &copy; {new Date().getFullYear()} Conduit
             </p>
           </div>

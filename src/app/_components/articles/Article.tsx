@@ -42,27 +42,30 @@ export function Article({ article, isAuthenticated }: ArticleProps) {
           )}
         </div>
       </div>
-      <Link href={`/article/${article.id}`}>
-        <h3 className="line-clamp-2 text-ellipsis text-xl font-semibold text-onsurfaceprimary">
+      <Link href={`/article/${article.id}`} className="group">
+        <h3 className="line-clamp-2 text-ellipsis text-xl font-semibold text-onsurfaceprimary group-hover:underline">
           {article.title}
         </h3>
         <div className="line-clamp-3 text-ellipsis font-light text-onsurfaceprimaryhigh">
           {article.description}
         </div>
-        <div className="mt-8 flex flex-wrap items-center justify-between gap-2 text-xs font-light text-onsurfaceprimaryhighest">
-          <div>Read more...</div>
-          <div className="flex flex-wrap gap-1">
-            {article.tagList.map((t, index) => (
-              <div
-                key={t.name}
-                className="rounded-xl border border-borderprimary px-2 py-1"
-              >
-                {t.name}
-              </div>
-            ))}
-          </div>
-        </div>
       </Link>
+      <div className="mt-8 flex flex-wrap items-center justify-between gap-2 text-xs font-light text-onsurfaceprimaryhighest">
+        <Link href={`/article/${article.id}`} className="hover:underline">
+          Read more...
+        </Link>
+        <div className="flex flex-wrap gap-1">
+          {article.tagList.map((t, index) => (
+            <Link
+              href={`/?tag=${t.name}`}
+              key={t.name}
+              className="rounded-xl border border-borderprimary px-2 py-1 hover:underline"
+            >
+              {t.name}
+            </Link>
+          ))}
+        </div>
+      </div>
     </article>
   );
 }
