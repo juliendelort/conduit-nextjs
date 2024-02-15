@@ -1,4 +1,4 @@
-import { Prisma, User } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import { faker } from "@faker-js/faker";
 import { hashPassword } from "../server/utils/auth";
 import prisma from "../server/lib/prisma";
@@ -19,7 +19,7 @@ async function createUsers() {
         email: email,
         username: usernames[index],
         encryptedPassword: await hashPassword(password),
-        bio: faker.person.bio() + ` Password for testing: ${password}`,
+        bio: faker.person.bio() + `.\n Password for testing: ${password}`,
         image: faker.image.avatar(),
       };
     }),
@@ -33,12 +33,19 @@ function createTags() {
     .map((e) => e.name);
 }
 
-function createArticles(users: Prisma.UserCreateManyInput[], tags: string[]) {
+async function createArticles(
+  users: Prisma.UserCreateManyInput[],
+  tags: string[],
+) {
+  const markdowns = await Promise.all(
+    [...Array(100).fill(0)].map(generateMarkdown),
+  );
+
   const articles = [...Array(300).fill(0)].map((i) => {
     return {
       title: faker.lorem.sentence(),
       description: faker.lorem.paragraph(),
-      body: faker.lorem.paragraphs(5),
+      body: faker.helpers.arrayElement(markdowns),
       author: {
         connect: { username: faker.helpers.arrayElement(users).username },
       },
@@ -72,6 +79,14 @@ function createArticles(users: Prisma.UserCreateManyInput[], tags: string[]) {
   return articles;
 }
 
+async function generateMarkdown() {
+  const response = await fetch(
+    "https://jaspervdj.be/lorem-markdownum/markdown.txt",
+  );
+
+  return response.ok ? response.text() : "";
+}
+
 async function backfillFollows() {
   const users = await prisma.user.findMany();
 
@@ -97,7 +112,7 @@ async function backfillFollows() {
 async function main() {
   const users = await createUsers();
   const tags = createTags();
-  const articles = createArticles(users, tags);
+  const articles = await createArticles(users, tags);
 
   await prisma.$transaction([
     prisma.user.createMany({ data: users }),

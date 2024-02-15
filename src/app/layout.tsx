@@ -58,6 +58,13 @@ export default async function RootLayout({
         </div>
 
         {children}
+        <footer className="mt-4 bg-surfacesecondary p-4">
+          <div className="container mx-auto text-center">
+            <p className="text-xs font-light">
+              &copy; {new Date().getFullYear()} Conduit
+            </p>
+          </div>
+        </footer>
       </body>
     </html>
   );

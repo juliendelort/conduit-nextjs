@@ -26,7 +26,7 @@ export default async function Layout({
   return (
     <>
       <header className="bg-surfacesecondary pb-4 pt-8 text-onsurfacesecondary">
-        <div className="container mx-auto flex flex-col items-center gap-4">
+        <div className="container mx-auto flex flex-col items-center">
           <Image
             src={user.image ?? DEFAULT_USER_IMAGE_URL}
             alt=""
@@ -34,9 +34,11 @@ export default async function Layout({
             width={96}
             height={96}
           />
-          <h1 className="text-3xl font-bold text-onsurfacesecondary">
+          <h1 className="mt-4 text-3xl font-bold text-onsurfacesecondary">
             {user.username}
           </h1>
+          <p className="font-light">{user.email}</p>
+          <p className="whitespace-pre text-center font-light">{user.bio}</p>
           {!isCurrentUser && (
             <FollowButton
               isFollowing={!!user.following}

@@ -51,10 +51,6 @@ export const updateProfileAction = async (formData: FormData) => {
 
     const user = await DBUpdateUser(apiParams);
     await setAuthUser(session, user);
-    await setFlashMessage({
-      message: `Profile updated!`,
-      type: "info",
-    });
 
     await session.save();
   } catch (e) {

@@ -22,7 +22,13 @@ DATABASE_URL=<db_url>
 Intialize the database:
 
 ```bash
-npx prisma migrate dev
+npm run db:migrate:dev
+```
+
+Optionally, you can seed the database with some initial data:
+
+```bash
+npm run db:seed
 ```
 
 Then run the development server:

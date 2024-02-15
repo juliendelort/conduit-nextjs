@@ -6,6 +6,7 @@ import { SubmitButton } from "@/app/_components/SubmitButton";
 import { updateProfileAction } from "@/server/actions/profiles";
 import { SafeUser } from "@/types/auth";
 import { useState, useTransition } from "react";
+import { toast } from "sonner";
 
 export interface EditProfileFormProps {
   profile: SafeUser;
@@ -20,6 +21,8 @@ export function EditProfileForm({ profile }: EditProfileFormProps) {
       const result = await updateProfileAction(formData);
       if (result?.error) {
         setError(result.error);
+      } else {
+        toast.success("Profile updated");
       }
     });
   };

@@ -29,6 +29,9 @@ export default async function Page({ params }: { params: { id: string } }) {
       <header className="bg-surfaceinverted py-8 text-onsurfaceinverted">
         <div className="container mx-auto">
           <h1 className="text-4xl font-semibold">{article.title}</h1>
+          <p className="font-light text-onsurfaceinvertedhigh">
+            {article.description}
+          </p>
           <div className="mt-8 flex flex-wrap items-center gap-6">
             <div className="inline-grid grid-cols-[auto_auto] grid-rows-2 items-center gap-x-2">
               <Image
@@ -40,7 +43,7 @@ export default async function Page({ params }: { params: { id: string } }) {
               />
               <Link
                 href={`/profile/${article.author.username}`}
-                className="text-md leading-none"
+                className="text-md leading-none hover:underline"
               >
                 {article.author.username}
               </Link>
@@ -73,12 +76,9 @@ export default async function Page({ params }: { params: { id: string } }) {
         </div>
       </header>
       <main className="container mx-auto mt-8">
-        <p className="mb-8 text-lg text-onsurfaceprimary">
-          {article.description}
-        </p>
-        <div className="mb-8 text-lg text-onsurfaceprimary">
-          <Markdown>{article.body}</Markdown>
-        </div>
+        <Markdown className="prose dark:prose-invert dark:prose-pre:bg-surfacesecondary mb-8 max-w-none text-lg text-onsurfaceprimary">
+          {article.body}
+        </Markdown>
         <div className="flex gap-1">
           {article.tagList.map((t, index) => (
             <div

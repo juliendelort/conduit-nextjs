@@ -23,7 +23,7 @@ export function Article({ article, isAuthenticated }: ArticleProps) {
         />
         <Link
           href={`/profile/${article.author.username}`}
-          className="text-md self-end leading-none text-brand"
+          className="text-md self-end leading-none text-brand hover:underline"
         >
           {article.author.username}
         </Link>
