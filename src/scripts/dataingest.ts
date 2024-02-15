@@ -81,6 +81,7 @@ async function createArticles(
 }
 
 async function generateMarkdown() {
+  // https://github.com/jaspervdj/lorem-markdownum#http-api
   const response = await fetch(
     "https://jaspervdj.be/lorem-markdownum/markdown.txt",
   );
