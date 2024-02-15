@@ -92,19 +92,29 @@ export async function DBUpdateUser({
   image,
   bio,
 }: DBUpdateUserParams) {
-  const user = await prisma.user.update({
-    where: {
-      email,
-    },
-    data: {
-      username,
-      image,
-      bio,
-      ...(password && { encryptedPassword: await hashPassword(password) }),
-    },
-  });
+  try {
+    const user = await prisma.user.update({
+      where: {
+        email,
+      },
+      data: {
+        username,
+        image,
+        bio,
+        ...(password && { encryptedPassword: await hashPassword(password) }),
+      },
+    });
 
-  return filterUserFields(user);
+    return filterUserFields(user);
+  } catch (e) {
+    if (e instanceof Prisma.PrismaClientKnownRequestError) {
+      if (e.code === "P2002") {
+        throw new SafeMessageError(
+          "An account with this email or username already exists. Please use different values.",
+        );
+      }
+    }
+  }
 }
 
 //////////////////////////////////////////////////////////////
