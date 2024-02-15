@@ -29,7 +29,7 @@ export default async function RootLayout({
       <body
         className={clsx(
           sourceSans.className,
-          "grid min-h-screen grid-rows-[auto_1fr_auto] gap-4 bg-surfaceprimary text-onsurfaceprimary",
+          "grid min-h-svh grid-rows-[auto_1fr_auto] gap-4 bg-surfaceprimary text-onsurfaceprimary",
         )}
       >
         <PreloadResources />
