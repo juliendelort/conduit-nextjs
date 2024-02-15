@@ -9,11 +9,28 @@ import { cookies } from "next/headers";
 import Image from "next/image";
 import Link from "next/link";
 import Markdown from "react-markdown";
+import { AddCommentForm } from "./AddCommentForm";
+import { ErrorBoundary } from "@/app/_components/ErrorBoundary";
+import { Suspense } from "react";
+import { CommentsList } from "./CommentsList";
+import { z } from "zod";
+
+const urlParamsSchema = z.object({
+  id: z.coerce.number(),
+});
 
 export default async function Page({ params }: { params: { id: string } }) {
   const session = await getSession(cookies());
+  const result = urlParamsSchema.safeParse(params);
+
+  if (!result.success) {
+    return <ErrorMessage className="text-center">Invalid URL</ErrorMessage>;
+  }
+
+  const { id } = result.data;
+
   const article = await DBFetchArticle({
-    id: Number(params.id), // TODO: use zod to parse this
+    id,
     userId: session.user?.id,
   });
 
@@ -90,6 +107,23 @@ export default async function Page({ params }: { params: { id: string } }) {
         <Markdown className="prose dark:prose-invert dark:prose-pre:bg-surfacesecondary prose-pre:whitespace-break-spaces	 prose-pre:break-all mb-8 mt-8 max-w-none text-lg text-onsurfaceprimary	">
           {article.body}
         </Markdown>
+
+        <hr />
+        <div className="mx-auto max-w-5xl">
+          {!!session.user && (
+            <AddCommentForm
+              articleId={id}
+              currentUserImage={session.user.image ?? DEFAULT_USER_IMAGE_URL}
+            />
+          )}
+          <ErrorBoundary
+            fallback={<ErrorMessage>Failed to load comments</ErrorMessage>}
+          >
+            <Suspense fallback={<div>Loading comments...</div>}>
+              <CommentsList articleId={id} />
+            </Suspense>
+          </ErrorBoundary>
+        </div>
       </main>
     </>
   );

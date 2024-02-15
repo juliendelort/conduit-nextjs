@@ -66,6 +66,7 @@ export function CreateArticleForm({}: CreateArticleFormProps) {
             value={body}
             required
             containerClassName={clsx(isPreview && "hidden")}
+            inputClassName={inputClasses}
           />
         </div>
         <input

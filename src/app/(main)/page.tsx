@@ -5,6 +5,7 @@ import {
   ArticlesContainer,
   ArticlesContainerProps,
 } from "../_components/articles/ArticlesContainer";
+import { ErrorMessage } from "../_components/ErrorMessage";
 
 const pageSearchParamsSchema = z.object({
   page: z.coerce.number().optional().default(1),
@@ -17,8 +18,14 @@ export default async function Home({
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
   const session = await getSession(cookies());
-  const { page, tag } = pageSearchParamsSchema.parse(searchParams);
+  const result = pageSearchParamsSchema.safeParse(searchParams);
 
+  if (!result.success) {
+    return (
+      <ErrorMessage className="text-center">Invalid search params</ErrorMessage>
+    );
+  }
+  const { page, tag } = result.data;
   const props: ArticlesContainerProps = {
     page,
     tag,

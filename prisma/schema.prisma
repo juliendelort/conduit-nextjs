@@ -23,6 +23,7 @@ model User {
   favoritedArticles Article[] @relation("FavoritedArticles")
   following         Follow[]  @relation("following")
   followedBy        Follow[]  @relation("followedBy")
+  comments          Comment[]
 
   @@index([email])
   @@index([username])
@@ -38,16 +39,17 @@ model Follow {
 }
 
 model Article {
-  id          Int      @id @default(autoincrement())
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id          Int       @id @default(autoincrement())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
   title       String
   description String
   body        String
-  author      User     @relation("WrittenArticles", fields: [authorId], references: [id])
+  author      User      @relation("WrittenArticles", fields: [authorId], references: [id])
   authorId    Int
-  favoritedBy User[]   @relation("FavoritedArticles")
+  favoritedBy User[]    @relation("FavoritedArticles")
   tagList     Tag[]
+  comments    Comment[]
 }
 
 model Tag {
@@ -56,4 +58,17 @@ model Tag {
   updatedAt DateTime  @updatedAt
   name      String    @unique
   articles  Article[]
+}
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  article   Article  @relation(fields: [articleId], references: [id])
+  articleId Int
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  Int
+  text      String
+
+  @@index([articleId])
 }
