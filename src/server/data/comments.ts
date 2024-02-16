@@ -8,7 +8,9 @@ export interface DBGetCommentsParams {
   pageSize?: number;
 }
 
-export type CommentRecord = Awaited<ReturnType<typeof DBGetComments>>[number];
+export type CommentRecord = Awaited<
+  ReturnType<typeof DBGetComments>
+>["comments"][number];
 
 // TODO: add cursor based pagination
 export async function DBGetComments({
