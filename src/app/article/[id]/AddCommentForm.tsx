@@ -3,7 +3,7 @@
 import { ErrorMessage } from "@/app/_components/ErrorMessage";
 import { createComment } from "@/server/actions/comments";
 import { useRouter } from "next/navigation";
-import { useState, useTransition } from "react";
+import { useRef, useState, useTransition } from "react";
 import { Comment } from "./Comment";
 import { AutoGrowingTextArea } from "@/app/_components/AutoGrowingTextArea";
 import Image from "next/image";
@@ -21,6 +21,7 @@ export function AddCommentForm({
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState("");
   const router = useRouter();
+  const formRef = useRef<HTMLFormElement>(null);
 
   const formAction = async (formData: FormData) => {
     if (isPending) {
@@ -32,10 +33,11 @@ export function AddCommentForm({
         setError(result.error);
       }
       router.refresh();
+      formRef.current?.reset();
     });
   };
   return (
-    <form action={formAction}>
+    <form action={formAction} ref={formRef}>
       <Comment
         content={
           <AutoGrowingTextArea

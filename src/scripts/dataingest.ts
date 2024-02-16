@@ -64,6 +64,16 @@ async function createArticles(
             };
           }),
       },
+      comments: {
+        create: [...Array(faker.number.int({ min: 0, max: 100 })).fill(0)].map(
+          (c) => ({
+            author: {
+              connect: { username: faker.helpers.arrayElement(users).username },
+            },
+            text: faker.lorem.paragraphs({ min: 1, max: 5 }, "\n\n"),
+          }),
+        ),
+      },
       favoritedBy: {
         connect: faker.helpers
           .arrayElements(users, {
@@ -108,6 +118,33 @@ async function backfillFollows() {
         },
       });
     }),
+  );
+}
+
+async function backfillComments() {
+  const users = await prisma.user.findMany();
+  const articles = await prisma.article.findMany();
+
+  await prisma.$transaction(
+    articles.map((a) =>
+      prisma.article.update({
+        where: { id: a.id },
+        data: {
+          comments: {
+            create: [
+              ...Array(faker.number.int({ min: 0, max: 100 })).fill(0),
+            ].map((c) => ({
+              author: {
+                connect: {
+                  username: faker.helpers.arrayElement(users).username,
+                },
+              },
+              text: faker.lorem.paragraphs({ min: 1, max: 5 }, "\n\n"),
+            })),
+          },
+        },
+      }),
+    ),
   );
 }
 

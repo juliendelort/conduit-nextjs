@@ -1,15 +1,37 @@
+"use server";
+
 import prisma from "../lib/prisma";
 
 export interface DBGetCommentsParams {
   articleId: number;
+  fromId?: number;
+  pageSize?: number;
 }
 
+export type CommentRecord = Awaited<ReturnType<typeof DBGetComments>>[number];
+
 // TODO: add cursor based pagination
-export async function DBGetComments({ articleId }: DBGetCommentsParams) {
-  return prisma.comment.findMany({
-    orderBy: {
-      createdAt: "desc",
-    },
+export async function DBGetComments({
+  articleId,
+  fromId,
+  pageSize = 10,
+}: DBGetCommentsParams) {
+  const comments = await prisma.comment.findMany({
+    take: pageSize,
+    ...(fromId && {
+      cursor: {
+        id: fromId,
+      },
+      skip: 1, // Skip the comment with the cursor
+    }),
+    orderBy: [
+      {
+        createdAt: "desc",
+      },
+      {
+        id: "asc",
+      },
+    ],
     where: {
       articleId,
     },
@@ -17,6 +39,7 @@ export async function DBGetComments({ articleId }: DBGetCommentsParams) {
       author: true,
     },
   });
+  return { comments, hasMore: comments.length === pageSize };
 }
 
 export interface DBCreateCommentParams {

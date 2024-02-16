@@ -11,7 +11,7 @@ export function Comment({ content, footer, contentClassName }: CommentProps) {
     <div className="my-4 overflow-hidden rounded border border-borderprimary">
       <div
         className={clsx(
-          "whitespace-pre border-b border-borderprimary bg-surfaceprimary text-onsurfaceprimary ",
+          "whitespace-pre-wrap border-b border-borderprimary bg-surfaceprimary text-onsurfaceprimary ",
           contentClassName,
         )}
       >

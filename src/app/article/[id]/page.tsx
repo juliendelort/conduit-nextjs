@@ -12,8 +12,9 @@ import Markdown from "react-markdown";
 import { AddCommentForm } from "./AddCommentForm";
 import { ErrorBoundary } from "@/app/_components/ErrorBoundary";
 import { Suspense } from "react";
-import { CommentsList } from "./CommentsList";
+import { CommentsSection } from "./CommentsSection";
 import { z } from "zod";
+import { useServerPageUrl } from "@/app/_hooks/useServerPageUrl";
 
 const urlParamsSchema = z.object({
   id: z.coerce.number(),
@@ -22,6 +23,7 @@ const urlParamsSchema = z.object({
 export default async function Page({ params }: { params: { id: string } }) {
   const session = await getSession(cookies());
   const result = urlParamsSchema.safeParse(params);
+  const currentUrl = useServerPageUrl();
 
   if (!result.success) {
     return <ErrorMessage className="text-center">Invalid URL</ErrorMessage>;
@@ -110,17 +112,38 @@ export default async function Page({ params }: { params: { id: string } }) {
 
         <hr />
         <div className="mx-auto max-w-5xl">
-          {!!session.user && (
+          {!!session.user ? (
             <AddCommentForm
               articleId={id}
               currentUserImage={session.user.image ?? DEFAULT_USER_IMAGE_URL}
             />
+          ) : (
+            <div className="mt-4 text-center">
+              <Link
+                href={`/signin?redirecturl=${currentUrl}`}
+                className="text-brand hover:underline"
+              >
+                Sign in
+              </Link>{" "}
+              or{" "}
+              <Link
+                href={`/signup?redirecturl=${currentUrl}`}
+                className="text-brand hover:underline"
+              >
+                Sign up
+              </Link>{" "}
+              to add comments
+            </div>
           )}
           <ErrorBoundary
-            fallback={<ErrorMessage>Failed to load comments</ErrorMessage>}
+            fallback={
+              <ErrorMessage className="text-center">
+                Failed to load comments
+              </ErrorMessage>
+            }
           >
             <Suspense fallback={<div>Loading comments...</div>}>
-              <CommentsList articleId={id} />
+              <CommentsSection articleId={id} />
             </Suspense>
           </ErrorBoundary>
         </div>

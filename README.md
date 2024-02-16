@@ -22,7 +22,7 @@ DATABASE_URL=<db_url>
 Intialize the database:
 
 ```bash
-npm run db:migrate:dev
+npm run db:deploy
 ```
 
 Optionally, you can seed the database with some initial data:
