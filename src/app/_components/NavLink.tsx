@@ -1,8 +1,8 @@
 "use client";
 
-import clsx from "clsx";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { classMerge } from '../classMerge';
 
 export interface NavLinkProps extends React.ComponentProps<typeof Link> {
   href: string;
@@ -24,7 +24,7 @@ export function NavLink({
 
   return (
     <Link
-      className={clsx(
+      className={classMerge(
         isActive ? "text-onsurfaceprimary" : "text-onsurfaceprimaryhighest",
         "whitespace-nowrap hover:text-onsurfaceprimary",
         className,

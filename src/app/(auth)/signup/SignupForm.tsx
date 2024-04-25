@@ -1,11 +1,11 @@
 "use client";
 
+import { inputClasses } from "@/app/_components/Input";
+import { classMerge } from '@/app/classMerge';
 import { signupAction } from "@/server/actions/auth";
 import { useState, useTransition } from "react";
-import { SubmitButton } from "../../_components/SubmitButton";
-import { inputClasses } from "@/app/_components/Input";
 import { ErrorMessage } from "../../_components/ErrorMessage";
-import clsx from "clsx";
+import { SubmitButton } from "../../_components/SubmitButton";
 
 export interface SignupFormProps {}
 
@@ -53,7 +53,7 @@ export function SignupForm({}: SignupFormProps) {
           placeholder="Username"
           required
           minLength={3}
-          className={clsx(inputClasses, "mb-4")}
+          className={classMerge(inputClasses, "mb-4")}
         />
         <input
           type="email"
@@ -61,7 +61,7 @@ export function SignupForm({}: SignupFormProps) {
           aria-label="Email"
           placeholder="Email"
           required
-          className={clsx(inputClasses, "mb-4")}
+          className={classMerge(inputClasses, "mb-4")}
           autoComplete="username"
         />
         <input
@@ -71,7 +71,7 @@ export function SignupForm({}: SignupFormProps) {
           placeholder="Password"
           required
           minLength={8}
-          className={clsx(inputClasses, "mb-4")}
+          className={classMerge(inputClasses, "mb-4")}
           autoComplete="new-password"
         />
         <input
@@ -81,7 +81,7 @@ export function SignupForm({}: SignupFormProps) {
           placeholder="Repeat Password"
           required
           minLength={8}
-          className={clsx(inputClasses, "mb-4")}
+          className={classMerge(inputClasses, "mb-4")}
           autoComplete="new-password"
         />
         <SubmitButton text="Sign up" isPending={isPending} />

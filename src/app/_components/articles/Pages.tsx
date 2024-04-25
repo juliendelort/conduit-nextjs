@@ -1,5 +1,5 @@
 import { useServerPageUrl } from "@/app/_hooks/useServerPageUrl";
-import clsx from "clsx";
+import { classMerge } from '@/app/classMerge';
 import Link from "next/link";
 
 export interface PagesProps {
@@ -23,7 +23,7 @@ export function Pages({ currentPage, pagesCount }: PagesProps) {
             <li className="group" key={`page-${page}`}>
               <Link
                 href={getPageUrl(page)}
-                className={clsx(
+                className={classMerge(
                   "block border-y border-l border-borderprimary px-3 py-2 hover:bg-surfacehover group-first-of-type:rounded-s group-last-of-type:rounded-r group-last-of-type:border-r",
                   currentPage === page ? "bg-brand text-onbrand" : "text-brand",
                 )}

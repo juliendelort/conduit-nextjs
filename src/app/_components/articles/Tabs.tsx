@@ -1,4 +1,4 @@
-import clsx from 'clsx';
+import { classMerge } from '@/app/classMerge';
 import Link from 'next/link';
 
 interface Tab {
@@ -26,7 +26,7 @@ export function Tabs({ tabs }: { tabs: Tab[] }) {
 
 function Tab({ isActive, href, children }: { isActive: boolean, href: string, children: React.ReactNode }) {
   return <Link
-    className={clsx(
+    className={classMerge(
       "block whitespace-nowrap p-2",
       isActive
         ? "border-b-2 border-brand text-brand"

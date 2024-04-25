@@ -1,9 +1,9 @@
 "use client";
 
-import type { CommentRecord} from "@/server/data/comments";
+import { classMerge } from '@/app/classMerge';
+import type { CommentRecord } from "@/server/data/comments";
 import { DBGetComments } from "@/server/data/comments";
 import { DEFAULT_USER_IMAGE_URL } from "@/server/utils/const";
-import clsx from "clsx";
 import { DateTime } from "luxon";
 import Image from "next/image";
 import Link from "next/link";
@@ -79,7 +79,7 @@ export function CommentsList({
       ))}
       {hasMore && (
         <button
-          className={clsx(
+          className={classMerge(
             "mx-auto block text-brand",
             isPending && "opacity-50",
           )}

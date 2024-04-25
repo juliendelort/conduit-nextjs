@@ -4,8 +4,8 @@ import { AutoGrowingTextArea } from "@/app/_components/AutoGrowingTextArea";
 import { ErrorMessage } from "@/app/_components/ErrorMessage";
 import { inputClasses } from "@/app/_components/Input";
 import { SubmitButton } from "@/app/_components/SubmitButton";
+import { classMerge } from '@/app/classMerge';
 import { createArticle } from "@/server/actions/articles";
-import clsx from "clsx";
 import { useState, useTransition } from "react";
 import Markdown from "react-markdown";
 
@@ -51,7 +51,7 @@ export function CreateArticleForm({}: CreateArticleFormProps) {
             {isPreview ? "Edit" : "Preview"}
           </button>
           <Markdown
-            className={clsx(
+            className={classMerge(
               "prose dark:prose-invert prose-pre:whitespace-break-spaces prose-pre:break-all w-full max-w-none rounded  bg-surfacesecondary p-4",
               !isPreview && "hidden",
             )}
@@ -65,7 +65,7 @@ export function CreateArticleForm({}: CreateArticleFormProps) {
             onChange={(e) => setBody(e.target.value)}
             value={body}
             required
-            containerClassName={clsx(isPreview && "hidden")}
+            containerClassName={classMerge(isPreview && "hidden")}
             inputClassName={inputClasses}
           />
         </div>

@@ -1,9 +1,9 @@
 import { getSession } from "@/server/utils/session";
-import clsx from "clsx";
 import { cookies } from "next/headers";
 import { Suspense } from "react";
 import { ErrorBoundary } from "../_components/ErrorBoundary";
 import { ErrorMessage } from "../_components/ErrorMessage";
+import { classMerge } from '../classMerge';
 import { titillium_web } from "../fonts";
 import { MainTabs } from './_components/MainTabs';
 import { TagsList } from "./_components/TagsList";
@@ -18,12 +18,12 @@ export default async function MainPageLayout({
   return (
     <>
       <header
-        className={clsx("bg-brand py-8 text-center text-onbrand shadow-inner", {
+        className={classMerge("bg-brand py-8 text-center text-onbrand shadow-inner", {
           hidden: !!session.user,
         })}
       >
         <h1
-          className={clsx(
+          className={classMerge(
             titillium_web.className,
             "mb-4 text-5xl drop-shadow-md",
           )}

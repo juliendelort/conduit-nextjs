@@ -3,8 +3,8 @@
 import { signoutAction } from "@/server/actions/auth";
 import { useTransition } from "react";
 import { toast } from "sonner";
+import { classMerge } from '../classMerge';
 import { Icon } from "./Icon";
-import clsx from "clsx";
 
 export function LogoutButton() {
   const [isPending, startTransition] = useTransition();
@@ -21,7 +21,7 @@ export function LogoutButton() {
         });
       }}
       aria-label="Logout"
-      className={clsx("flex", isPending && "opacity-50")}
+      className={classMerge("flex", isPending && "opacity-50")}
       {...(isPending && { "aria-disabled": true })}
       title="Logout"
     >

@@ -23,8 +23,14 @@
       "error",
       {
         "paths": [
-          // "tailwind-merge",
-          // "clsx",
+          {
+            "name": "tailwind-merge",
+            "message": "Use the classMerge() utility function instead."
+          },
+          {
+            "name": "clsx",
+            "message": "Use the classMerge() utility function instead."
+          },
           {
             "name": "date-fns",
             "message": "Please import functions from date-fns directly. eg: date-fns/subDays"

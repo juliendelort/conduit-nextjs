@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { classMerge } from '@/app/classMerge';
 
 export interface CommentProps {
   content: React.ReactNode;
@@ -10,7 +10,7 @@ export function Comment({ content, footer, contentClassName }: CommentProps) {
   return (
     <div className="my-4 overflow-hidden rounded border border-borderprimary">
       <div
-        className={clsx(
+        className={classMerge(
           "whitespace-pre-wrap border-b border-borderprimary bg-surfaceprimary text-onsurfaceprimary ",
           contentClassName,
         )}

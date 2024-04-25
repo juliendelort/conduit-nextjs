@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { classMerge } from '../classMerge';
 
 export interface SubmitButtonProps {
   text: string;
@@ -9,7 +9,7 @@ export function SubmitButton({ text, isPending }: SubmitButtonProps) {
   return (
     <button
       type="submit"
-      className={clsx(
+      className={classMerge(
         "hover:bg-brandhover ml-auto block rounded bg-brand px-6 py-3 text-right text-xl text-onbrand transition-colors",
         isPending && "opacity-50",
       )}

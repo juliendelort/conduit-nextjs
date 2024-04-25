@@ -1,7 +1,7 @@
 "use client";
 
-import clsx from "clsx";
 import { useState } from "react";
+import { classMerge } from '../classMerge';
 
 export interface AutoGrowingTextAreaProps
   extends Omit<React.ComponentProps<"textarea">, "className"> {
@@ -16,12 +16,12 @@ export function AutoGrowingTextArea(props: AutoGrowingTextAreaProps) {
 
   return (
     <div
-      className={clsx("grid", containerClassName)}
+      className={classMerge("grid", containerClassName)}
       data-replicated-value={value}
     >
       <textarea
         {...rest}
-        className={clsx(
+        className={classMerge(
           inputClassName,
           "col-start-1 col-end-2 row-start-1 row-end-2 resize-none overflow-hidden whitespace-break-spaces break-all",
         )}
@@ -34,7 +34,7 @@ export function AutoGrowingTextArea(props: AutoGrowingTextAreaProps) {
         }}
       />
       <div
-        className={clsx(
+        className={classMerge(
           inputClassName,
           "pointer-events-none invisible col-start-1 col-end-2 row-start-1 row-end-2 whitespace-break-spaces break-all",
         )}

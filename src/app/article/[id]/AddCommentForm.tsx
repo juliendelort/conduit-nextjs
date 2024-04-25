@@ -1,13 +1,13 @@
 "use client";
 
+import { AutoGrowingTextArea } from "@/app/_components/AutoGrowingTextArea";
 import { ErrorMessage } from "@/app/_components/ErrorMessage";
+import { classMerge } from '@/app/classMerge';
 import { createComment } from "@/server/actions/comments";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useRef, useState, useTransition } from "react";
 import { Comment } from "./Comment";
-import { AutoGrowingTextArea } from "@/app/_components/AutoGrowingTextArea";
-import Image from "next/image";
-import clsx from "clsx";
 
 export interface AddCommentFormProps {
   articleId: number;
@@ -43,7 +43,7 @@ export function AddCommentForm({
           <AutoGrowingTextArea
             name="text"
             placeholder="Write a comment..."
-            inputClassName="p-4 bg-surfaceprimary text-onsurfaceprimary placeholder:text-onsurfaceprimaryhighest"
+            inputClassName="bg-surfaceprimary p-4 text-onsurfaceprimary placeholder:text-onsurfaceprimaryhighest"
           />
         }
         footer={
@@ -59,7 +59,7 @@ export function AddCommentForm({
             <button
               type="submit"
               {...(isPending && { "aria-disabled": isPending })}
-              className={clsx(
+              className={classMerge(
                 "block rounded bg-brand px-2 py-1 text-sm font-bold text-onbrand transition-colors hover:bg-brandhover",
                 isPending && "opacity-50",
               )}

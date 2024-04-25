@@ -1,7 +1,6 @@
 import { getCurrentTheme } from "@/server/actions/theme";
 import { DEFAULT_USER_IMAGE_URL } from "@/server/utils/const";
 import { getSession } from "@/server/utils/session";
-import clsx from "clsx";
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import Link from "next/link";
@@ -12,6 +11,7 @@ import { ToastRoot } from "./_components/ToastRoot";
 import { sourceSans, titillium_web } from "./fonts";
 import "./globals.css";
 import { PreloadResources } from "./preload-resources";
+import { classMerge } from './classMerge';
 
 export const metadata: Metadata = {
   title: "Conduit",
@@ -27,7 +27,7 @@ export default async function RootLayout({
   return (
     <html lang="en" data-theme={currentTheme}>
       <body
-        className={clsx(
+        className={classMerge(
           sourceSans.className,
           "grid min-h-svh grid-rows-[auto_1fr_auto] gap-4 bg-surfaceprimary text-onsurfaceprimary",
         )}

@@ -1,12 +1,12 @@
 "use client";
-import { toggleFavoriteArticle } from "@/server/actions/articles";
-import clsx from "clsx";
-import Link from "next/link";
-import { useOptimistic } from "react";
 import { Icon } from "@/app/_components/Icon";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
 import { useClientPageUrl } from "@/app/_hooks/useClientPageUrl";
+import { classMerge } from '@/app/classMerge';
+import { toggleFavoriteArticle } from "@/server/actions/articles";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useOptimistic } from "react";
+import { toast } from "sonner";
 
 export interface FavoriteButtonProps {
   favoritesCount: number;
@@ -54,7 +54,7 @@ export function FavoriteButton({
   const favorited = optimisticData.favorited;
   const count = optimisticData.favoritesCount;
 
-  const containerClassName = clsx(
+  const containerClassName = classMerge(
     "flex items-center gap-1 rounded border border-brand p-1 text-sm",
     favorited
       ? "bg-brand text-onbrand hover:bg-transparent hover:text-brand"

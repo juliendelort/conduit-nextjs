@@ -2,8 +2,8 @@
 
 import { Icon } from "@/app/_components/Icon";
 import { useClientPageUrl } from "@/app/_hooks/useClientPageUrl";
+import { classMerge } from '@/app/classMerge';
 import { toggleFollowUser } from "@/server/actions/profiles";
-import clsx from "clsx";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useOptimistic } from "react";
@@ -58,7 +58,7 @@ export function FollowButton({
     </>
   );
 
-  const containerClassName = clsx(
+  const containerClassName = classMerge(
     "flex items-center rounded border px-2 py-1 text-sm",
     optimisticData.isFollowing
       ? activeContainerClassName
@@ -78,7 +78,7 @@ export function FollowButton({
   ) : (
     <Link
       href={`/signin?redirecturl=${url}`}
-      className={clsx(containerClassName, className)}
+      className={classMerge(containerClassName, className)}
     >
       {content}
     </Link>

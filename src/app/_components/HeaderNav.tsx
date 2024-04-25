@@ -1,12 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import Image from "next/image";
+import React, { useState } from "react";
 import { Icon } from "./Icon";
 import { LogoutButton } from "./LogoutButton";
 import { NavLink } from "./NavLink";
-import clsx from "clsx";
-import React from "react";
-import Image from "next/image";
+import { classMerge } from '../classMerge';
 
 export interface HeaderNavProps {
   user?: {
@@ -38,7 +37,7 @@ export function HeaderNav({ user }: HeaderNavProps) {
       </button>
       <ul
         id="menu"
-        className={clsx(
+        className={classMerge(
           "flex-wrap items-stretch gap-4",
           menuOpen ? "flex justify-center" : "hidden",
           "sm:flex sm:justify-end",

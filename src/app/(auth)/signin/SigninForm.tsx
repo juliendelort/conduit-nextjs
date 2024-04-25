@@ -1,12 +1,12 @@
 "use client";
 
+import { inputClasses } from "@/app/_components/Input";
+import { classMerge } from '@/app/classMerge';
 import { loginAction } from "@/server/actions/auth";
 import { useEffect, useState, useTransition } from "react";
-import { SubmitButton } from "../../_components/SubmitButton";
-import { inputClasses } from "@/app/_components/Input";
-import { ErrorMessage } from "../../_components/ErrorMessage";
 import { toast } from "sonner";
-import clsx from "clsx";
+import { ErrorMessage } from "../../_components/ErrorMessage";
+import { SubmitButton } from "../../_components/SubmitButton";
 
 export interface SigninFormProps {
   redirecturl?: string;
@@ -54,7 +54,7 @@ export function SigninForm({ redirecturl }: SigninFormProps) {
           aria-label="Email"
           placeholder="Email"
           required
-          className={clsx(inputClasses, "mb-4")}
+          className={classMerge(inputClasses, "mb-4")}
           autoComplete="username"
         />
         <input
@@ -63,7 +63,7 @@ export function SigninForm({ redirecturl }: SigninFormProps) {
           aria-label="Password"
           placeholder="Password"
           required
-          className={clsx(inputClasses, "mb-4")}
+          className={classMerge(inputClasses, "mb-4")}
           autoComplete="current-password"
         />
         <SubmitButton text="Sign in" isPending={isPending} />
