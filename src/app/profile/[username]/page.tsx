@@ -17,18 +17,6 @@ export default async function Page({
     <ArticlesContainer
       page={page}
       author={params.username}
-      sections={[
-        {
-          title: "My Articles",
-          href: `/profile/${params.username}`,
-          isActive: true,
-        },
-        {
-          title: "Favorited Articles",
-          href: `/profile/${params.username}/favorited`,
-          isActive: false,
-        },
-      ]}
     />
   );
 }
