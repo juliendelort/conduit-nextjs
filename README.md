@@ -13,7 +13,7 @@ This is a work in progress. Expect bugs.
 Clone the repo, run `npm install` and create a local `.env` file at the root of the repo with the following environment variables:
 
 ```
-# A ramdom string used to encrypt the session cookie
+# A ramdom string used to encrypt the session cookie (min 32 characters)
 SESSION_PWD=<random_string>
 # A postgres database url
 DATABASE_URL=<db_url>

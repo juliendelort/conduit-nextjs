@@ -1,11 +1,9 @@
-import { cookies } from "next/headers";
-import { getSession } from "@/server/utils/session";
 import { z } from "zod";
+import { ErrorMessage } from "../_components/ErrorMessage";
 import {
   ArticlesContainer,
   ArticlesContainerProps,
 } from "../_components/articles/ArticlesContainer";
-import { ErrorMessage } from "../_components/ErrorMessage";
 
 const pageSearchParamsSchema = z.object({
   page: z.coerce.number().optional().default(1),
@@ -17,7 +15,6 @@ export default async function Home({
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  const session = await getSession(cookies());
   const result = pageSearchParamsSchema.safeParse(searchParams);
 
   if (!result.success) {
@@ -29,31 +26,6 @@ export default async function Home({
   const props: ArticlesContainerProps = {
     page,
     tag,
-    sections: [
-      ...(session.user
-        ? [
-            {
-              title: `Your feed`,
-              href: `/feed`,
-              isActive: false,
-            },
-          ]
-        : []),
-      {
-        title: "Global Feed",
-        href: "/",
-        isActive: !tag,
-      },
-      ...(tag
-        ? [
-            {
-              title: `#${tag}`,
-              href: `/?tag=${tag}`,
-              isActive: true,
-            },
-          ]
-        : []),
-    ],
   };
 
   return <ArticlesContainer {...props} />;

@@ -1,5 +1,5 @@
-import { FollowButton } from "@/app/_components/articles/FollowButton";
 import { ErrorMessage } from "@/app/_components/ErrorMessage";
+import { FollowButton } from "@/app/_components/articles/FollowButton";
 import { DBGetUser } from "@/server/data/users";
 import { DEFAULT_USER_IMAGE_URL } from "@/server/utils/const";
 import { getSession } from "@/server/utils/session";
@@ -10,9 +10,11 @@ import { ReactNode } from "react";
 export default async function Layout({
   params,
   children,
+  tabs
 }: {
   params: { username: string };
   children: ReactNode;
+  tabs: ReactNode;
 }) {
   const session = await getSession(cookies());
   const user = await DBGetUser({
@@ -48,13 +50,13 @@ export default async function Layout({
               userId={user.id}
               username={user.username}
               className="self-end"
-              activeContainerClassName="bg-surfacetertiary text-onsurfacetertiary hover:text-onsurfaceprimaryhigh hover:text-onsurfacesecondary hover:border-onsurfacesecondary hover:bg-transparent"
-              inactiveContainerClassName="text-onsurfacesecondary border-onsurfacesecondary hover:bg-surfacetertiary hover:text-onsurfacetertiary"
+              activeContainerClassName="bg-surfacetertiary text-onsurfacetertiary hover:border-onsurfacesecondary hover:bg-transparent hover:text-onsurfaceprimaryhigh hover:text-onsurfacesecondary"
+              inactiveContainerClassName="border-onsurfacesecondary text-onsurfacesecondary hover:bg-surfacetertiary hover:text-onsurfacetertiary"
             />
           )}
         </div>
       </header>
-      <main className="container mx-auto mt-16 max-w-5xl">{children}</main>
+      <main className="container mx-auto mt-16 max-w-5xl">{tabs}{children}</main>
     </>
   );
 }

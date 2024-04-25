@@ -1,12 +1,11 @@
 "use server";
 
-import { z } from "zod";
-import { handleActionError, validateFormData } from "./utils";
-import { getSession, setAuthUser } from "../utils/session";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { setFlashMessage } from "../utils/flash";
+import { z } from "zod";
 import { DBFollowUser, DBUnfollowUser, DBUpdateUser } from "../data/users";
+import { getSession, setAuthUser } from "../utils/session";
+import { handleActionError, validateFormData } from "./utils";
 
 const toggleFollowUserSchema = z.object({
   userId: z.coerce.number(),
@@ -38,7 +37,7 @@ const updateProfileActionSchema = z.object({
   password: z.string().min(8).or(z.literal("")),
   username: z.string().min(3),
   bio: z.string().optional(),
-  image: z.string().url(),
+  image: z.string().url().or(z.literal("")),
 });
 
 export const updateProfileAction = async (formData: FormData) => {
