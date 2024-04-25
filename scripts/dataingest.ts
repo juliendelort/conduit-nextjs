@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { faker } from "@faker-js/faker";
 import type { Prisma } from "@prisma/client";
-import prisma from "../server/lib/prisma";
-import { hashPassword } from "../server/utils/auth";
+import prisma from "../src/server/lib/prisma";
+import { hashPassword } from "../src/server/utils/auth";
 
 // Run this using `npx ts-node src/scripts/dataingest.ts`
 
@@ -176,4 +176,5 @@ async function main() {
   ]);
 }
 
+// @ts-ignore
 await main();
