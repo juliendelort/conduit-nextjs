@@ -5,7 +5,7 @@ import { DEFAULT_USER_IMAGE_URL } from "@/server/utils/const";
 import { getSession } from "@/server/utils/session";
 import { cookies } from "next/headers";
 import Image from "next/image";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 
 export default async function Layout({
   params,

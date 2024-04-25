@@ -1,5 +1,4 @@
 import clsx from "clsx";
-import { useFormStatus } from "react-dom";
 
 export interface SubmitButtonProps {
   text: string;

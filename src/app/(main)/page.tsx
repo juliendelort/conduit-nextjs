@@ -1,8 +1,10 @@
 import { z } from "zod";
 import { ErrorMessage } from "../_components/ErrorMessage";
+import type {
+  ArticlesContainerProps
+} from "../_components/articles/ArticlesContainer";
 import {
-  ArticlesContainer,
-  ArticlesContainerProps,
+  ArticlesContainer
 } from "../_components/articles/ArticlesContainer";
 
 const pageSearchParamsSchema = z.object({

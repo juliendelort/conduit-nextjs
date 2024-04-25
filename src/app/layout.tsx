@@ -1,17 +1,17 @@
+import { getCurrentTheme } from "@/server/actions/theme";
+import { DEFAULT_USER_IMAGE_URL } from "@/server/utils/const";
 import { getSession } from "@/server/utils/session";
 import clsx from "clsx";
+import type { Metadata } from "next";
 import { cookies } from "next/headers";
+import Link from "next/link";
 import { FlashMessage } from "./_components/FlashMessage";
+import { HeaderNav } from "./_components/HeaderNav";
+import { ThemeSwitcher } from "./_components/ThemeSwitcher";
 import { ToastRoot } from "./_components/ToastRoot";
 import { sourceSans, titillium_web } from "./fonts";
 import "./globals.css";
-import { ThemeSwitcher } from "./_components/ThemeSwitcher";
-import { getCurrentTheme } from "@/server/actions/theme";
 import { PreloadResources } from "./preload-resources";
-import Link from "next/link";
-import { HeaderNav } from "./_components/HeaderNav";
-import { DEFAULT_USER_IMAGE_URL } from "@/server/utils/const";
-import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Conduit",
@@ -48,9 +48,9 @@ export default async function RootLayout({
               user={
                 session.user
                   ? {
-                      username: session.user?.username,
-                      image: session.user.image ?? DEFAULT_USER_IMAGE_URL,
-                    }
+                    username: session.user?.username,
+                    image: session.user.image ?? DEFAULT_USER_IMAGE_URL,
+                  }
                   : undefined
               }
             />

@@ -1,0 +1,47 @@
+{
+  "extends": [
+    "next/core-web-vitals"
+  ],
+  "plugins": [
+    "@typescript-eslint",
+    "no-floating-promise",
+    "tailwindcss",
+    "unused-imports"
+  ],
+  "rules": {
+    "@typescript-eslint/consistent-type-imports": "error",
+    "@typescript-eslint/prefer-nullish-coalescing": "off",
+    "curly": [
+      "error",
+      "multi-line"
+    ],
+    "eqeqeq": "error",
+    "no-console": "error",
+    "no-floating-promise/no-floating-promise": "error",
+    "no-nested-ternary": "error",
+    "no-restricted-imports": [
+      "error",
+      {
+        "paths": [
+          // "tailwind-merge",
+          // "clsx",
+          {
+            "name": "date-fns",
+            "message": "Please import functions from date-fns directly. eg: date-fns/subDays"
+          }
+        ]
+      }
+    ],
+    "no-throw-literal": "error",
+    "no-unreachable": "error",
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_"
+      }
+    ],
+    "react-hooks/exhaustive-deps": "error",
+    "unused-imports/no-unused-imports": "error"
+  }
+}

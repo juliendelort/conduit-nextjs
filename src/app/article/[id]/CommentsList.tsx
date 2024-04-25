@@ -1,14 +1,15 @@
 "use client";
 
-import { CommentRecord, DBGetComments } from "@/server/data/comments";
+import type { CommentRecord} from "@/server/data/comments";
+import { DBGetComments } from "@/server/data/comments";
 import { DEFAULT_USER_IMAGE_URL } from "@/server/utils/const";
 import clsx from "clsx";
 import { DateTime } from "luxon";
+import Image from "next/image";
 import Link from "next/link";
 import { useState, useTransition } from "react";
-import { DeleteCommentForm } from "./DeleteCommentForm";
 import { Comment } from "./Comment";
-import Image from "next/image";
+import { DeleteCommentForm } from "./DeleteCommentForm";
 
 export interface CommentsListProps {
   firstCommentsPage: CommentRecord[];
@@ -35,7 +36,7 @@ export function CommentsList({
     startTransition(async () => {
       const { comments: newComments, hasMore } = await DBGetComments({
         articleId,
-        fromId: lastComment.id,
+        fromId: lastComment?.id,
       });
       setHasMore(hasMore);
       setAdditionalComments([...additionalComments, ...newComments]);

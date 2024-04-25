@@ -1,5 +1,5 @@
 import { cookies } from "next/headers";
-import { ToastT, toast } from "sonner";
+import type { ToastT, toast } from "sonner";
 
 const FLASH_COOKIE_NAME = "flash";
 

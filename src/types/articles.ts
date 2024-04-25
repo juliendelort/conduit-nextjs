@@ -1,4 +1,4 @@
-import { SafeUser } from "./auth";
+import type { SafeUser } from "./auth";
 
 export interface Article {
   id: number;

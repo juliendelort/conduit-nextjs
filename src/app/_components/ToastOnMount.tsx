@@ -1,8 +1,8 @@
 "use client";
 
-import { FlashType } from "@/server/utils/flash";
+import type { FlashType } from "@/server/utils/flash";
 import { useEffect, useRef } from "react";
-import { ToastT, toast } from "sonner";
+import { toast } from "sonner";
 
 export interface ToastOnMountProps {
   text: string;
@@ -21,7 +21,7 @@ export function ToastOnMount({ text, type }: ToastOnMountProps) {
       toast[type](text, { duration: 2000 });
     }
     shownOnceRef.current = true;
-  }, [text]);
+  }, [text, type]);
 
   return null;
 }

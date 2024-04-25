@@ -1,12 +1,9 @@
 "use client";
 
 import { ErrorMessage } from "@/app/_components/ErrorMessage";
-import { createComment, deleteComment } from "@/server/actions/comments";
+import { deleteComment } from "@/server/actions/comments";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
-import { Comment } from "./Comment";
-import { AutoGrowingTextArea } from "@/app/_components/AutoGrowingTextArea";
-import Image from "next/image";
 import clsx from "clsx";
 import { Icon } from "@/app/_components/Icon";
 

@@ -4,7 +4,7 @@ import { ErrorMessage } from "@/app/_components/ErrorMessage";
 import { inputClasses } from "@/app/_components/Input";
 import { SubmitButton } from "@/app/_components/SubmitButton";
 import { updateProfileAction } from "@/server/actions/profiles";
-import { SafeUser } from "@/types/auth";
+import type { SafeUser } from "@/types/auth";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
 

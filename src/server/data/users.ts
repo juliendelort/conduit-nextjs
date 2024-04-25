@@ -1,9 +1,9 @@
 "server only";
 
-import { Prisma } from "@prisma/client";
-import prisma from "../lib/prisma";
-import { experimental_taintUniqueValue as taintUniqueValue } from "react";
 import { SafeMessageError } from "@/types/errors";
+import { Prisma } from "@prisma/client";
+import { experimental_taintUniqueValue as taintUniqueValue } from "react";
+import prisma from "../lib/prisma";
 import { comparePassword, hashPassword } from "../utils/auth";
 
 //////////////////////////////////////////////////////////////
@@ -194,15 +194,15 @@ export async function DBGetUser({ username, currentUserId }: DBGetUserParams) {
 
   return user
     ? filterUserFields({
-        ...user,
-        ...(!!currentUserId && {
-          following: (user as any)._count.followedBy > 0,
-        }),
-      })
+      ...user,
+      ...(!!currentUserId && {
+        following: (user as any)._count.followedBy > 0,
+      }),
+    })
     : null;
 }
 
 function filterUserFields<T extends { encryptedPassword: string }>(user: T) {
-  const { encryptedPassword, ...restUser } = user;
+  const { encryptedPassword: _, ...restUser } = user;
   return restUser;
 }

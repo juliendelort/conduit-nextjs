@@ -1,7 +1,8 @@
-import { IronSession, getIronSession } from "iron-session";
-import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
+import type { IronSession} from "iron-session";
+import { getIronSession } from "iron-session";
+import type { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
 import { getEnv } from "./env";
-import { SafeUser } from "@/types/auth";
+import type { SafeUser } from "@/types/auth";
 
 export interface SessionData {
   user?: SafeUser;

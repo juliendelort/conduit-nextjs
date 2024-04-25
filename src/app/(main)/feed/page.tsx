@@ -1,8 +1,9 @@
 import { useProtectedRoute } from "@/app/_hooks/useProtectedRoute";
 import { z } from "zod";
+import type {
+  ArticlesContainerProps} from "../../_components/articles/ArticlesContainer";
 import {
-  ArticlesContainer,
-  ArticlesContainerProps,
+  ArticlesContainer
 } from "../../_components/articles/ArticlesContainer";
 
 const pageSearchParamsSchema = z.object({

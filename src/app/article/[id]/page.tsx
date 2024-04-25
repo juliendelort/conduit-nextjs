@@ -1,6 +1,8 @@
+import { ErrorBoundary } from "@/app/_components/ErrorBoundary";
+import { ErrorMessage } from "@/app/_components/ErrorMessage";
 import { FavoriteButton } from "@/app/_components/articles/FavoriteButton";
 import { FollowButton } from "@/app/_components/articles/FollowButton";
-import { ErrorMessage } from "@/app/_components/ErrorMessage";
+import { useServerPageUrl } from "@/app/_hooks/useServerPageUrl";
 import { DBFetchArticle } from "@/server/data/articles";
 import { DEFAULT_USER_IMAGE_URL } from "@/server/utils/const";
 import { getSession } from "@/server/utils/session";
@@ -8,13 +10,11 @@ import { DateTime } from "luxon";
 import { cookies } from "next/headers";
 import Image from "next/image";
 import Link from "next/link";
-import Markdown from "react-markdown";
-import { AddCommentForm } from "./AddCommentForm";
-import { ErrorBoundary } from "@/app/_components/ErrorBoundary";
 import { Suspense } from "react";
-import { CommentsSection } from "./CommentsSection";
+import Markdown from "react-markdown";
 import { z } from "zod";
-import { useServerPageUrl } from "@/app/_hooks/useServerPageUrl";
+import { AddCommentForm } from "./AddCommentForm";
+import { CommentsSection } from "./CommentsSection";
 
 const urlParamsSchema = z.object({
   id: z.coerce.number(),
@@ -86,8 +86,8 @@ export default async function Page({ params }: { params: { id: string } }) {
                   isAuthenticated={!!session.user}
                   userId={article.author.id}
                   username={article.author.username}
-                  activeContainerClassName="bg-onsurfaceinvertedhigh text-surfaceinverted hover:text-onsurfaceinvertedhigh hover:border-onsurfaceinvertedhigh hover:bg-transparent"
-                  inactiveContainerClassName="text-onsurfaceinvertedhigh border-onsurfaceinvertedhigh hover:bg-onsurfaceinvertedhigh hover:text-surfaceinverted"
+                  activeContainerClassName="bg-onsurfaceinvertedhigh text-surfaceinverted hover:border-onsurfaceinvertedhigh hover:bg-transparent hover:text-onsurfaceinvertedhigh"
+                  inactiveContainerClassName="border-onsurfaceinvertedhigh text-onsurfaceinvertedhigh hover:bg-onsurfaceinvertedhigh hover:text-surfaceinverted"
                 />
               )}
             </div>
@@ -96,7 +96,7 @@ export default async function Page({ params }: { params: { id: string } }) {
       </header>
       <main className="container mx-auto">
         <div className="mt-4 flex gap-1">
-          {article.tagList.map((t, index) => (
+          {article.tagList.map((t) => (
             <Link
               key={t.name}
               href={`/?tag=${t.name}`}
@@ -106,7 +106,7 @@ export default async function Page({ params }: { params: { id: string } }) {
             </Link>
           ))}
         </div>
-        <Markdown className="prose dark:prose-invert dark:prose-pre:bg-surfacesecondary prose-pre:whitespace-break-spaces	 prose-pre:break-all mb-8 mt-8 max-w-none text-lg text-onsurfaceprimary	">
+        <Markdown className="prose mb-8 mt-8 max-w-none text-lg text-onsurfaceprimary dark:prose-invert prose-pre:whitespace-break-spaces prose-pre:break-all dark:prose-pre:bg-surfacesecondary">
           {article.body}
         </Markdown>
 

@@ -11,7 +11,7 @@ export function Tabs({ tabs }: { tabs: Tab[] }) {
   return <nav className="mb-4 border-b border-borderprimary">
     <ul className="flex flex-wrap gap-x-2 gap-y-0">
       {tabs.map((tab) => (
-        <li>
+        <li key={tab.title}>
           <Tab
             href={tab.href}
             isActive={tab.isActive}

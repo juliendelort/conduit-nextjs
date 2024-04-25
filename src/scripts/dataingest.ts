@@ -1,7 +1,8 @@
-import { Prisma } from "@prisma/client";
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { faker } from "@faker-js/faker";
-import { hashPassword } from "../server/utils/auth";
+import type { Prisma } from "@prisma/client";
 import prisma from "../server/lib/prisma";
+import { hashPassword } from "../server/utils/auth";
 
 // Run this using `npx ts-node src/scripts/dataingest.ts`
 
@@ -12,12 +13,12 @@ async function createUsers() {
     faker.internet.userName,
     USERS_COUNT,
   );
-  const users: Prisma.UserCreateManyInput[] = await Promise.all(
+  const users = await Promise.all(
     emails.map(async (email, index) => {
       const password = faker.internet.password();
       return {
         email: email,
-        username: usernames[index],
+        username: usernames[index]!,
         encryptedPassword: await hashPassword(password),
         bio: faker.person.bio() + `.\n Password for testing: ${password}`,
         image: faker.image.avatar(),
@@ -41,7 +42,7 @@ async function createArticles(
     [...Array(100).fill(0)].map(generateMarkdown),
   );
 
-  const articles = [...Array(300).fill(0)].map((i) => {
+  const articles = [...Array(300).fill(0)].map(() => {
     return {
       title: faker.lorem.sentence(),
       description: faker.lorem.paragraph(),
@@ -66,7 +67,7 @@ async function createArticles(
       },
       comments: {
         create: [...Array(faker.number.int({ min: 0, max: 100 })).fill(0)].map(
-          (c) => ({
+          () => ({
             author: {
               connect: { username: faker.helpers.arrayElement(users).username },
             },
@@ -175,4 +176,4 @@ async function main() {
   ]);
 }
 
-main();
+await main();

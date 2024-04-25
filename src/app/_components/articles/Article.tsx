@@ -1,9 +1,9 @@
-import { FavoriteButton } from "./FavoriteButton";
-import Link from "next/link";
+import type { DBListArticlesItem } from "@/server/data/articles";
+import { DEFAULT_USER_IMAGE_URL } from "@/server/utils/const";
 import { DateTime } from "luxon";
 import Image from "next/image";
-import { DBListArticlesItem } from "@/server/data/articles";
-import { DEFAULT_USER_IMAGE_URL } from "@/server/utils/const";
+import Link from "next/link";
+import { FavoriteButton } from "./FavoriteButton";
 
 export interface ArticleProps {
   article: DBListArticlesItem;
@@ -12,7 +12,7 @@ export interface ArticleProps {
 
 export function Article({ article, isAuthenticated }: ArticleProps) {
   return (
-    <article className="border-b  border-borderprimary py-4 last-of-type:border-none">
+    <article className="border-b border-borderprimary py-4 last-of-type:border-none">
       <div className="mb-4 grid grid-cols-[auto_1fr_auto] grid-rows-2 items-center gap-x-2">
         <Image
           src={article.author.image ?? DEFAULT_USER_IMAGE_URL}
@@ -55,7 +55,7 @@ export function Article({ article, isAuthenticated }: ArticleProps) {
           Read more...
         </Link>
         <div className="flex flex-wrap gap-1">
-          {article.tagList.map((t, index) => (
+          {article.tagList.map((t) => (
             <Link
               href={`/?tag=${t.name}`}
               key={t.name}
